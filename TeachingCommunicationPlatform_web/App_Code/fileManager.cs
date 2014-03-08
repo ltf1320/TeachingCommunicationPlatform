@@ -7,7 +7,7 @@ using System.IO;
 
 public class fileManager
 {
-    private static string strRootFolder;
+    protected string strRootFolder;
 	public fileManager()
 	{
         //根目录
@@ -15,24 +15,24 @@ public class fileManager
         strRootFolder = strRootFolder.Substring(0, strRootFolder.LastIndexOf(@"\"));
 	}
     /// 读根目录
-    public static string GetRootPath()
+    public  string GetRootPath()
     {
         return strRootFolder;
     }
 
     /// 写根目录
-    public static void SetRootPath(string path)
+    public  void SetRootPath(string path)
     {
         strRootFolder = path;
     }
     /// 读取列表
-    public static List<FileSystemItem> GetItems()
+    public  List<FileSystemItem> GetItems()
     {
         return GetItems(strRootFolder);
     }
 
     /// 读取列表
-    public static List<FileSystemItem> GetItems(string path)
+    public  List<FileSystemItem> GetItems(string path)
     {
         string[] folders = Directory.GetDirectories(path);
         string[] files = Directory.GetFiles(path);
@@ -77,13 +77,13 @@ public class fileManager
         return list;
     }
         /// 创建文件夹
-        public static void CreateFolder(string name, string parentName)
+        public  void CreateFolder(string name, string parentName)
         {
             DirectoryInfo di = new DirectoryInfo(parentName);
             di.CreateSubdirectory(name);
         }
         /// 删除文件夹
-        public static bool DeleteFolder(string path)
+        public  bool DeleteFolder(string path)
         {
             try
             {
@@ -96,7 +96,7 @@ public class fileManager
             }
         }
         /// 移动文件夹
-        public static bool MoveFolder(string oldPath, string newPath)
+        public  bool MoveFolder(string oldPath, string newPath)
         {
             try
             {
@@ -109,7 +109,7 @@ public class fileManager
             }
         }
         /// 创建文件
-        public static bool CreateFile(string filename, string path)
+        public  bool CreateFile(string filename, string path)
         {
             try
             {
@@ -123,7 +123,7 @@ public class fileManager
             }
         }
         /// 创建文件
-        public static bool CreateFile(string filename, string path, byte[] contents)
+        public  bool CreateFile(string filename, string path, byte[] contents)
         {
             try
             {
@@ -138,7 +138,7 @@ public class fileManager
             }
         }
         /// 读取文本文件
-        public static string OpenText(string parentName)
+        public  string OpenText(string parentName)
         {
             StreamReader sr = File.OpenText(parentName);
             StringBuilder output = new StringBuilder();
@@ -151,7 +151,7 @@ public class fileManager
             return output.ToString();
         }
         /// 写入一个新文件，在文件中写入内容，然后关闭文件。如果目标文件已存在，则改写该文件。 
-        public static bool WriteAllText(string parentName, string contents)
+        public  bool WriteAllText(string parentName, string contents)
         {
             try {
             File.WriteAllText(parentName, contents,Encoding.Unicode); 
@@ -162,7 +162,7 @@ public class fileManager
             }
         }
         /// 删除文件
-        public static bool DeleteFile(string path)
+        public  bool DeleteFile(string path)
         {
             try
             {
@@ -176,7 +176,7 @@ public class fileManager
         }
 
         /// 移动文件
-        public static bool MoveFile(string oldPath, string newPath)
+        public  bool MoveFile(string oldPath, string newPath)
         {
             try
             {
@@ -189,7 +189,7 @@ public class fileManager
             }
         }
         /// 读取文件信息
-        public static FileSystemItem GetItemInfo(string path)
+        public  FileSystemItem GetItemInfo(string path)
         {
             FileSystemItem item = new FileSystemItem();
             if (Directory.Exists(path))
@@ -219,7 +219,7 @@ public class fileManager
         }
 
         /// 复制文件夹
-        public static bool CopyFolder(string source, string destination)
+        public  bool CopyFolder(string source, string destination)
         {
             try
             {
@@ -243,7 +243,7 @@ public class fileManager
             }
         }
         /// 判断是否为安全文件名
-        public static bool IsSafeName(string strExtension)
+        public  bool IsSafeName(string strExtension)
         {
             strExtension = strExtension.ToLower();//变为小写
             //得到string的.XXX的文件名后缀 LastIndexOf（得到点的位置） Substring（剪切从X的位置）
@@ -266,7 +266,7 @@ public class fileManager
             return false;
         }
         ///  判断是否为可编辑文件
-        public static bool IsCanEdit(string strExtension)
+        public  bool IsCanEdit(string strExtension)
         {
             strExtension = strExtension.ToLower();//变为小写
             //得到string的.XXX的文件名后缀 LastIndexOf（得到点的位置） Substring（剪切从X的位置）
@@ -289,4 +289,3 @@ public class fileManager
             return false;
         }
     }
-}

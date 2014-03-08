@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/welcome/basic.master" AutoEventWireup="false" CodeFile="findBackKeyword.aspx.vb" Inherits="welcome_findBackKeyword" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/MasterPages/basic.master" AutoEventWireup="false" CodeFile="findBackKeyword.aspx.vb" Inherits="welcome_findBackKeyword" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
