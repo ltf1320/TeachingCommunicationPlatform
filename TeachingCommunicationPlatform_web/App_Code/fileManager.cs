@@ -4,9 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.IO;
-/// <summary>
-/// fileManager 的摘要说明
-/// </summary>
+
 public class fileManager
 {
     private static string strRootFolder;

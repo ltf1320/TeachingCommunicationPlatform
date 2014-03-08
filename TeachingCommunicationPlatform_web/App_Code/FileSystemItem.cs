@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-/// <summary>
+
 /// FileSystemItem
-/// </summary>
+
 public class FileSystemItem
 {
     private string _Name;
@@ -21,10 +21,7 @@ public class FileSystemItem
     private long _SubFolderCount;
 
     private string _Version;
-
-    /// <summary>
     /// 名称
-    /// </summary>
     public string Name
     {
         get
@@ -36,10 +33,7 @@ public class FileSystemItem
             _Name = value;
         }
     }
-
-    /// <summary>
     /// 完整目录
-    /// </summary>
     public string FullName
     {
         get
@@ -52,9 +46,8 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
     /// 创建时间
-    /// </summary>
+
     public DateTime CreationDate
     {
         get
@@ -67,9 +60,9 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
+
     /// 是否是文件夹
-    /// </summary>
+
     public bool IsFolder
     {
         get
@@ -82,9 +75,9 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
+
     /// 大小
-    /// </summary>
+
     public long Size
     {
         get
@@ -97,9 +90,9 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
+
     /// 访问时间
-    /// </summary>
+
     public DateTime LastAccessDate
     {
         get
@@ -112,9 +105,9 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
+
     /// 修改时间
-    /// </summary>
+
     public DateTime LastWriteDate
     {
         get
@@ -127,9 +120,9 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
+
     /// 文件数
-    /// </summary>
+
     public long FileCount
     {
         get
@@ -142,9 +135,9 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
+
     /// 文件夹数
-    /// </summary>
+
     public long SubFolderCount
     {
         get
@@ -157,15 +150,12 @@ public class FileSystemItem
         }
     }
 
-    /// <summary>
+
     /// 版本
-    /// </summary>
-    /// <returns></returns>
     public string Version()
     {
         if (_Version == null)
             _Version = GetType().Assembly.GetName().Version.ToString();
-
         return _Version;
     }
 
