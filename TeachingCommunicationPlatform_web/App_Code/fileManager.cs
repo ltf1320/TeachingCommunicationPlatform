@@ -11,7 +11,7 @@ public class fileManager
 	public fileManager()
 	{
         //根目录
-        strRootFolder = HttpContext.Current.Request.PhysicalApplicationPath + "localFile\\";
+        strRootFolder = HttpContext.Current.Request.PhysicalApplicationPath + "severFiles\\";
         strRootFolder = strRootFolder.Substring(0, strRootFolder.LastIndexOf(@"\"));
 	}
     /// 读根目录
