@@ -288,4 +288,30 @@ public class fileManager
             }
             return false;
         }
+        protected bool AppendLineToFile(string path, string text)
+        {
+            try
+            {
+                StreamWriter wter = File.AppendText(path);
+                wter.WriteLine(text);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+        protected string[] readFile(string path)
+        {
+            string[] res;
+            try
+            {
+                res = File.ReadAllLines(path);
+            }
+            catch
+            {
+                return null;
+            }
+            return res;
+        }
     }

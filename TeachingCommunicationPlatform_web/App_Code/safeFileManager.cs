@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Data.SqlClient;
-using System.IO;
 
 /// <summary>
 /// 用户类别
@@ -313,6 +312,28 @@ public class safeFileManager : fileManager
         return false;
     }
 
-    public bool AppendFile(string fileName, string text);
-    public string[] readFile(string fileName);
+    public bool AppendLineToFile(string fileName, string text)
+    {
+        StringBuilder path = new StringBuilder();
+        path.Append(strRootFolder);
+        path.Append(fileName);
+        if (isUserCanEditFile())
+        {
+            return base.AppendLineToFile(path.ToString(), text);
+        }
+        return false;
+        
+    }
+    /// <summary>
+    /// 按行读文件
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns>错误返回null</returns>
+    public string[] readFile(string fileName)
+    {
+        StringBuilder path = new StringBuilder();
+        path.Append(strRootFolder);
+        path.Append(fileName);
+        return base.readFile(path.ToString());
+    }
 }
