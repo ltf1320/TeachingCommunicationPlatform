@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 
 /// <summary>
-///SQLHelper 的摘要说明
+///SQLHelper
 /// </summary>
 public class SQLHelper
 {
@@ -22,17 +22,32 @@ public class SQLHelper
         if (con.State == ConnectionState.Closed)
             con.Open();
     }
+    /// <summary>
+    /// 关闭连接
+    /// </summary>
     public void close()
     {
         if (con.State == ConnectionState.Open)
             con.Close();
     }
+    /// <summary>
+    /// 执行sql
+    /// </summary>
+    /// <param name="sqlstr">sql命令</param>
+    /// <param name="para">参数</param>
+    /// <returns>影响的行数</returns>
     public int ExecuteSql(string sqlstr, SqlParameter[] para)
     {
         open();
         SqlCommand cmd = createCommand(sqlstr, para);
         return cmd.ExecuteNonQuery();
     }
+    /// <summary>
+    /// 执行sql得到reader
+    /// </summary>
+    /// <param name="sqlstr"></param>
+    /// <param name="para"></param>
+    /// <returns></returns>
     public SqlDataReader getReader(string sqlstr, SqlParameter[] para)
     {
         open();
@@ -40,6 +55,12 @@ public class SQLHelper
         SqlDataReader rder = cmd.ExecuteReader();
         return rder;
     }
+    /// <summary>
+    /// 执行sql得到Adapter
+    /// </summary>
+    /// <param name="sqlstr"></param>
+    /// <param name="para"></param>
+    /// <returns></returns>
     public SqlDataAdapter getAdapter(string sqlstr, SqlParameter[] para)
     {
         open();

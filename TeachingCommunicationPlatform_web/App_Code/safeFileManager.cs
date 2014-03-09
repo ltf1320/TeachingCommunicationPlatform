@@ -5,11 +5,14 @@ using System.Web;
 using System.Text;
 using System.Data.SqlClient;
 
-//用户类别
+/// <summary>
+/// 用户类别
+/// </summary>
 public enum userType
 {
     admin,
-    user,
+    student,
+    teacher,
     visitor
 }
 
@@ -105,6 +108,12 @@ public class safeFileManager : fileManager
         return str.ToString();
     }
 
+    /// <summary>
+    /// 设置用户
+    /// </summary>
+    /// <param name="userName">用户名</param>
+    /// <param name="pwd">密码</param>
+    /// <returns>成功返回true</returns>
     public bool setUser(string userName,string pwd)
     {
         string sql = "select count(*) from user where userName=@userName and pwd=@pwd";
@@ -114,11 +123,26 @@ public class safeFileManager : fileManager
         string res = sqlHelper.getAValue(sql, para);
         if (res == "0")
             return false;
-        sql = "select count(*) from userInRole where userName=@userName and roleId=1";
+        sql = "select rouId from user where userName=@userName";
         para[0] = new SqlParameter("@userName", userName);
         para[1] = null;
         res = sqlHelper.getAValue(sql, para);
-        if (res == "1")
+        int type=Convert.ToInt32(res);
+        switch(type)
+        {
+            case 1:
             nUserType = userType.admin;
+                break;
+            case 2:
+            nUserType = userType.teacher;
+                break;
+            case 3:
+            nUserType = userType.student;
+                break;
+            default:
+                nUserType = userType.visitor;
+                break;
+        }
+        return true;
     }
 }
