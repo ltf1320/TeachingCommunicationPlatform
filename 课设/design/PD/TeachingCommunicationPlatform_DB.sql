@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2005                    */
-/* Created on:     2014/3/9 23:58:00                            */
+/* Created on:     2014/3/10 0:15:00                            */
 /*==============================================================*/
 
 
@@ -92,7 +92,7 @@ go
 /* Table: academy                                               */
 /*==============================================================*/
 create table academy (
-   acId                 character varying(256) not null,
+   acId                 char(5)              not null,
    acName               character varying(256) not null,
    comment              character varying(256) null,
    constraint PK_ACADEMY primary key (acId)
@@ -103,9 +103,9 @@ go
 /* Table: manageCou                                             */
 /*==============================================================*/
 create table manageCou (
-   userName             character varying(256) not null,
+   userId               character varying(256) not null,
    couId                character varying(256) not null,
-   constraint PK_MANAGECOU primary key (userName, couId)
+   constraint PK_MANAGECOU primary key (userId, couId)
 )
 go
 
@@ -130,7 +130,7 @@ create table "user" (
    pwd                  character varying(256) not null,
    email                character varying(256) null,
    createDate           datetime             null,
-   academy              character varying(256) not null,
+   academy              char(5)              null,
    constraint PK_USER primary key (userId)
 )
 go
@@ -141,7 +141,7 @@ alter table Course
 go
 
 alter table manageCou
-   add constraint FK_MANAGECO_REFERENCE_USER foreign key (userName)
+   add constraint FK_MANAGECO_REFERENCE_USER foreign key (userId)
       references "user" (userId)
 go
 
