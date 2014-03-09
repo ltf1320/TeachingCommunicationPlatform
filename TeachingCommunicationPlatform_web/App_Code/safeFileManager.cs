@@ -213,8 +213,6 @@ public class safeFileManager : fileManager
             return true;
         }
         return false;
-<<<<<<< HEAD
-=======
     }
     private bool isUserManageCourse(string userName,string couId)
     {
@@ -309,6 +307,5 @@ public class safeFileManager : fileManager
             return base.WriteAllText(path.ToString(), contents);
         }
         return false;
->>>>>>> bd0b3d6ae041dd86836983471335e91d0499551f
     }
 }
