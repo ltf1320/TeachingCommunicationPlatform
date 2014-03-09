@@ -61,11 +61,12 @@ public class safeFileManager : fileManager
         int tt = substr.IndexOf('\\');
         if (tt == path.Length)
             return folderType.invalid;
-        substr = substr.Substring(tt);
-        tt = substr.IndexOf('\\');
-        if (tt != path.Length)
-            tt--;
-        name = path.Substring(index, tt);
+        name = substr.Substring(tt+1);
+        tt = name.IndexOf('\\');
+        if (tt != -1)
+        {
+            name = name.Substring(0, tt);
+        }
         string root = path.Substring(0, index);
         if (root != webRootFolder)
             return folderType.invalid;
