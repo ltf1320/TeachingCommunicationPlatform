@@ -1,4 +1,4 @@
-﻿<%@ Master Language="VB" CodeFile="basic.master.vb" Inherits="welcome_basic" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="basic.master.cs" Inherits="MasterPages_basic" %>
 
 <!DOCTYPE html>
 

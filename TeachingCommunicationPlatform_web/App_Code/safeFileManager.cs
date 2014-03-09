@@ -23,10 +23,30 @@ public class safeFileManager : fileManager
     SQLHelper sqlHelper;   
     string webRootFolder;  //web的根目录
     userType nUserType;    //现在用户类别
+    /// <summary>
+    /// 目录类别
+    /// </summary>
     public enum folderType
     {
-        userConfig,
+        /// <summary>
+        /// 用户配置文件夹
+        /// </summary>
+        userConfig, 
+        /// <summary>
+        /// 课程资源文件夹
+        /// </summary>
         course,
+        /// <summary>
+        /// 用户文件夹
+        /// </summary>
+        users,
+        /// <summary>
+        /// 课程文件夹
+        /// </summary>
+        courses,
+        /// <summary>
+        /// 非法访问
+        /// </summary>
         invalid
     }
     folderType nFolderType;/// 现在目录类别
@@ -49,12 +69,21 @@ public class safeFileManager : fileManager
         string root = path.Substring(0, index);
         if (root != webRootFolder)
             return folderType.invalid;
-        if (name.Length == 0)
-            return safeFileManager.folderType.invalid;
+        
         if (ffolder == "users")
-            return safeFileManager.folderType.userConfig;
+        {
+            if(name.Length==0)
+                return folderType.users;
+            else 
+                return safeFileManager.folderType.userConfig;
+        }
         if (ffolder == "cours")
-            return safeFileManager.folderType.userConfig;
+        {
+            if(name.Length==0)
+                return folderType.courses;
+            else 
+                return safeFileManager.folderType.course;
+        }
         return safeFileManager.folderType.invalid;
     }
     public safeFileManager()
@@ -144,5 +173,20 @@ public class safeFileManager : fileManager
                 break;
         }
         return true;
+    }
+    new public List<FileSystemItem> GetItems()
+    {
+        if (nFolderType != folderType.invalid)
+            return base.GetItems();
+        return null;
+    }
+
+    public bool createFolder(string name)
+    {
+        if (nUserType == userType.admin)
+        {
+            base.CreateFolder(name, strRootFolder);
+            return true;
+        }
     }
 }

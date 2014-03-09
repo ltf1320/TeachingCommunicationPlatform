@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/MasterPages/basic.master" AutoEventWireup="false" CodeFile="modifyKeyword.aspx.vb" Inherits="welcome_modifyKeyword" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/basic.master" AutoEventWireup="true" CodeFile="modifyKeyword.aspx.cs" Inherits="info_modifyKeyword" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>

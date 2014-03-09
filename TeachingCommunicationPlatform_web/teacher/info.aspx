@@ -1,3 +1,3 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/MasterPages/userMasterPage.master" AutoEventWireup="false" CodeFile="info.aspx.vb" Inherits="teacher_info" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/userMasterPage.master" AutoEventWireup="true" CodeFile="info.aspx.cs" Inherits="teacher_info" %>
 
 <%-- 在此处添加内容控件 --%>

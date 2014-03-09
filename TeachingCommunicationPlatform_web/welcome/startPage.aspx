@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/MasterPages/basic.master" AutoEventWireup="false" CodeFile="startPage.aspx.vb" Inherits="welcome_startPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/basic.master" AutoEventWireup="true" CodeFile="startPage.aspx.cs" Inherits="welcome_startPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
