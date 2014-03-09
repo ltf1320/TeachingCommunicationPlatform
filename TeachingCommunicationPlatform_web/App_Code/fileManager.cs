@@ -77,13 +77,13 @@ public class fileManager
         return list;
     }
         /// 创建文件夹
-        public  void CreateFolder(string name, string parentName)
+        protected  void CreateFolder(string name, string parentName)
         {
             DirectoryInfo di = new DirectoryInfo(parentName);
             di.CreateSubdirectory(name);
         }
         /// 删除文件夹
-        public  bool DeleteFolder(string path)
+        protected bool DeleteFolder(string path)
         {
             try
             {
@@ -96,7 +96,7 @@ public class fileManager
             }
         }
         /// 移动文件夹
-        public  bool MoveFolder(string oldPath, string newPath)
+        protected bool MoveFolder(string oldPath, string newPath)
         {
             try
             {
@@ -109,7 +109,7 @@ public class fileManager
             }
         }
         /// 创建文件
-        public  bool CreateFile(string filename, string path)
+        protected bool CreateFile(string filename, string path)
         {
             try
             {
@@ -123,7 +123,7 @@ public class fileManager
             }
         }
         /// 创建文件
-        public  bool CreateFile(string filename, string path, byte[] contents)
+        protected bool CreateFile(string filename, string path, byte[] contents)
         {
             try
             {
@@ -151,7 +151,7 @@ public class fileManager
             return output.ToString();
         }
         /// 写入一个新文件，在文件中写入内容，然后关闭文件。如果目标文件已存在，则改写该文件。 
-        public  bool WriteAllText(string parentName, string contents)
+        protected bool WriteAllText(string parentName, string contents)
         {
             try {
             File.WriteAllText(parentName, contents,Encoding.Unicode); 
@@ -162,7 +162,7 @@ public class fileManager
             }
         }
         /// 删除文件
-        public  bool DeleteFile(string path)
+        protected bool DeleteFile(string path)
         {
             try
             {
@@ -176,7 +176,7 @@ public class fileManager
         }
 
         /// 移动文件
-        public  bool MoveFile(string oldPath, string newPath)
+        protected bool MoveFile(string oldPath, string newPath)
         {
             try
             {
@@ -189,7 +189,7 @@ public class fileManager
             }
         }
         /// 读取文件信息
-        public  FileSystemItem GetItemInfo(string path)
+        protected FileSystemItem GetItemInfo(string path)
         {
             FileSystemItem item = new FileSystemItem();
             if (Directory.Exists(path))
@@ -219,7 +219,7 @@ public class fileManager
         }
 
         /// 复制文件夹
-        public  bool CopyFolder(string source, string destination)
+        protected bool CopyFolder(string source, string destination)
         {
             try
             {
