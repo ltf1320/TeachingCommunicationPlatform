@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2005                    */
-/* Created on:     2014/3/9 23:33:11                            */
+/* Created on:     2014/3/9 23:58:00                            */
 /*==============================================================*/
 
 
@@ -79,8 +79,8 @@ go
 /*==============================================================*/
 create table Course (
    couId                character varying(256) not null,
-   couName              char varying(256)    null,
-   type                 char varying(10)     null,
+   couName              character varying(256) null,
+   type                 character varying(10) null,
    stuNum               int                  null,
    term                 character(5)         null,
    createUser           character varying(256) null,
@@ -88,21 +88,12 @@ create table Course (
 )
 go
 
-declare @CurrentUser sysname
-select @CurrentUser = user_name()
-execute sp_addextendedproperty 'MS_Description', 
-   'xxxxo
-   20140
-   20141',
-   'user', @CurrentUser, 'table', 'Course', 'column', 'term'
-go
-
 /*==============================================================*/
 /* Table: academy                                               */
 /*==============================================================*/
 create table academy (
    acId                 character varying(256) not null,
-   acName               character varying(256) null,
+   acName               character varying(256) not null,
    comment              character varying(256) null,
    constraint PK_ACADEMY primary key (acId)
 )
@@ -112,9 +103,9 @@ go
 /* Table: manageCou                                             */
 /*==============================================================*/
 create table manageCou (
-   userId               character varying(256) not null,
+   userName             character varying(256) not null,
    couId                character varying(256) not null,
-   constraint PK_MANAGECOU primary key (userId, couId)
+   constraint PK_MANAGECOU primary key (userName, couId)
 )
 go
 
@@ -150,7 +141,7 @@ alter table Course
 go
 
 alter table manageCou
-   add constraint FK_MANAGECO_REFERENCE_USER foreign key (userId)
+   add constraint FK_MANAGECO_REFERENCE_USER foreign key (userName)
       references "user" (userId)
 go
 
