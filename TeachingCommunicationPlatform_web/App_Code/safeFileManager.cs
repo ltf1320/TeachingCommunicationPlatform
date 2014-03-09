@@ -61,11 +61,12 @@ public class safeFileManager : fileManager
         int tt = substr.IndexOf('\\');
         if (tt == path.Length)
             return folderType.invalid;
-        substr = substr.Substring(tt);
-        tt = substr.IndexOf('\\');
-        if (tt != path.Length)
-            tt--;
-        name = path.Substring(index, tt);
+        name = substr.Substring(tt+1);
+        tt = name.IndexOf('\\');
+        if (tt != -1)
+        {
+            name = name.Substring(0, tt);
+        }
         string root = path.Substring(0, index);
         if (root != webRootFolder)
             return folderType.invalid;
@@ -181,13 +182,133 @@ public class safeFileManager : fileManager
         return null;
     }
 
-    public bool createFolder(string name)
+    private bool isUserCanEditFile()
     {
         if (nUserType == userType.admin)
+        {
+            return true;
+        }
+        if (nUserType == userType.visitor)
+            return false;
+        switch (nFolderType)
+        {
+            case folderType.course:
+                if (isUserManageCourse(userName, pathName))
+                    return true;
+                break;
+            case folderType.courses:
+                if (nUserType == userType.teacher)
+                    return true;
+                break;
+            default: break;
+        }
+        return false;
+    }
+
+    public bool createFolder(string name)
+    {
+        if (isUserCanEditFolder(name))
         {
             base.CreateFolder(name, strRootFolder);
             return true;
         }
         return false;
+<<<<<<< HEAD
+=======
+    }
+    private bool isUserManageCourse(string userName,string couId)
+    {
+        string sql = "select count(*) from manageCou where userName=@userName and couId=@couId";
+        SqlParameter[] para = new SqlParameter[2];
+        para[0] = new SqlParameter("@userName", userName);
+        para[1] = new SqlParameter("@couId", couId);
+        string res = sqlHelper.getAValue(sql, para);
+        int value = Convert.ToInt32(res);
+        if (value > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    private bool isUserCanEditFolder(string folderName)
+    {
+        if (nUserType == userType.admin)
+        {
+            return true;
+        }
+        if (nUserType == userType.teacher)
+        {
+            if (nFolderType != folderType.users && nFolderType != folderType.invalid)
+            {
+                return true;
+            }
+            if(nFolderType==folderType.courses&& isUserManageCourse(userName,folderName))
+            {
+                return true;
+            }
+            return false;
+        }
+        if (nUserType == userType.student)
+        {
+            if (nFolderType == folderType.course)
+            {
+                if (isUserManageCourse(userName, pathName))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+    public bool CreateFile(string filename)
+    {
+        if(isUserCanEditFile())
+        {
+            return base.CreateFile(filename, strRootFolder);
+        }
+        return false;
+    }
+
+    new public bool DeleteFile(string fileName)
+    {
+        StringBuilder path = new StringBuilder();
+        path.Append(strRootFolder);
+        path.Append(fileName);
+        if (isUserCanEditFile())
+        {
+            return base.DeleteFile(path.ToString());
+        }
+        return false;
+    }
+    public bool deleteFolder(string folderName)
+    {
+        StringBuilder fd = new StringBuilder();
+        fd.Append(strRootFolder);
+        fd.Append(folderName);
+        if (isUserCanEditFolder(folderName))
+        {
+            base.DeleteFolder(fd.ToString());
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// 写入一个新文件，在文件中写入内容，然后关闭文件。如果目标文件已存在，则改写该文件。
+    /// </summary>
+    /// <param name="parentName"></param>
+    /// <param name="contents"></param>
+    /// <returns></returns>
+    new public bool WriteAllText(string fileName, string contents)
+    {
+        StringBuilder path=new StringBuilder();
+        path.Append(strRootFolder);
+        path.Append(fileName);
+        if(isUserCanEditFile())
+        {
+            return base.WriteAllText(path.ToString(), contents);
+        }
+        return false;
+>>>>>>> bd0b3d6ae041dd86836983471335e91d0499551f
     }
 }
