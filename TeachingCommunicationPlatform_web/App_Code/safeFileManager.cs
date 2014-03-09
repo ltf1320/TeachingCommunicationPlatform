@@ -267,7 +267,7 @@ public class safeFileManager : fileManager
         return false;
     }
 
-    public bool DeleteFile(string fileName)
+    new public bool DeleteFile(string fileName)
     {
         StringBuilder path = new StringBuilder();
         path.Append(strRootFolder);
@@ -283,7 +283,7 @@ public class safeFileManager : fileManager
         StringBuilder fd = new StringBuilder();
         fd.Append(strRootFolder);
         fd.Append(folderName);
-        if (isUserCanEditFolder(folderName)
+        if (isUserCanEditFolder(folderName))
         {
             base.DeleteFolder(fd.ToString());
             return true;
@@ -296,7 +296,7 @@ public class safeFileManager : fileManager
     /// <param name="parentName"></param>
     /// <param name="contents"></param>
     /// <returns></returns>
-    public bool WriteAllText(string fileName, string contents)
+    new public bool WriteAllText(string fileName, string contents)
     {
         StringBuilder path=new StringBuilder();
         path.Append(strRootFolder);
