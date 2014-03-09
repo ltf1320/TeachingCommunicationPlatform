@@ -4,17 +4,50 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
-    <asp:ContentPlaceHolder id="head" runat="server">
+    <style id="Style1" runat="server" type="text/css">
+        .body
+        {
+           
+        }
+        .word
+        {
+            position:absolute;
+            top:45px;
+            left:83px;
+            height: 37px;
+            width: 537px;
+            font-size:xx-large;
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
+     <div>
+        <img src="../Images/headerImg.jpg" alt="背景" 
+            style="height: 90px; width: 100%" />
+    </div>
+     <div class="word">
+        <input id="Hidden1" type="hidden" />课后圈
+    </div>
     <div>
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
         
+            <asp:Button ID="allCourseBnt" runat="server" Height="22px" Text="查看所有课件" Width="107px" OnClick="allCourseBnt_Click" />
+        
         </asp:ContentPlaceHolder>
+        <asp:TextBox ID="inputSearchTbx" runat="server">输入查询的课程</asp:TextBox>
+        <asp:Button ID="searchBnt" runat="server" Text="查询" OnClick="searchBnt_Click" Width="51px" />
+        <asp:Button ID="logoutBnt" runat="server" Text="注销" />
+        <asp:Button ID="Button1" runat="server" Text="Button" />
+        <asp:Button ID="Button2" runat="server" Text="Button" />
+        <asp:DropDownList ID="DropDownList1" runat="server">
+            <asp:ListItem>学生</asp:ListItem>
+            <asp:ListItem>教师</asp:ListItem>
+            <asp:ListItem>管理员</asp:ListItem>
+        </asp:DropDownList>
     </div>
     </form>
 </body>

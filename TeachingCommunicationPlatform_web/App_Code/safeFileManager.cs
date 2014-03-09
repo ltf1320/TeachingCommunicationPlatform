@@ -188,5 +188,6 @@ public class safeFileManager : fileManager
             base.CreateFolder(name, strRootFolder);
             return true;
         }
+        return false;
     }
 }
