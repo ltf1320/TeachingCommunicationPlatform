@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Data.SqlClient;
+using System.IO;
 
 /// <summary>
 /// 用户类别
@@ -16,7 +17,7 @@ public enum userType
     visitor
 }
 
-//具有用户权利检测功能的文件管理
+//具有用户权力检测功能的文件管理
 public class safeFileManager : fileManager
 {
     string userName,pathName; //现在目录的名字
@@ -102,13 +103,16 @@ public class safeFileManager : fileManager
     /// <returns>成功返回true</returns>
     new public bool SetRootPath(string path)
     {
+        StringBuilder pp = new StringBuilder();
+        pp.Append(webRootFolder);
+        pp.Append(path);
         string name;
         folderType fdType;
-        fdType = getPathInfo(path, out name);
+        fdType = getPathInfo(pp.ToString(), out name);
         if (fdType == safeFileManager.folderType.invalid)
             return false;
         nFolderType = fdType;
-        strRootFolder = path;
+        strRootFolder = pp.ToString();
         pathName = name;
         return true;
     }
@@ -308,4 +312,7 @@ public class safeFileManager : fileManager
         }
         return false;
     }
+
+    public bool AppendFile(string fileName, string text);
+    public string[] readFile(string fileName);
 }
