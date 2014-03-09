@@ -40,5 +40,4 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
         else
             return;
     }
-
 }
