@@ -197,17 +197,17 @@ public class safeFileManager : fileManager
     /// <param name="userName">用户名</param>
     /// <param name="pwd">密码</param>
     /// <returns>成功返回true</returns>
-    public bool setUser(string userName,string pwd)
+    public bool setUser(string userId,string pwd)
     {
-        string sql = "select count(*) from user where userName=@userName and pwd=@pwd";
+        string sql = "select count(*) from users where userId=@userId and pwd=@pwd";
         SqlParameter[] para = new SqlParameter[2];
-        para[0] = new SqlParameter("@userName", userName);
+        para[0] = new SqlParameter("@userId", userId);
         para[1] = new SqlParameter("@pwd", pwd);
         string res = sqlHelper.getAValue(sql, para);
         if (res == "0")
             return false;
-        sql = "select rouId from user where userName=@userName";
-        para[0] = new SqlParameter("@userName", userName);
+        sql = "select roleId from users where userId=@userId";
+        para[0] = new SqlParameter("@userId", userId);
         para[1] = null;
         res = sqlHelper.getAValue(sql, para);
         int type=Convert.ToInt32(res);
