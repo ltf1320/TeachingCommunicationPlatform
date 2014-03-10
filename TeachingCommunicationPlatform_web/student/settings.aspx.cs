@@ -28,7 +28,12 @@ public partial class student_myThings : System.Web.UI.Page
                 rder.Read();
                 IdContentLbl.Text = rder[0].ToString();
                 nametxt.Text = rder[2].ToString();
-                roleContentLbl.Text = rder[1].ToString();
+                if (rder[1].ToString()=="2")
+                    roleContentLbl.Text = "教师";
+                else if (rder[1].ToString() == "3")
+                    roleContentLbl.Text = "学生";
+                else
+                    roleContentLbl.Text = "管理员";
                 postAdd.Text = rder[4].ToString();
                 crtTimeContentLbl.Text = rder[5].ToString();
                 acContentLbl.Text = rder[6].ToString();
