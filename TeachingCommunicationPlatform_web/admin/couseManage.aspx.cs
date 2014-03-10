@@ -8,6 +8,9 @@ using System.Data.SqlClient;
 
 public partial class admin_couseManage : System.Web.UI.Page
 {
+    safeFileManager sf = new safeFileManager();
+    SQLHelper sqlhp = new SQLHelper();
+    Methods met;
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -24,8 +27,22 @@ public partial class admin_couseManage : System.Web.UI.Page
     }
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        SQLHelper sqlhp = new SQLHelper();
         string id = GridView1.DataKeys[e.RowIndex].Values[0].ToString(); //取出要删除记录的主键值
+        sf.SetRootPath("courses");
+        if (!sf.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        {
+            Methods.showMessageBox(Response, "对不起您没有权限");
+            return;
+        }
+
+        if (sf.deleteFolder(id))
+        {
+            Methods.showMessageBox(Response, "删除成功");
+        }
+        else
+        {
+            Methods.showMessageBox(Response, "删除失败");
+        }
         //string teaID = GridView1.DataKeys[e.RowIndex].Values[1].ToString();
         string deleStr1 = "DELETE FROM Course WHERE couId=@id";
         string deleStr2 = "DELETE FROM manageCou WHERE couId=@id";
@@ -39,20 +56,51 @@ public partial class admin_couseManage : System.Web.UI.Page
         sqlhp.close();
         GridView1.DataBind();
 
-        safeFileManager sf = new safeFileManager();
-        sf.SetRootPath("courses");
-        sf.setUser(Session["ha_user"].ToString(),Session["ha_pwd"].ToString());
-        if(sf.deleteFolder(id))
-        {
-            Methods.showMessageBox(Response, "删除成功");
-        }
-        else
-        {
-            Methods.showMessageBox(Response, "删除失败");
-        }
     }
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+
+    }
+    protected void newOneBtn_Click(object sender, EventArgs e)
+    {
+        Panel1.Visible = false;
+        Panel2.Visible = true;
+        //newOneBtn.Visible = false;
+    }
+    protected void backBtn_Click(object sender, EventArgs e)
+    {
+        Panel2.Visible = false;
+        Panel1.Visible = true;
+       // newOneBtn.Visible = true ;
+    }
+    protected void subBtn_Click(object sender, EventArgs e)
+    {
+        if (!sf.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        {
+            Methods.showMessageBox(Response, "对不起您没有权限");
+            return;
+        }
+        string cname = couNameTB.Text.Trim();
+        string cterm = termTB.Text.Trim();
+        string ctype = typeTB.Text.Trim();
+        string cCreate = Session["ha_user"].ToString();
+        string selstr = "select max(couId) from Course";
+        string tid = tidTB.Text.Trim();
+        SqlParameter[] paras = new SqlParameter[1];
+        string ccouId=sqlhp.getAValue(selstr, paras);
+        if(ccouId=="")
+        { ccouId = "-1"; }
+        ccouId = (Convert.ToInt32(ccouId) + 1).ToString();
+        sqlhp.close();
+        if (Methods.mkCou(ccouId, cname, ctype, "0", cterm, cCreate, tid))
+        {
+            Methods.showMessageBox(Response,"添加成功");
+            Response.Redirect("\\admin/couseManage.aspx");
+        }
+        else
+        {
+            Methods.showMessageBox(Response, "添加失败");
+        }
 
     }
 }

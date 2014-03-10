@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Text;
+using System.Data.SqlClient;
 /// <summary>
 /// methods 的摘要说明
 /// </summary>
@@ -67,5 +68,41 @@ public class Methods
     public static void delNewThing(string couId, int id)
     {
         
+    }
+    public static bool mkCou(string cid,string cname,string ctype ,string cstuNum,string cterm , string cCreate , string tid)
+    {
+        safeFileManager sf = new safeFileManager();
+        SQLHelper sqlhp = new SQLHelper();
+        string insertstr1 = "insert into Course (couId,couName,type,stuNum,term,createUser) values(@cid,@cname,@ctype,@cstuNum,@cterm,@tid )";
+        string insertstr2 = "insert into manageCou(userId,couId) values (@tid,@cid)";
+        SqlParameter[] paras = new SqlParameter[7];
+        paras[0] = new SqlParameter("@cid", cid);
+        paras[1] = new SqlParameter("@cname", cname);
+        paras[2] = new SqlParameter("@ctype", ctype);
+        paras[3] = new SqlParameter("@cstuNum", cstuNum);
+        paras[4] = new SqlParameter("@cterm", cterm);
+        paras[5] = new SqlParameter("@tid", tid);
+        if(sqlhp.ExecuteSql(insertstr1, paras)==0)
+        { 
+            sqlhp.close();
+            return false; 
+        }
+        SqlParameter[] paras2 = new SqlParameter[2];
+        paras2[0] = new SqlParameter("@tid", tid);
+        paras2[1] = new SqlParameter("@cid", cid);
+        if (sqlhp.ExecuteSql(insertstr2, paras2) == 0)
+        {
+             sqlhp.close();
+            return false ;
+        }
+        sqlhp.close();
+        sf.SetRootPath("courses");
+        sf.createFolder(cid);
+        sf.cd("course");
+        sf.createFolder("tasks");
+        sf.createFolder("data");
+        sf.CreateFile("message");
+        sf.CreateFile("listeners");
+        return true;
     }
 }
