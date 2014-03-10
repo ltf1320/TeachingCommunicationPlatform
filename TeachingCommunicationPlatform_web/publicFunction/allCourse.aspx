@@ -21,10 +21,12 @@
     <table id="table1" runat="server">
         <tr>
             <td>
-                <asp:DropDownList ID="acaDrop" runat="server" DataSourceID="SqlDataSource1" DataTextField="acName" DataValueField="acId"></asp:DropDownList>
+                <asp:Label ID="label1" runat="server" Text="选择学院："></asp:Label>
+                <asp:DropDownList ID="acaDrop" OnSelectedIndexChanged="acaDrop_SelectedIndexChanged" runat="server" DataSourceID="SqlDataSource1" DataTextField="acName" DataValueField="acId"></asp:DropDownList>
             </td>
             <td>
-                <asp:DropDownList ID="teaDrop" runat="server" DataSourceID="SqlDataSource2" DataTextField="Name" DataValueField="userId"></asp:DropDownList>
+                <asp:Label ID="label2" runat="server" Text="选择教师："></asp:Label>
+                <asp:DropDownList ID="teaDrop" OnSelectedIndexChanged="teaDrop_SelectedIndexChanged" runat="server" DataSourceID="SqlDataSource2" DataTextField="Name" DataValueField="userId"></asp:DropDownList>
             </td>
         </tr>
         <tr>
