@@ -63,7 +63,7 @@ public class Methods
     /// <param name="type">0:message,1:task</param>
     /// <param name="topic">标题</param>
     /// <param name="date">时间</param>
-    /// <param name="deadLine">截止时间</param>
+    /// <param name="deadLine">截止时间(task only)</param>
     /// <param name="text">文本</param>
     /// <param name="fileList">文件列表</param>
     /// <param name="userList">@user列表（如果是task则自动@所有关注的人）</param>
