@@ -40,4 +40,32 @@ public class Methods
     {
         response.Write("<Script>alert('"+message+"');</Script>");
     }
+    public static void listen(string userId, string couId)
+    {
+
+    }
+    public static void cancelListen(string userId, string couId)
+    {
+
+    }
+    /// <summary>
+    /// 添加新消息
+    /// </summary>
+    /// <param name="couId">课程号</param>
+    /// <param name="type">0:message,1:task</param>
+    /// <param name="topic">标题</param>
+    /// <param name="date">时间</param>
+    /// <param name="deadLine">截止时间</param>
+    /// <param name="text">文本</param>
+    /// <param name="fileList">文件列表</param>
+    /// <param name="userList">@user列表（如果是task则自动@所有关注的人）</param>
+    /// <returns>成功返回消息编号，否则返回-1</returns>
+    public static int addNewThing(string couId, bool type, string topic, DateTime date, DateTime deadLine, string text, string[] fileList, string[] @userList)
+    {
+        return -1;
+    }
+    public static void delNewThing(string couId, int id)
+    {
+        
+    }
 }

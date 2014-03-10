@@ -29,7 +29,7 @@
              </tr>
         <tr>
             <td>
-                <asp:GridView ID="couGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
+                <asp:GridView ID="couGridView" runat="server" OnRowCommand="couGridView_RowCommand" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
                     <Columns>
                         <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />
@@ -38,8 +38,8 @@
                         <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="listenBtn" runat="server" Text="关注"></asp:LinkButton>
-                                <asp:LinkButton ID="viewBtn" runat="server" Text="查看文件"></asp:LinkButton>
+                                <asp:LinkButton ID="listenBtn" runat="server" CommandName="listen" CommandArgument='<%# Bind("couId") %>' Text="关注"></asp:LinkButton>
+                                <asp:LinkButton ID="viewBtn" runat="server" CommandName="view" CommandArgument='<%# Bind("couId") %>' Text="查看文件"></asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
