@@ -7,41 +7,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <link href="Images/StyleSheet.css" rel="stylesheet" type="text/css" />
-    <script src="js/jquery.js" type="text/javascript"></script>
-    <script src="js/jqModal.js" type="text/javascript"></script>
-    <script type="text/javascript" language="javascript">
-        $(function () {
-            $("#checkedAll").click(function () {
-                if ($(this).attr("checked") == true) { // 全选
-                    $("input[@type='checkbox']").each(function () {
-                        $(this).attr("checked", true);
-                    });
-                } else { // 取消全选
-                    $("input[@type='checkbox']").each(function () {
-                        $(this).attr("checked", false);
-                    });
-                }
-            });
-        });
-
-        $().ready(function () {
-            $('#divCreate').jqm({ trigger: '#create' });
-            $('#divRename').jqm({ trigger: '#rename' });
-            $('#divDelete').jqm({ trigger: '#delete' });
-            $('#divUpload').jqm({ trigger: '#upload' });
-            $('#divCopy').jqm({ trigger: '#copy' });
-            $('#divPaste').jqm({ trigger: '#paste' });
-            $('#divEdit').jqm({ trigger: '#edit' });
-            $('#divCut').jqm({ trigger: '#cut' });
-            $('#divCreateFile').jqm({ trigger: '#createfile' });
-            $('#divErr').jqm();
-            $('#divEditFile').jqm();
-        });
-    </script>
-    <div style="padding: 5px;">
-        <strong>路径: </strong>
-        <asp:Label ID="lblCurrentPath" Font-Bold="true" runat="server" Font-Names="Verdana" Font-Size="15px"></asp:Label>
+    <div style="padding: 5px; text-align:left">
+        <asp:Label ID="Label1" Font-Bold="true" runat="server" Font-Names="Verdana" Font-Size="12px" Text="路径："></asp:Label>
+        <asp:Label ID="lblCurrentPath" Font-Bold="true" runat="server" Font-Names="Verdana" Font-Size="12px"></asp:Label>
+        <asp:LinkButton ID="returnBtn" runat="server" OnClick="BackSpaceFolder" Text="返回上一级" Font-Size="10px"></asp:LinkButton>
     </div>
 
     <div>
@@ -61,7 +30,7 @@
                         <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Name") %>'></asp:TextBox>
                     </EditItemTemplate>
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# Eval("FullName") %>' Text='<%# Eval("Name") %>'></asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# Eval("Name") %>' Text='<%# Eval("Name") %>'></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="CreationDate" HeaderText="创建日期">
@@ -72,7 +41,7 @@
                 </asp:BoundField>
                 <asp:TemplateField HeaderText="下载">
                     <ItemTemplate>
-                        <asp:Label ID="NameText" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
+                        <asp:Label ID="NameText" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

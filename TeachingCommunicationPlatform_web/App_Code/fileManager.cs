@@ -58,7 +58,7 @@ public class fileManager
             item.Size = fi.Length;
             list.Add(item);
         }
-
+        /*
         if (path.ToLower() != strRootFolder.ToLower())
         {
             FileSystemItem topitem = new FileSystemItem();
@@ -74,6 +74,7 @@ public class fileManager
             list.Insert(0, rootitem);
 
         }
+         * */
         return list;
     }
     /// 创建文件夹

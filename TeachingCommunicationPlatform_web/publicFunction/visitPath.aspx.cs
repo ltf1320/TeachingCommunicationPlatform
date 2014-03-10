@@ -23,17 +23,25 @@ public partial class publicFunction_visitCourse : System.Web.UI.Page
         }
         sFileMana = new safeFileManager();
         sFileMana.SetRootPath(Session["ha_path"].ToString());
-        if(Session["ha_user"]!=null)
+        try
         {
-            sFileMana.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString());
+            if (Session["ha_user"] != null)
+            {
+                sFileMana.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString());
+            }
+            dataBind();
         }
-        dataBind();
+        catch (SqlException ex)
+        {
+            Methods.showMessageBox(Response, "数据库连接错误!"+ex.Message);
+        }
+        sqlHelper.close();
     }
     protected void dataBind()
     {
         GridView1.DataSource = sFileMana.GetItems();
         GridView1.DataBind();
-        StringBuilder path=new StringBuilder();
+        StringBuilder path = new StringBuilder();
         if (sFileMana.nFolderType == safeFileManager.folderType.course)
         {
             string sql = "select couName,term,Name from Course,users where createUser=userId and couId=@couId";
@@ -47,11 +55,15 @@ public partial class publicFunction_visitCourse : System.Web.UI.Page
                 string term = rder[1].ToString();
                 path.Append("," + Methods.analyseTerm(term));
                 rootName = path.ToString();
-                lblCurrentPath.Text = rootName;
+                lblCurrentPath.Text = rootName+sFileMana.npath;
+                if (sFileMana.npath != "")
+                    returnBtn.Visible = true;
+                else returnBtn.Visible = false;
             }
             else
                 Methods.showMessageBox(Response, "数据库连接错误");
         }
+        sqlHelper.close();
     }
     protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
     {
@@ -62,8 +74,8 @@ public partial class publicFunction_visitCourse : System.Web.UI.Page
         }
         else
         {
-            StringBuilder downPath=new StringBuilder();
-  //          downPath.Append(sFileMana.getNPath());
+            StringBuilder downPath = new StringBuilder();
+            //          downPath.Append(sFileMana.getNPath());
             downPath.Append(e.CommandArgument.ToString());
         }
     }
@@ -73,8 +85,18 @@ public partial class publicFunction_visitCourse : System.Web.UI.Page
         {
             LinkButton lb = (LinkButton)e.Row.Cells[1].FindControl("LinkButton1");
             Label nametxt = (Label)e.Row.Cells[4].FindControl("NameText");
-            string dstr = "..\\severFiles\\"+nametxt.Text.Substring(sFileMana.webRootFolder.Length, nametxt.Text.Length - sFileMana.webRootFolder.Length);
-            nametxt.Text = string.Format("<a href=\"{0}\">下载</a>", dstr);
+            if (sFileMana.isExistDirectory(nametxt.Text))
+                nametxt.Text = "";
+            else
+            {
+                string dstr = "..\\" + "severFiles\\" + sFileMana.getRelativeNPath() + nametxt.Text;
+                nametxt.Text = string.Format("<a href=\"{0}\">下载</a>", dstr);
+            }
         }
+    }
+     protected void BackSpaceFolder(object sender, EventArgs e)
+    {
+        sFileMana.returnBackSpaceFolderPath();
+        dataBind();
     }
 }
