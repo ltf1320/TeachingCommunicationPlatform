@@ -9,6 +9,6 @@ public partial class MasterPages_userMasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        
     }
 }

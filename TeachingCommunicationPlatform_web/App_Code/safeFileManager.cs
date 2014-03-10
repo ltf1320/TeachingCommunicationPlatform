@@ -21,9 +21,13 @@ public class safeFileManager : fileManager
 {
     string userName,pathName; //现在目录的名字
     SQLHelper sqlHelper;   
-    string webRootFolder;  //web的根目录
+    public string webRootFolder;  //web的根目录
     public userType nUserType;    //现在用户类别
-    string npath;
+    public string npath;
+    public string getPathName()
+    {
+        return pathName;
+    }
     /// <summary>
     /// 目录类别
     /// </summary>
@@ -96,6 +100,15 @@ public class safeFileManager : fileManager
         nUserType = userType.visitor;
         npath = "";
     }
+
+    public bool isExistDirectory(string folder)
+    {
+        StringBuilder path = new StringBuilder();
+        path.Append(getNPath());
+        path.Append(folder);
+        return base.isExistDirectory(path.ToString());
+    }
+
     /// <summary>
     /// 写操作根目录
     /// 会把目录的类别和名字记录下来
@@ -124,19 +137,20 @@ public class safeFileManager : fileManager
     /// <param name="type">目录类别</param>
     /// <param name="name">目录名</param>
     /// <returns>目录</returns>
-    public string getPath(folderType type,string name)
+    public static string getPath(folderType type,string name)
     {
         StringBuilder str=new StringBuilder();
-        str.Append(webRootFolder);
         switch(type)
         {
             case folderType.course:
-                str.Append("course\\");
+                str.Append("courses\\");
                 str.Append(name);
+                str.Append("\\data\\");
                 break;
             case folderType.userConfig:
                 str.Append("users\\");
                 str.Append(name);
+                str.Append("\\");
                 break;
             default:
                 break;
@@ -226,6 +240,7 @@ public class safeFileManager : fileManager
                 nUserType = userType.visitor;
                 break;
         }
+        sqlHelper.close();
         return true;
     }
     new public List<FileSystemItem> GetItems()

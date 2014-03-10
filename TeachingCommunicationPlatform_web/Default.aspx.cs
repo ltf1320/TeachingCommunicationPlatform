@@ -15,7 +15,13 @@ public partial class _Default : System.Web.UI.Page
         //else Response.Write("WTF");
         //string haha="123456789aaa123456";
         //Response.Write(haha.IndexOf("aaa"));
-        sFM.setUser("00000", "11111");
-        Response.Write(sFM.nUserType.ToString());
+
+        //sFM.setUser("00000", "11111");
+        //Response.Write(sFM.nUserType.ToString());
+
+        Session["ha_user"] = "00000";
+        Session["ha_pwd"] = "11111";
+        Session["ha_path"] = safeFileManager.getPath(safeFileManager.folderType.course, "1");
+        Response.Redirect("publicFunction\\visitPath.aspx");
     }
 }

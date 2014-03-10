@@ -8,31 +8,31 @@ using System.IO;
 public class fileManager
 {
     protected string strRootFolder;
-	public fileManager()
-	{
+    public fileManager()
+    {
         //根目录
         strRootFolder = HttpContext.Current.Request.PhysicalApplicationPath + "severFiles\\";
         strRootFolder = strRootFolder.Substring(0, strRootFolder.LastIndexOf(@"\"));
-	}
+    }
     /// 读根目录
-    public  string GetRootPath()
+    public string GetRootPath()
     {
         return strRootFolder;
     }
 
     /// 写根目录
-    public  void SetRootPath(string path)
+    public void SetRootPath(string path)
     {
         strRootFolder = path;
     }
     /// 读取列表
-    public  List<FileSystemItem> GetItems()
+    public List<FileSystemItem> GetItems()
     {
         return GetItems(strRootFolder);
     }
 
     /// 读取列表
-    public  List<FileSystemItem> GetItems(string path)
+    public List<FileSystemItem> GetItems(string path)
     {
         string[] folders = Directory.GetDirectories(path);
         string[] files = Directory.GetFiles(path);
@@ -76,242 +76,248 @@ public class fileManager
         }
         return list;
     }
-        /// 创建文件夹
-        protected  void CreateFolder(string name, string parentName)
+    /// 创建文件夹
+    protected void CreateFolder(string name, string parentName)
+    {
+        DirectoryInfo di = new DirectoryInfo(parentName);
+        di.CreateSubdirectory(name);
+    }
+    /// 删除文件夹
+    protected bool DeleteFolder(string path)
+    {
+        try
         {
-            DirectoryInfo di = new DirectoryInfo(parentName);
-            di.CreateSubdirectory(name);
+            Directory.Delete(path);
+            return true;
         }
-        /// 删除文件夹
-        protected bool DeleteFolder(string path)
+        catch
         {
-            try
-            {
-                Directory.Delete(path);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// 移动文件夹
-        protected bool MoveFolder(string oldPath, string newPath)
-        {
-            try
-            {
-                Directory.Move(oldPath, newPath);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// 创建文件
-        protected bool CreateFile(string filename, string path)
-        {
-            try
-            {
-                FileStream fs = File.Create(path + "\\" + filename);
-                fs.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// 创建文件
-        protected bool CreateFile(string filename, string path, byte[] contents)
-        {
-            try
-            {
-                FileStream fs = File.Create(path + "\\" + filename);
-                fs.Write(contents, 0, contents.Length);
-                fs.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// 读取文本文件
-        public  string OpenText(string parentName)
-        {
-            StreamReader sr = File.OpenText(parentName);
-            StringBuilder output = new StringBuilder();
-            string rl;
-            while ((rl = sr.ReadLine()) != null)
-            {
-                output.Append(rl);
-            }
-            sr.Close();
-            return output.ToString();
-        }
-        /// 写入一个新文件，在文件中写入内容，然后关闭文件。如果目标文件已存在，则改写该文件。 
-        protected bool WriteAllText(string parentName, string contents)
-        {
-            try {
-            File.WriteAllText(parentName, contents,Encoding.Unicode); 
-            return true;         
-            }
-            catch {
-            return false;
-            }
-        }
-        /// 删除文件
-        protected bool DeleteFile(string path)
-        {
-            try
-            {
-                File.Delete(path);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// 移动文件
-        protected bool MoveFile(string oldPath, string newPath)
-        {
-            try
-            {
-                File.Move(oldPath, newPath);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// 读取文件信息
-        protected FileSystemItem GetItemInfo(string path)
-        {
-            FileSystemItem item = new FileSystemItem();
-            if (Directory.Exists(path))
-            {
-                DirectoryInfo di = new DirectoryInfo(path);
-                item.Name = di.Name;
-                item.FullName = di.FullName;
-                item.CreationDate = di.CreationTime;
-                item.IsFolder = true;
-                item.LastAccessDate = di.LastAccessTime;
-                item.LastWriteDate = di.LastWriteTime;
-                item.FileCount = di.GetFiles().Length;
-                item.SubFolderCount = di.GetDirectories().Length;
-            }
-            else
-            {
-                FileInfo fi = new FileInfo(path);
-                item.Name = fi.Name;
-                item.FullName = fi.FullName;
-                item.CreationDate = fi.CreationTime;
-                item.LastAccessDate = fi.LastAccessTime;
-                item.LastWriteDate = fi.LastWriteTime;
-                item.IsFolder = false;
-                item.Size = fi.Length;
-            }
-            return item;
-        }
-
-        /// 复制文件夹
-        protected bool CopyFolder(string source, string destination)
-        {
-            try
-            {
-                String[] files;
-                if (destination[destination.Length - 1] != Path.DirectorySeparatorChar)
-                    destination += Path.DirectorySeparatorChar;
-                if (!Directory.Exists(destination)) Directory.CreateDirectory(destination);
-                files = Directory.GetFileSystemEntries(source);
-                foreach (string element in files)
-                {
-                    if (Directory.Exists(element))
-                        CopyFolder(element, destination + Path.GetFileName(element));
-                    else
-                        File.Copy(element, destination + Path.GetFileName(element), true);
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// 判断是否为安全文件名
-        public  bool IsSafeName(string strExtension)
-        {
-            strExtension = strExtension.ToLower();//变为小写
-            //得到string的.XXX的文件名后缀 LastIndexOf（得到点的位置） Substring（剪切从X的位置）
-
-            if (strExtension.LastIndexOf(".") >= 0)
-            { strExtension = strExtension.Substring(strExtension.LastIndexOf(".")); }
-            else
-            { strExtension = ".txt"; }//如果没有点 就当成txt文件
-
-            //允许上传的扩展名，可以改成从配置文件中读出 
-            string[] arrExtension = { ".htm", ".html", ".txt", ".js", ".css", ".xml", ".sitemap", ".jpg", ".gif", ".png", ".rar", ".zip" };
-
-            for (int i = 0; i < arrExtension.Length; i++)
-            {
-                if (strExtension.Equals(arrExtension[i]))
-                {
-                    return true;
-                }
-            }
             return false;
         }
-        ///  判断是否为可编辑文件
-        public  bool IsCanEdit(string strExtension)
+    }
+    /// 移动文件夹
+    protected bool MoveFolder(string oldPath, string newPath)
+    {
+        try
         {
-            strExtension = strExtension.ToLower();//变为小写
-            //得到string的.XXX的文件名后缀 LastIndexOf（得到点的位置） Substring（剪切从X的位置）
-
-            if (strExtension.LastIndexOf(".") >= 0)
-            { strExtension = strExtension.Substring(strExtension.LastIndexOf(".")); }
-            else
-            { strExtension = ".txt"; }//如果没有点 就当成txt文件
-
-            //允许上传的扩展名，可以改成从配置文件中读出 
-            string[] arrExtension = { ".htm", ".html", ".txt", ".js", ".css", ".xml", ".sitemap"};
-
-            for (int i = 0; i < arrExtension.Length; i++)
-            {
-                if (strExtension.Equals(arrExtension[i]))
-                {
-                    return true;
-                }
-            }
+            Directory.Move(oldPath, newPath);
+            return true;
+        }
+        catch
+        {
             return false;
         }
-        protected bool AppendLineToFile(string path, string text)
+    }
+    /// 创建文件
+    protected bool CreateFile(string filename, string path)
+    {
+        try
         {
-            try
+            FileStream fs = File.Create(path + "\\" + filename);
+            fs.Close();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+    /// 创建文件
+    protected bool CreateFile(string filename, string path, byte[] contents)
+    {
+        try
+        {
+            FileStream fs = File.Create(path + "\\" + filename);
+            fs.Write(contents, 0, contents.Length);
+            fs.Close();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+    /// 读取文本文件
+    public string OpenText(string parentName)
+    {
+        StreamReader sr = File.OpenText(parentName);
+        StringBuilder output = new StringBuilder();
+        string rl;
+        while ((rl = sr.ReadLine()) != null)
+        {
+            output.Append(rl);
+        }
+        sr.Close();
+        return output.ToString();
+    }
+    /// 写入一个新文件，在文件中写入内容，然后关闭文件。如果目标文件已存在，则改写该文件。 
+    protected bool WriteAllText(string parentName, string contents)
+    {
+        try
+        {
+            File.WriteAllText(parentName, contents, Encoding.Unicode);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+    /// 删除文件
+    protected bool DeleteFile(string path)
+    {
+        try
+        {
+            File.Delete(path);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// 移动文件
+    protected bool MoveFile(string oldPath, string newPath)
+    {
+        try
+        {
+            File.Move(oldPath, newPath);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+    /// 读取文件信息
+    protected FileSystemItem GetItemInfo(string path)
+    {
+        FileSystemItem item = new FileSystemItem();
+        if (Directory.Exists(path))
+        {
+            DirectoryInfo di = new DirectoryInfo(path);
+            item.Name = di.Name;
+            item.FullName = di.FullName;
+            item.CreationDate = di.CreationTime;
+            item.IsFolder = true;
+            item.LastAccessDate = di.LastAccessTime;
+            item.LastWriteDate = di.LastWriteTime;
+            item.FileCount = di.GetFiles().Length;
+            item.SubFolderCount = di.GetDirectories().Length;
+        }
+        else
+        {
+            FileInfo fi = new FileInfo(path);
+            item.Name = fi.Name;
+            item.FullName = fi.FullName;
+            item.CreationDate = fi.CreationTime;
+            item.LastAccessDate = fi.LastAccessTime;
+            item.LastWriteDate = fi.LastWriteTime;
+            item.IsFolder = false;
+            item.Size = fi.Length;
+        }
+        return item;
+    }
+
+    /// 复制文件夹
+    protected bool CopyFolder(string source, string destination)
+    {
+        try
+        {
+            String[] files;
+            if (destination[destination.Length - 1] != Path.DirectorySeparatorChar)
+                destination += Path.DirectorySeparatorChar;
+            if (!Directory.Exists(destination)) Directory.CreateDirectory(destination);
+            files = Directory.GetFileSystemEntries(source);
+            foreach (string element in files)
             {
-                StreamWriter wter = File.AppendText(path);
-                wter.WriteLine(text);
-            }
-            catch
-            {
-                return false;
+                if (Directory.Exists(element))
+                    CopyFolder(element, destination + Path.GetFileName(element));
+                else
+                    File.Copy(element, destination + Path.GetFileName(element), true);
             }
             return true;
         }
-        protected string[] readFile(string path)
+        catch
         {
-            string[] res;
-            try
-            {
-                res = File.ReadAllLines(path);
-            }
-            catch
-            {
-                return null;
-            }
-            return res;
+            return false;
         }
     }
+    /// 判断是否为安全文件名
+    public bool IsSafeName(string strExtension)
+    {
+        strExtension = strExtension.ToLower();//变为小写
+        //得到string的.XXX的文件名后缀 LastIndexOf（得到点的位置） Substring（剪切从X的位置）
+
+        if (strExtension.LastIndexOf(".") >= 0)
+        { strExtension = strExtension.Substring(strExtension.LastIndexOf(".")); }
+        else
+        { strExtension = ".txt"; }//如果没有点 就当成txt文件
+
+        //允许上传的扩展名，可以改成从配置文件中读出 
+        string[] arrExtension = { ".htm", ".html", ".txt", ".js", ".css", ".xml", ".sitemap", ".jpg", ".gif", ".png", ".rar", ".zip" };
+
+        for (int i = 0; i < arrExtension.Length; i++)
+        {
+            if (strExtension.Equals(arrExtension[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    ///  判断是否为可编辑文件
+    public bool IsCanEdit(string strExtension)
+    {
+        strExtension = strExtension.ToLower();//变为小写
+        //得到string的.XXX的文件名后缀 LastIndexOf（得到点的位置） Substring（剪切从X的位置）
+
+        if (strExtension.LastIndexOf(".") >= 0)
+        { strExtension = strExtension.Substring(strExtension.LastIndexOf(".")); }
+        else
+        { strExtension = ".txt"; }//如果没有点 就当成txt文件
+
+        //允许上传的扩展名，可以改成从配置文件中读出 
+        string[] arrExtension = { ".htm", ".html", ".txt", ".js", ".css", ".xml", ".sitemap" };
+
+        for (int i = 0; i < arrExtension.Length; i++)
+        {
+            if (strExtension.Equals(arrExtension[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    protected bool AppendLineToFile(string path, string text)
+    {
+        try
+        {
+            StreamWriter wter = File.AppendText(path);
+            wter.WriteLine(text);
+        }
+        catch
+        {
+            return false;
+        }
+        return true;
+    }
+    protected string[] readFile(string path)
+    {
+        string[] res;
+        try
+        {
+            res = File.ReadAllLines(path);
+        }
+        catch
+        {
+            return null;
+        }
+        return res;
+    }
+    protected bool isExistDirectory(string path)
+    {
+        return Directory.Exists(path);
+    }
+}
