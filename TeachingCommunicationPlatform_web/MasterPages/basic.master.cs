@@ -11,17 +11,16 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
     SQLHelper sqlhp;
     protected void Page_Init(object sender, EventArgs e)
     {
-        if (Session["userName"] == null)
+        if (Session["ha_user"] == null)
         {
             userNameLabel.Visible = false;
             loginBtn.Text = "登陆";
         }
         else
         {
-            _userName = Session["userName"].ToString();
+            _userName = Session["ha_user"].ToString();
             userName.Visible = false;
             pwdtxt.Visible = false;
-            loginDropList.Visible = false;
             userNameLabel.Text = _userName;
             loginBtn.Text = "注销";
         }
