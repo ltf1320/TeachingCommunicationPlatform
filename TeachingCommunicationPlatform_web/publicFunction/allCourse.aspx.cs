@@ -11,4 +11,12 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
     {
 
     }
+
+    protected void couGridView_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if(e.CommandName=="listen")
+        {
+
+        }
+    }
 }
