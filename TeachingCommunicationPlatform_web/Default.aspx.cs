@@ -31,11 +31,9 @@ public partial class _Default : System.Web.UI.Page
         safeFileManager sFM = new safeFileManager();
         sFM.setUser("00000", "11111");
         sFM.SetRootPath("courses");
-        sFM.createFolder("2");
-        sFM.cd("2");
-        sFM.createFolder("data");
-        sFM.createFolder("tasks");
-        sFM.CreateFile("message");
-        sFM.CreateFile("listeners");
+        string[] txt=sFM.readFile("a.txt");
+        for (int i = 0; i < txt.Length; i++)
+            Response.Write(txt[i]);
+  //      Response.Write(sFM.DeleteFile("a"));
     }
 }

@@ -380,11 +380,11 @@ public class safeFileManager : fileManager
         fd.Append(folderName);
         if (isUserCanEditFolder(folderName))
         {
-            base.DeleteFolder(fd.ToString());
-            return true;
+            return base.DeleteFolder(fd.ToString());
         }
         return false;
     }
+    /*
     /// <summary>
     /// 写入一个新文件，在文件中写入内容，然后关闭文件。如果目标文件已存在，则改写该文件。
     /// </summary>
@@ -403,7 +403,7 @@ public class safeFileManager : fileManager
         }
         return false;
     }
-
+    */
     public new bool AppendLineToFile(string fileName, string text)
     {
         StringBuilder path = new StringBuilder();
