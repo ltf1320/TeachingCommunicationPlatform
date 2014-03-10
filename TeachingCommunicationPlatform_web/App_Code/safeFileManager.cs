@@ -22,7 +22,8 @@ public class safeFileManager : fileManager
     string userName,pathName; //现在目录的名字
     SQLHelper sqlHelper;   
     string webRootFolder;  //web的根目录
-    userType nUserType;    //现在用户类别
+    public userType nUserType;    //现在用户类别
+    string npath;
     /// <summary>
     /// 目录类别
     /// </summary>
@@ -49,7 +50,7 @@ public class safeFileManager : fileManager
         /// </summary>
         invalid
     }
-    folderType nFolderType;/// 现在目录类别
+    public folderType nFolderType;/// 现在目录类别
 
     private folderType getPathInfo(string path, out string name)
     {
@@ -92,7 +93,8 @@ public class safeFileManager : fileManager
         sqlHelper = new SQLHelper();
         webRootFolder = HttpContext.Current.Request.PhysicalApplicationPath + "severFiles\\";
         nFolderType = safeFileManager.folderType.invalid;
-        nUserType = userType.visitor; 
+        nUserType = userType.visitor;
+        npath = "";
     }
     /// <summary>
     /// 写操作根目录
@@ -113,6 +115,7 @@ public class safeFileManager : fileManager
         nFolderType = fdType;
         strRootFolder = pp.ToString();
         pathName = name;
+        npath = "";
         return true;
     }
     /// <summary>
@@ -139,6 +142,53 @@ public class safeFileManager : fileManager
                 break;
         }
         return str.ToString();
+    }
+    /// <summary>
+    /// 得到当前操作目录
+    /// </summary>
+    /// <returns>目录</returns>
+    public string getNPath()
+    {
+        StringBuilder path = new StringBuilder();
+        path.Append(strRootFolder);
+        path.Append(npath);
+        return path.ToString();
+    }
+    /// <summary>
+    /// 得到当前根目录
+    /// </summary>
+    /// <returns></returns>
+    public string getRootPath()
+    {
+        return strRootFolder;
+    }
+    /// <summary>
+    /// 得到上一级目录
+    /// </summary>
+    /// <returns>如果已经是根目录了，则返回根目录</returns>
+    public string getBackSpaceFolderPath()
+    {
+        if (npath == "")
+            return strRootFolder;
+        int index=npath.LastIndexOf('\\', 0, npath.Length - 1);
+        StringBuilder path = new StringBuilder();
+        path.Append(strRootFolder);
+        path.Append(npath.Substring(0, index));
+        return path.ToString();
+    }
+
+    /// <summary>
+    /// 访问目录
+    /// </summary>
+    /// <param name="folder"></param>
+    public void cd(string folder)
+    {
+        StringBuilder path = new StringBuilder();
+        path.Append(npath);
+        path.Append(folder);
+        if (path[path.Length - 1] != '\\')
+            path.Append('\\');
+        npath = path.ToString();
     }
 
     /// <summary>
@@ -185,7 +235,7 @@ public class safeFileManager : fileManager
         return null;
     }
 
-    private bool isUserCanEditFile()
+    public bool isUserCanEditFile()
     {
         if (nUserType == userType.admin)
         {
@@ -231,7 +281,7 @@ public class safeFileManager : fileManager
         }
         return false;
     }
-    private bool isUserCanEditFolder(string folderName)
+    public bool isUserCanEditFolder(string folderName)
     {
         if (nUserType == userType.admin)
         {
