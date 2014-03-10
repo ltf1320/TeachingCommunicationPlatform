@@ -30,19 +30,23 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
     }
     protected void couGridView_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        if(Session["ha_user"]==null)
+        if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            LinkButton listenBtn=(LinkButton)e.Row.FindControl("listenBtn");
-            listenBtn.Visible = false;
+            if (Session["ha_user"] == null)
+            {
+                LinkButton listenBtn = (LinkButton)e.Row.FindControl("listenBtn");
+                listenBtn.Visible = false;
+                return;
+            }
+            string user = Session["ha_user"].ToString();
+            /*
+            DataRowView dataRow = (DataRowView)e.Row.DataItem;
+            string couId = dataRow[0].ToString();
+            string sql = "select count(*) from manageCou where userId=@userId and couId=@couId";
+            SqlParameter[] para = new SqlParameter[2];
+            para[0] = new SqlParameter("@userId", user);
+            para[1] = new SqlParameter("@couId", couId);
+            */
         }
-        string user = Session["ha_user"].ToString();
-        /*
-        DataRowView dataRow = (DataRowView)e.Row.DataItem;
-        string couId = dataRow[0].ToString();
-        string sql = "select count(*) from manageCou where userId=@userId and couId=@couId";
-        SqlParameter[] para = new SqlParameter[2];
-        para[0] = new SqlParameter("@userId", user);
-        para[1] = new SqlParameter("@couId", couId);
-        */
     }
 }
