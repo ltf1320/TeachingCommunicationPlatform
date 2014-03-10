@@ -4,14 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using System.Data.SqlClient;
 public partial class MasterPages_basic : System.Web.UI.MasterPage
 {
     string _userName;
     SQLHelper sqlhp;
     protected void Page_Init(object sender, EventArgs e)
     {
-        if(Session["userName"]==null)
+        if (Session["userName"] == null)
         {
             userNameLabel.Visible = false;
             loginBtn.Text = "登陆";
@@ -43,24 +43,32 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
     }
     protected void loginBtn_Click(object sender, EventArgs e)
     {
-        string sid = userName.Text.ToString();
-        string pwd = pwdtxt.Text.ToString();
-        string constr = "select count(*) from user where userId='" + sid + "'" + " and pwd='" + pwd + "'";
-        //try
-        //{
-            if (Convert.ToInt32(sqlhp.getAValue(constr, null)) == 1)
+        if (loginBtn.Text == "登陆")
+        {
+            safeFileManager sfLoging = new safeFileManager();
+            string sid = userName.Text.ToString();
+            string pwd = pwdtxt.Text.ToString();
+            try
             {
-                Session["ha_user"] = sid;
-                //       Response.Redirect("stuManager.aspx");
-                Response.Write("<Script>alert('登陆成功');window.location=Request.Url.ToString( ) ;</Script>");
+                if (sfLoging.setUser(sid, pwd))
+                {
+                    Session["ha_user"] = sid;
+                    Response.Write("<Script>alert('登陆成功');</Script>");
+                    Response.Redirect(Request.Url.ToString());
+                }
+                else
+                    Page.ClientScript.RegisterStartupScript(GetType(), "Login", "<script>alert('用户名或密码错误');</script>");
             }
-            else
-                Page.ClientScript.RegisterStartupScript(GetType(), "Login", "<script>alert('用户名或密码错误');</script>");
-            sqlhp.close();
-        //}
-        //catch (SqlException exception)
-        //{
-        //    Response.Write("<Script>alert('数据库连接错误');</Script>");
-        //}
+            catch (SqlException exception)
+            {
+                Response.Write("<Script>alert('数据库连接错误');</Script>");
+            }
+        }
+        else
+        {
+            Session["ha_user"] = null;
+            Response.Redirect(Request.Url.ToString());
+        }
+
     }
 }
