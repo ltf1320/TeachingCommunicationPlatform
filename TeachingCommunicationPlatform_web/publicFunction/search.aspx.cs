@@ -14,6 +14,15 @@ public partial class publicFunction_search : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         sqlHelper = new SQLHelper();
+        if (Request.QueryString["searchCou"] != null)
+        {
+            string cou =Server.UrlDecode(Request.QueryString["searchCou"].ToString());
+            TextBox1.Text = cou;
+            GridView_cou.Visible = true;
+            GridView_tea.Visible = false;
+            GridView_cou.DataBind();
+        }
+
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
@@ -52,6 +61,8 @@ public partial class publicFunction_search : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+            Label lb = (Label)e.Row.FindControl("termLabel");
+            lb.Text = Methods.analyseTerm(lb.Text);
             LinkButton listenBtn = (LinkButton)e.Row.FindControl("listenBtn");
             if (Session["ha_user"] == null)
             {
@@ -61,11 +72,7 @@ public partial class publicFunction_search : System.Web.UI.Page
             string user = Session["ha_user"].ToString();
             DataRowView dataRow = (DataRowView)e.Row.DataItem;
             string couId = dataRow[0].ToString();
-            string sql = "select count(*) from manageCou where userId=@userId and couId=@couId";
-            SqlParameter[] para = new SqlParameter[2];
-            para[0] = new SqlParameter("@userId", user);
-            para[1] = new SqlParameter("@couId", couId);
-            if (Convert.ToInt32(sqlHelper.getAValue(sql, para)) == 1)
+            if (Methods.isListened(user,couId))
             {
                 listenBtn.Text = "取消关注";
                 listenBtn.CommandArgument = "cancelListen";

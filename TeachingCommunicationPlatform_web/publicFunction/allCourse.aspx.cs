@@ -60,6 +60,9 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+            Label lb = (Label)e.Row.FindControl("termLabel");
+            lb.Text = Methods.analyseTerm(lb.Text);
+
             LinkButton listenBtn = (LinkButton)e.Row.FindControl("listenBtn");
             if (Session["ha_user"] == null)
             {

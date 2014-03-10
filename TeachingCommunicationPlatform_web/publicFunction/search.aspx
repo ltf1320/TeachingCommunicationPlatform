@@ -28,7 +28,11 @@
         <Columns>
             <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
             <asp:BoundField DataField="type" HeaderText="类型" SortExpression="type" />
-            <asp:BoundField DataField="term" HeaderText="学期" SortExpression="term" />
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:Label ID="termLabel" runat="server" Text='<%#Bind("term") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" />
             <asp:TemplateField>
                 <ItemTemplate>

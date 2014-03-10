@@ -37,6 +37,11 @@
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />
                         <asp:BoundField DataField="stuNum" HeaderText="学生数" SortExpression="stuNum" />
                         <asp:BoundField DataField="term" HeaderText="学期" SortExpression="term" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:Label ID="termLabel" runat="server" Text='<%#Bind("term") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" />
                         <asp:TemplateField>
                             <ItemTemplate>
