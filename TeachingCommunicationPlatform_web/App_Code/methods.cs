@@ -76,7 +76,7 @@ public class Methods
     {
         
     }
-<<<<<<< HEAD
+
     public static bool mkCou(string cid,string cname,string ctype ,string cstuNum,string cterm , string cCreate , string tid)
     {
         safeFileManager sf = new safeFileManager();
@@ -114,6 +114,6 @@ public class Methods
         return true;
     }
 
-    public static bool isListened(string userId, string couId);
+    public static bool  isListened(string userId, string couId);
 
 }
