@@ -32,7 +32,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
     }
     protected void allCourseBnt_Click(object sender, EventArgs e)
     {
-        Response.Redirect("\\publicFunction/allCourse.aspx");
+        Response.Redirect("~\\publicFunction/allCourse.aspx");
     }
     protected void searchBnt_Click(object sender, EventArgs e)
     {

@@ -21,10 +21,12 @@
     <table id="table1" runat="server">
         <tr>
             <td>
-                <asp:DropDownList ID="acaDrop" runat="server" DataSourceID="SqlDataSource1" DataTextField="acName" DataValueField="acId"></asp:DropDownList>
+                <asp:Label ID="label1" runat="server" Text="选择学院："></asp:Label>
+                <asp:DropDownList ID="acaDrop" OnSelectedIndexChanged="acaDrop_SelectedIndexChanged" runat="server" DataSourceID="SqlDataSource1" DataTextField="acName" DataValueField="acId"></asp:DropDownList>
             </td>
             <td>
-                <asp:DropDownList ID="teaDrop" runat="server" DataSourceID="SqlDataSource2" DataTextField="Name" DataValueField="userId"></asp:DropDownList>
+                <asp:Label ID="label2" runat="server" Text="选择教师："></asp:Label>
+                <asp:DropDownList ID="teaDrop" OnSelectedIndexChanged="teaDrop_SelectedIndexChanged" runat="server" DataSourceID="SqlDataSource2" DataTextField="Name" DataValueField="userId"></asp:DropDownList>
             </td>
         </tr>
         <tr>
@@ -35,6 +37,11 @@
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />
                         <asp:BoundField DataField="stuNum" HeaderText="学生数" SortExpression="stuNum" />
                         <asp:BoundField DataField="term" HeaderText="学期" SortExpression="term" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:Label ID="termLabel" runat="server" Text='<%#Bind("term") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" />
                         <asp:TemplateField>
                             <ItemTemplate>

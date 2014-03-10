@@ -19,6 +19,10 @@ public partial class _Default : System.Web.UI.Page
         //sFM.setUser("00000", "11111");
         //Response.Write(sFM.nUserType.ToString());
 
+        //SQLHelper sqlHelper=new SQLHelper();
+        //string sql = "update Course set term=20131 where couId=1";
+        //sqlHelper.ExecuteSql(sql, null);
+
         Session["ha_user"] = "00000";
         Session["ha_pwd"] = "11111";
         Session["ha_path"] = safeFileManager.getPath(safeFileManager.folderType.course, "1");

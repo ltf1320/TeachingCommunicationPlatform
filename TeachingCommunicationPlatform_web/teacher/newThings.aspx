@@ -2,3 +2,7 @@
 
 <%-- 在users文件夹下找到newThings文件，按couId和id查找消息/作业并显示（提供链接） --%>
 <%--页面设计--%>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+
+</asp:Content>
