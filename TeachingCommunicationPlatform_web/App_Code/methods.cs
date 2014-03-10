@@ -75,5 +75,8 @@ public class Methods
     {
         
     }
-    public static bool isListened(string userId, string couId);
+    public static bool isListened(string userId, string couId)
+    {
+        return false;
+    }
 }
