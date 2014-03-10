@@ -16,30 +16,38 @@
         <tr>
             <td style="width: 476px;">
 
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="SELECT   couId as 课程编号, couName as 课程名称, type as 属性, stuNum as 已选学生 , term as 学期, createUser as 创建者 from Course" DeleteCommand="DELETE FROM Course WHERE (couId = @cid)
-DELETE FROM manageCou WHERE (couId = @cid and userId = @tid)"
-                    InsertCommand="INSERT INTO Course(couId, couName, type,stuNum,term,createUser) VALUES (@cid, @cname, @ctype,  @cstunum, @ctime, @cre)
-INSERT INTO manageCou (userId,couId) values(@tid,@couId)"
-                    UpdateCommand="
-UPDATE Course SET   term = @ctime, type = @ctype, stuNum = @cstunum">
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="SELECT [couId], [couName], [type], [stuNum], [term], [createUser] FROM [Course]"
+                    DeleteCommand="delete from manageCou where couId=@original_couId DELETE FROM [Course] WHERE [couId] = @original_couId"
+                    InsertCommand="INSERT INTO [Course] ([couId], [couName], [type], [stuNum], [term], [createUser]) VALUES (@couId, @couName, @type, @stuNum, @term, @createUser)"
+                    UpdateCommand="UPDATE [Course] SET  [type] = @type, [term] = @term  WHERE [couId] = @original_couId" ConflictDetection="CompareAllValues" OldValuesParameterFormatString="original_{0}">
                     <DeleteParameters>
-                        <asp:Parameter Name="cid" />
-                        <asp:Parameter Name="tid" />
+                        <asp:Parameter Name="original_couId" Type="String" />
+                        <asp:Parameter Name="original_couName" Type="String" />
+                        <asp:Parameter Name="original_type" Type="String" />
+                        <asp:Parameter Name="original_stuNum" Type="Int32" />
+                        <asp:Parameter Name="original_term" Type="String" />
+                        <asp:Parameter Name="original_createUser" Type="String" />
                     </DeleteParameters>
                     <InsertParameters>
-                        <asp:Parameter Name="cid" />
-                        <asp:Parameter Name="cname" />
-                        <asp:Parameter Name="ctype" />
-                        <asp:Parameter Name="cstunum" />
-                        <asp:Parameter Name="ctime" />
-                        <asp:Parameter Name="cre" />
-                        <asp:Parameter Name="tid" />
-                        <asp:Parameter Name="couId" />
+                        <asp:Parameter Name="couId" Type="String" />
+                        <asp:Parameter Name="couName" Type="String" />
+                        <asp:Parameter Name="type" Type="String" />
+                        <asp:Parameter Name="stuNum" Type="Int32" />
+                        <asp:Parameter Name="term" Type="String" />
+                        <asp:Parameter Name="createUser" Type="String" />
                     </InsertParameters>
                     <UpdateParameters>
-                        <asp:Parameter Name="ctime" />
-                        <asp:Parameter Name="ctype" />
-                        <asp:Parameter Name="cstunum" />
+                        <asp:Parameter Name="couName" Type="String" />
+                        <asp:Parameter Name="type" Type="String" />
+                        <asp:Parameter Name="stuNum" Type="Int32" />
+                        <asp:Parameter Name="term" Type="String" />
+                        <asp:Parameter Name="createUser" Type="String" />
+                        <asp:Parameter Name="original_couId" Type="String" />
+                        <asp:Parameter Name="original_couName" Type="String" />
+                        <asp:Parameter Name="original_type" Type="String" />
+                        <asp:Parameter Name="original_stuNum" Type="Int32" />
+                        <asp:Parameter Name="original_term" Type="String" />
+                        <asp:Parameter Name="original_createUser" Type="String" />
                     </UpdateParameters>
                 </asp:SqlDataSource>
 
@@ -51,16 +59,15 @@ UPDATE Course SET   term = @ctime, type = @ctype, stuNum = @cstunum">
             <td style="height: 243px; width: 476px;">
 
                 <asp:Panel ID="Panel1" runat="server">
-                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="课程编号" DataSourceID="SqlDataSource1" Width="777px" OnRowCancelingEdit="GridView1_RowCancelingEdit"  OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing">
+                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource1" Width="777px" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" >
                         <Columns>
-                            <asp:BoundField DataField="课程编号" HeaderText="课程编号" ReadOnly="True" SortExpression="课程编号" />
-                            <asp:BoundField DataField="课程名称" HeaderText="课程名称" SortExpression="课程名称" ReadOnly="True" />
-                            <asp:BoundField DataField="属性" HeaderText="属性" SortExpression="属性" />
-                            <asp:BoundField DataField="已选学生" HeaderText="已选学生" SortExpression="已选学生" ReadOnly="True" />
-                            <asp:BoundField DataField="学期" HeaderText="学期" SortExpression="学期" />
-                            <asp:BoundField DataField="创建者" HeaderText="创建者" SortExpression="创建者" ReadOnly="True" />
-                            <asp:CommandField ShowEditButton="True" />
-                            <asp:CommandField ShowDeleteButton="True" />
+                            <asp:BoundField DataField="couId" HeaderText="课程编号" ReadOnly="True" SortExpression="couId" />
+                            <asp:BoundField DataField="couName" HeaderText="课程名称" SortExpression="couName" ReadOnly="True" />
+                            <asp:BoundField DataField="type" HeaderText="属性" SortExpression="type" />
+                            <asp:BoundField DataField="stuNum" HeaderText="已选学生数" SortExpression="stuNum" ReadOnly="True" />
+                            <asp:BoundField DataField="term" HeaderText="学期" SortExpression="term" />
+                            <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" ReadOnly="True" />
+                            <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" HeaderText="操作" />
                         </Columns>
                     </asp:GridView>
                 <asp:Button ID="newOneBtn" runat="server" Text="新建" OnClick="newOneBtn_Click" />
