@@ -32,12 +32,12 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
     }
     protected void allCourseBnt_Click(object sender, EventArgs e)
     {
-        Response.Redirect("publicFunction/allCourse.aspx");
+        Response.Redirect("\\publicFunction/allCourse.aspx");
     }
     protected void searchBnt_Click(object sender, EventArgs e)
     {
         if (inputSearchTbx.Text != "输入查询的课程")
-            Response.Redirect("publicFunction/search.aspx");
+            Response.Redirect("\\publicFunction/search.aspx");
         else
             return;
     }
@@ -53,6 +53,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
                 if (sfLoging.setUser(sid, pwd))
                 {
                     Session["ha_user"] = sid;
+                    Session["ha_pwd"] = pwd;
                     Response.Write("<Script>alert('登陆成功');</Script>");
                     //Response.Redirect(Request.Url.ToString());
                     string rroleId = null;
@@ -60,15 +61,15 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
                     rroleId = sfRole.getUserRole(sid);
                     if(rroleId=="1")
                     {
-                        Response.Redirect("../admin/couseManage.aspx");
+                        Response.Redirect("\\admin/couseManage.aspx");
                     }
                     else if(rroleId=="2")
                     {
-                        Response.Redirect("../teacher/newThings.aspx");
+                        Response.Redirect("\\teacher/newThings.aspx");
                     }
                     else
                     {
-                        Response.Redirect("../student/newThings.aspx");
+                        Response.Redirect("\\student/newThings.aspx");
                     }
 
                 }
@@ -83,7 +84,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
         else
         {
             Session["ha_user"] = null;
-            Response.Redirect("../publicFunction/allCourse.aspx");
+            Response.Redirect("\\publicFunction/allCourse.aspx");
         }
 
     }
