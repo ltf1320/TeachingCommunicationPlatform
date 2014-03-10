@@ -29,16 +29,19 @@
              </tr>
         <tr>
             <td>
-               
-            </td>
-            <td>
-                <asp:GridView ID="couGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
+                <asp:GridView ID="couGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
                     <Columns>
                         <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />
                         <asp:BoundField DataField="stuNum" HeaderText="学生数" SortExpression="stuNum" />
                         <asp:BoundField DataField="term" HeaderText="学期" SortExpression="term" />
                         <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="listenBtn" runat="server" Text="关注"></asp:LinkButton>
+                                <asp:LinkButton ID="viewBtn" runat="server" Text="查看文件"></asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                     </Columns>
                     <FooterStyle BackColor="White" ForeColor="#000066" />
                     <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
