@@ -40,6 +40,13 @@ public class Methods
     {
         response.Write("<Script>alert('"+message+"');</Script>");
     }
+ //   public static int jsp_return;
+    /*
+    public static void showComfirmBox(HttpResponse response,string valueName,string message)
+    {
+        response.Write("<Script language='javascript'>if(confirm('" + message + "'))<%=" + valueName + "%>=true;else <%=" + valueName + "%>=false;</script>");
+    }
+     * */
     public static void listen(string userId, string couId)
     {
 

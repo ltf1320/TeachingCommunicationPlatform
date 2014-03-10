@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 public partial class publicFunction_search : System.Web.UI.Page
 {
     SQLHelper sqlHelper;
+    public bool jsp_return;
     protected void Page_Load(object sender, EventArgs e)
     {
         sqlHelper = new SQLHelper();
@@ -19,11 +20,14 @@ public partial class publicFunction_search : System.Web.UI.Page
         if(DropDownList1.SelectedValue=="teacher")
         {
             GridView_tea.Visible = true;
+            GridView_cou.Visible = false;
             GridView_tea.DataBind();
         }
         if(DropDownList1.SelectedValue=="course")
         {
-
+            GridView_cou.Visible = true;
+            GridView_tea.Visible = false;
+            GridView_cou.DataBind();
         }
     }
     protected void couGridView_RowCommand(object sender, GridViewCommandEventArgs e)
