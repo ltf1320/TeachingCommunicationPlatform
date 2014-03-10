@@ -88,10 +88,10 @@ public class fileManager
     {
         try
         {
-            Directory.Delete(path);
+            Directory.Delete(path,true);
             return true;
         }
-        catch
+        catch(Exception ex)
         {
             return false;
         }
@@ -156,7 +156,7 @@ public class fileManager
     {
         try
         {
-            File.WriteAllText(parentName, contents, Encoding.Unicode);
+            File.WriteAllText(parentName, contents, Encoding.UTF8);
             return true;
         }
         catch
@@ -297,8 +297,10 @@ public class fileManager
         {
             StreamWriter wter = File.AppendText(path);
             wter.WriteLine(text);
+            wter.Flush();
+            wter.Close();
         }
-        catch
+        catch(Exception e)
         {
             return false;
         }
