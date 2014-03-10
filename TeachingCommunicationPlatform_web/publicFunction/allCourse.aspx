@@ -29,7 +29,7 @@
              </tr>
         <tr>
             <td>
-                <asp:GridView ID="couGridView" runat="server" OnRowCommand="couGridView_RowCommand" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
+                <asp:GridView ID="couGridView" runat="server" OnRowCommand="couGridView_RowCommand" OnRowDataBound="couGridView_RowDataBound" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
                     <Columns>
                         <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />
