@@ -76,10 +76,12 @@ public class Methods
     {
         
     }
+
     public static bool isListened(string userId, string couId)
     {
         return false;
     }
+
     public static bool mkCou(string cid,string cname,string ctype ,string cstuNum,string cterm , string cCreate , string tid)
     {
         safeFileManager sf = new safeFileManager();
@@ -116,4 +118,5 @@ public class Methods
         sf.CreateFile("listeners");
         return true;
     }
+
 }
