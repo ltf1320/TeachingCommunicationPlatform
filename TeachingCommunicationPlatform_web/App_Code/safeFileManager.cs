@@ -386,4 +386,19 @@ public class safeFileManager : fileManager
         path.Append(fileName);
         return base.readFile(path.ToString());
     }
+    public string getUserRole(string sid)
+    {
+        SQLHelper sqlhp;
+        sqlhp = new SQLHelper();
+        string selstr = "select roleId from users where userId=@ha_user";
+        SqlParameter[] paras = new SqlParameter[2];
+        paras[0] = new SqlParameter("@ha_user", sid);
+        paras[1] = null;
+        string rroleId = null;
+        SqlDataReader rder = sqlhp.getReader(selstr, paras);
+        rder.Read();
+        rroleId = rder[0].ToString();
+        sqlhp.close();
+        return rroleId;
+    }
 }

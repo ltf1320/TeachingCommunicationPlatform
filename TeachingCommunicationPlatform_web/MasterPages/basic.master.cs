@@ -11,6 +11,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
     SQLHelper sqlhp;
     protected void Page_Init(object sender, EventArgs e)
     {
+        //Session["ha_user"] = "00001";// testing
         if (Session["ha_user"] == null)
         {
             userNameLabel.Visible = false;
@@ -53,7 +54,23 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
                 {
                     Session["ha_user"] = sid;
                     Response.Write("<Script>alert('登陆成功');</Script>");
-                    Response.Redirect(Request.Url.ToString());
+                    //Response.Redirect(Request.Url.ToString());
+                    string rroleId = null;
+                    safeFileManager sfRole = new safeFileManager();
+                    rroleId = sfRole.getUserRole(sid);
+                    if(rroleId=="1")
+                    {
+                        Response.Redirect("../admin/couseManage.aspx");
+                    }
+                    else if(rroleId=="2")
+                    {
+                        Response.Redirect("../teacher/newThings.aspx");
+                    }
+                    else
+                    {
+                        Response.Redirect("../student/newThings.aspx");
+                    }
+
                 }
                 else
                     Page.ClientScript.RegisterStartupScript(GetType(), "Login", "<script>alert('用户名或密码错误');</script>");
@@ -66,7 +83,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
         else
         {
             Session["ha_user"] = null;
-            Response.Redirect(Request.Url.ToString());
+            Response.Redirect("../publicFunction/allCourse.aspx");
         }
 
     }
