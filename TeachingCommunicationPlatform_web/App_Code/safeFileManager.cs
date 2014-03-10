@@ -127,6 +127,8 @@ public class safeFileManager : fileManager
             return false;
         nFolderType = fdType;
         strRootFolder = path;
+        if (strRootFolder[strRootFolder.Length - 1] != '\\')
+            strRootFolder = strRootFolder + '\\';
         pathName = name;
         npath = "";
         return true;

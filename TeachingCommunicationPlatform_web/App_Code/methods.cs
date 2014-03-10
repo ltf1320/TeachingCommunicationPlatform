@@ -109,7 +109,7 @@ public class Methods
         sqlhp.close();
         sf.SetRootPath("courses");
         sf.createFolder(cid);
-        sf.cd("course");
+        sf.cd(cid);
         sf.createFolder("tasks");
         sf.createFolder("data");
         sf.CreateFile("message");
