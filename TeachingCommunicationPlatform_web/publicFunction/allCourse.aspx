@@ -13,21 +13,15 @@
                 <asp:DropDownList ID="acaDrop" runat="server" DataSourceID="SqlDataSource1" DataTextField="acName" DataValueField="acId"></asp:DropDownList>
             </td>
             <td>
-               <%-- me
                 <asp:DropDownList ID="teaDrop" runat="server" DataSourceID="SqlDataSource2" DataTextField="Name" DataValueField="userId"></asp:DropDownList>
-            --%></td>
+            </td>
              </tr>
         <tr>
             <td>
-<<<<<<< HEAD
                
             </td>
             <td>
-<%--                me
-                <asp:GridView ID="couGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
-=======
                 <asp:GridView ID="couGridView" runat="server" OnRowCommand="couGridView_RowCommand" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
->>>>>>> 52c8f7b3f9af636aa17e636d1f069ba8cc6627ba
                     <Columns>
                         <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />
