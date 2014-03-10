@@ -1,7 +1,37 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/MasterPages/basic.master" AutoEventWireup="true" CodeFile="adminMasterPage.master.cs" Inherits="MasterPages_adminMasterPage" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <style type="text/css">
+        .style1
+        {
+            width: 221px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-</asp:Content>
+    <table>
+        <tr>
+            <td>
+                <asp:Menu ID="Menu1" runat="server" BackColor="#F7F6F3" DynamicHorizontalOffset="2"  Font-Names="Verdana" Font-Size="1.2em" ForeColor="#7C6F57" StaticSubMenuIndent="10px" BorderStyle="None">
+                    <DynamicHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                    <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                    <DynamicMenuStyle BackColor="#F7F6F3" />
+                    <DynamicSelectedStyle BackColor="#5D7B9D" />
+                    <Items>
+                        <asp:MenuItem Text="课程管理" Value="课程管理" Enabled="True" NavigateUrl="~/admin/couseManage.aspx"></asp:MenuItem>
+                        <asp:MenuItem Text="用户管理" Value="用户管理" NavigateUrl="~/Web.config"></asp:MenuItem>
+                    </Items>
+                    <StaticHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                    <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                    <StaticSelectedStyle BackColor="#5D7B9D" />
+                </asp:Menu>
+            </td>
+            <td>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+                        </asp:ContentPlaceHolder>
+            </td>
 
+        </tr>
+
+
+    </table>
+</asp:Content>
