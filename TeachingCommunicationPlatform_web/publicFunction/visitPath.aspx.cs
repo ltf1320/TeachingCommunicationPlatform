@@ -22,4 +22,10 @@ public partial class publicFunction_visitCourse : System.Web.UI.Page
             sFileMana.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString());
         }
     }
+    protected void dataBind()
+    {
+        GridView1.DataSource = sFileMana.GetItems();
+        GridView1.DataBind();
+        string sql="select "
+    }
 }
