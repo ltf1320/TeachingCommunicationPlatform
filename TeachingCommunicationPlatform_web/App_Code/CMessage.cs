@@ -219,7 +219,7 @@ public class CMessage
     /// <param name="deadLine">截止时间(task only)</param>
     /// <param name="text">文本</param>
     /// <param name="fileList">文件列表</param>
-    /// <param name="userList">@user列表（如果是task则自动@所有关注的人）</param>
+    /// <param name="userList">@user列表（如果是task则自动@所有 关注的人）</param>
     /// <returns>成功返回消息编号，否则返回-1</returns>
     public int createMsg(string couId, bool type, string topic, DateTime date, DateTime deadLine, string text, string[] fileList, string[] @userList)
     {
