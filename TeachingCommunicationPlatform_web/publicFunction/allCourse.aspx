@@ -18,7 +18,7 @@
             <asp:ControlParameter ControlID="teaDrop" Name="createUser" PropertyName="SelectedValue" Type="String" />
         </SelectParameters>
     </asp:SqlDataSource>
-    <table id="table1" runat="server">
+    <table id="table1" runat="server" style="width:1000px">
         <tr>
             <td>
                 <asp:Label ID="label1" runat="server" Text="选择学院："></asp:Label>

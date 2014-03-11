@@ -9,6 +9,15 @@ public partial class MasterPages_userMasterPage : System.Web.UI.MasterPage
 {
     SQLHelper sqlhp;
     string sid;
+    protected void Page_Init(object sender,EventArgs e)
+    {
+        if (Session["ha_user"] == null)
+        {
+            Response.Redirect("~\\publicFunction\\allCourse.aspx");
+            return;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         //sqlhp = new SQLHelper();
