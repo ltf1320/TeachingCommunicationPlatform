@@ -10,13 +10,38 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-  //      List<CMessage> msgList = CMessage.getMsgs("0");
-        safeFileManager sFM = new safeFileManager();
-        SQLHelper sqlHelper=new SQLHelper();
-        string sql = "insert into Course values(0,@couName,@couType,0,'20140','1')";
-        SqlParameter[] para = new SqlParameter[2];
-        para[0] = new SqlParameter("@couName", "操作系统");
-        para[1] = new SqlParameter("@couType", "必修");
-        Response.Write(sqlHelper.ExecuteSql(sql, para));
+  ////      List<CMessage> msgList = CMessage.getMsgs("0");
+  //      safeFileManager sFM = new safeFileManager();
+  //      SQLHelper sqlHelper=new SQLHelper();
+  //      string sql = "insert into Course values(0,@couName,@couType,0,'20140','1')";
+  //      SqlParameter[] para = new SqlParameter[2];
+  //      para[0] = new SqlParameter("@couName", "操作系统");
+  //      para[1] = new SqlParameter("@couType", "必修");
+  //      Response.Write(sqlHelper.ExecuteSql(sql, para));
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        if (FileUpload1.HasFile)
+        {
+            try
+            {
+                FileUpload1.SaveAs(Server.MapPath("upload") + "\\" + FileUpload1.FileName);
+                Label1.Text = "客户端路径：" + FileUpload1.PostedFile.FileName + "〈br>" +
+                              "文件名：" + System.IO.Path.GetFileName(FileUpload1.FileName) + "〈br>" +
+                              "文件扩展名：" + System.IO.Path.GetExtension(FileUpload1.FileName) + "〈br>" +
+                              "文件大小：" + FileUpload1.PostedFile.ContentLength + " KB〈br>" +
+                              "文件MIME类型：" + FileUpload1.PostedFile.ContentType + "〈br>" +
+                              "保存路径：" + Server.MapPath("upload") + "\\" + FileUpload1.FileName;
+            }
+            catch (Exception ex)
+            {
+                Label1.Text = "发生错误：" + ex.Message.ToString();
+            }
+        }
+        else
+        {
+            Label1.Text = "没有选择要上传的文件！";
+        }
+
     }
 }

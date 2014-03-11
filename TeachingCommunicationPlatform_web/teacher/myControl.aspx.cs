@@ -7,12 +7,16 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text;
+using System.Collections;
+using System.Timers;
 public partial class teacher_myControl : System.Web.UI.Page
 {
     SQLHelper sqlhp = new SQLHelper();
     safeFileManager sf = new safeFileManager();
     protected void Page_Load(object sender, EventArgs e)
     {
+        DateTime dt=new DateTime();
+        Label_sample.Text = "格式:" + dt.Date.ToString();
         GridViewBind();
     }
     protected void focusMoreBtn_Click(object sender, EventArgs e)
@@ -24,7 +28,9 @@ public partial class teacher_myControl : System.Web.UI.Page
         sf.setUser("00000","11111");
         sf.SetRootPath("users");
         sf.cd(Session["ha_user"].ToString());
-        string [] lis = sf.readFile("listens");
+        string[] lis = sf.readFile("listens");
+        if (lis.Length == 0)
+            return;
         string focus;
         SqlParameter[] paras = new SqlParameter[lis.Length];
         StringBuilder stb =new StringBuilder();
@@ -66,13 +72,14 @@ public partial class teacher_myControl : System.Web.UI.Page
         /////////////未dug
         sf.cd(id);
         string[] canFou = sf.readFile("listeners");
-        for (int i = 0; i < canFou.Length; i++)
-        {
-            sf.SetRootPath("users");
-            sf.cd(canFou[i]);
-            sf.deleteStrFromFile("listens", id);
+        if (canFou.Length != 0)
+            for (int i = 0; i < canFou.Length; i++)
+            {
+                sf.SetRootPath("users");
+                sf.cd(canFou[i]);
+                sf.deleteStrFromFile("listens", id);
 
-        }
+            }
         //////////////
         if (sf.deleteFolder(id))
         {
@@ -125,7 +132,7 @@ public partial class teacher_myControl : System.Web.UI.Page
     }
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        if (!sf.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        if (!sf.setUser("00000","11111"))//Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
         {
             Methods.showMessageBox(Response, "对不起您没有权限");
             return;
@@ -142,14 +149,111 @@ public partial class teacher_myControl : System.Web.UI.Page
         sf.cd(Session["ha_user"].ToString());
         sf.deleteStrFromFile("listens", id);
         //更新数据库关注人数
-        string upstr = "upadte Course set stuNum =stuNum-1 where couId = @id";
+        string upstr = "update Course set stuNum =stuNum-1 where couId = @id";
         SqlParameter[] paras = new SqlParameter[1];
         paras[0] = new SqlParameter("id", id);
         sqlhp.ExecuteSql(upstr, paras);
         sqlhp.close();
-
-
-
+        GridView2.DataBind();
         GridViewBind();
+    }
+
+    protected void Button_sub_Click(object sender, EventArgs e)
+    {
+        string cid = DropDownList1.SelectedValue.ToString();
+        string ttype = DropDownList2.SelectedValue.ToString();
+        bool type;
+        if (ttype == "1")
+            type = true;
+        else 
+            type = false;
+        DateTime ddate = new DateTime();
+        DateTime date = ddate.Date;
+        DateTime deadline = Convert.ToDateTime(TextBox_deadline.Text.Trim());
+        string topic = TextBox_topic.Text.Trim();//排零
+        string ttext = TextBox_content.Text.ToString();
+        string atMe = TextBox_at.Text.ToString();
+        string filename = FileUpload1.FileName.ToString();
+        string[] at  ;
+        List<string> at2=new List<string>();
+        List<string> flist=new List<string>();
+        flist.Add(filename);
+        string [] filelist=flist.ToArray();
+        if(type)
+        {
+            sf.setUser("00000", "11111");
+            sf.SetRootPath("course");
+            sf.cd(cid);
+            at = sf.readFile("listeners");
+        }
+        else
+        {
+            string tem="";
+            for(int i = 0 ; i < atMe.Length;i++)
+            {
+                if (atMe[i].Equals(","))
+                {
+                    tem += atMe[i];
+                }
+                else
+                {
+                    at2.Add(tem);
+                    tem = "";
+                }
+            }
+            at=at2.ToArray();
+        }
+        CMessage cm = new CMessage();
+        string mid = CMessage.addNewThing(cid, type, topic, date, deadline, ttext, filelist, at).ToString();
+        if (mid=="-1")
+            Methods.showMessageBox(Response, "发送失败");
+        else
+        {
+            sf.setUser("00000", "11111");
+            sf.SetRootPath("courses");
+            sf.cd(cid);
+            string[] tm = sf.readFile("listeners");
+            for(int i = 0 ; i < tm.Length;i++)
+            {
+                sf.SetRootPath("users");
+                sf.cd(tm[i].ToString());
+                sf.AppendLineToFile("newThings", mid);
+                sf.AppendLineToFile("newThings", cid);
+            }
+            if(at!=null)
+            for (int i = 0; i < at.Length; i++)
+            {
+                //sf.SetRootPath("users");
+               // sf.cd(at[i].ToString());
+                sf.AppendLineToFile("at", mid);
+                sf.AppendLineToFile("at", cid);
+            }
+        }
+        if(FileUpload1.HasFile)
+            FileUpload1.SaveAs(Server.MapPath("~/")  +"severFiles/"+"courses/" + cid + "/data/" + FileUpload1.FileName);
+
+                      // "客户端路径：" + FileUpload1.PostedFile.FileName
+                      //"文件名：" + System.IO.Path.GetFileName(FileUpload1.FileName) 
+                      //"文件扩展名：" + System.IO.Path.GetExtension(FileUpload1.FileName) 
+                      //"文件大小：" + FileUpload1.PostedFile.ContentLength + " KB〈br>" +
+                      //"文件MIME类型：" + FileUpload1.PostedFile.ContentType + "〈br>" +
+                      //"保存路径：" + Server.MapPath("upload") + "\\" + FileUpload1.FileName;
+
+    }
+    protected void Button_add_Click(object sender, EventArgs e)
+    {
+        string addp = TextBox_addperson.Text.Trim();
+        string addc = TextBox_addcou.Text.Trim();
+        string str = "update users set roleId = @newrole where userId=@id";
+        SqlParameter[] paras = new SqlParameter[2];
+        paras[0] = new SqlParameter("@newrole", "2");
+        paras[1] = new SqlParameter("@id", addp);
+        sqlhp.ExecuteSql(str, paras);
+        string str2 = "insert into manageCou (userId,couId) values (@id,@addc)";
+        paras[0] = new SqlParameter("@id", addp);
+        paras[1] = new SqlParameter("@addc", addc);
+        sqlhp.ExecuteSql(str2,paras);
+        sqlhp.close();
+
     }
 }

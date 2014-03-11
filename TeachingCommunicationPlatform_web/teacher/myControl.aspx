@@ -19,6 +19,39 @@
                     生成新的消息id
                     在course文件夹下找到listeners，找到所有listeners的user文件夹下的newthings文件，将couId,id添加进去
                     格式见pd--%>
+                    <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="SELECT [couId] FROM [manageCou] WHERE ([userId] = @userId)">
+                        <SelectParameters>
+                            <asp:SessionParameter Name="userId" SessionField="ha_user" Type="String" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                    <tr>
+                        <td>
+                            <asp:Label ID="Label_topic" runat="server" Text="话题:"></asp:Label>
+                            <asp:TextBox ID="TextBox_topic" runat="server"></asp:TextBox>
+                            <br />
+                            <asp:Label ID="Label_deadline" runat="server" Text="截止时间:"></asp:Label>
+                            <asp:TextBox ID="TextBox_deadline" runat="server"></asp:TextBox>
+                            <asp:Label ID="Label_sample" runat="server" Text=" 格式:"></asp:Label>
+                            <br />
+                            <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource2" DataTextField="couId" DataValueField="couId">
+                            </asp:DropDownList>
+                            <asp:DropDownList ID="DropDownList2" runat="server">
+                                <asp:ListItem Value="1">作业</asp:ListItem>
+                                <asp:ListItem Value="0">消息</asp:ListItem>
+                            </asp:DropDownList>
+                            <br />
+                            <asp:Label ID="Label_content" runat="server" Text="内容:"></asp:Label>
+                            <asp:TextBox ID="TextBox_content" runat="server" Height="64px" TextMode="MultiLine" Width="295px"></asp:TextBox>
+                            <br />
+                            <br />
+                            <asp:Label ID="Label_deadline0" runat="server" Text="@:"></asp:Label>
+                            <asp:TextBox ID="TextBox_at" runat="server"></asp:TextBox>
+                            <asp:Label ID="Label_hint" runat="server" Text="用&quot;,&quot;间隔"></asp:Label>
+                            <asp:FileUpload ID="FileUpload1" runat="server" />
+                            <asp:Button ID="Button_sub0" runat="server" OnClick="Button_sub_Click" Text="提交" />
+                            <br />
+                        </td>
+                    </tr>
 
                 </td>
             </tr>
@@ -29,11 +62,11 @@
                     找到users下listens文件，添加课程(couId)
                     找到courses下listeners文件，添加userId--
                     数据库中课程人数+1    --%>
-                    <asp:GridView ID="GridView1" runat="server" Height="116px" Width="291px" OnRowDeleting="GridView1_RowDeleting" >
+                    <asp:GridView ID="GridView1" runat="server" Height="116px" Width="291px" OnRowDeleting="GridView1_RowDeleting">
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:Label ID="Label_cou" runat="server" Text='<%#Bind("课程编号") %>'></asp:Label>
+                                    <asp:Label ID="Label_cou" runat="server" Visible="false" Text='<%#Bind("课程编号")  %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:CommandField DeleteText="取消关注" ShowDeleteButton="True" />
@@ -82,9 +115,15 @@
                             <asp:CommandField ShowDeleteButton="True" />
                         </Columns>
                     </asp:GridView>
+                    <asp:Button ID="Button_add" runat="server" OnClick="Button_add_Click" Text="添加管理者" />
+                    <asp:TextBox ID="TextBox_addperson" runat="server">管理者ID</asp:TextBox>
+                    <asp:TextBox ID="TextBox_addcou" runat="server">管理的课程编号</asp:TextBox>
                     <asp:Button runat="server" Text="新建" ID="newOneBtn" OnClick="newOneBtn_Click" />
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="select * from [Course] where ([couId] in (SELECT couId FROM [manageCou] WHERE ([userId] = @userId)))
-">
+" DeleteCommand="delete from [manageCou ] where [userId] = @userId">
+                        <DeleteParameters>
+                            <asp:Parameter Name="userId" />
+                        </DeleteParameters>
                         <SelectParameters>
                             <asp:SessionParameter Name="userId" SessionField="ha_user" Type="String" />
                         </SelectParameters>
