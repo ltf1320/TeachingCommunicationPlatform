@@ -5,6 +5,7 @@ using System.Web;
 using System.Text;
 using System.Data.SqlClient;
 
+
 /// <summary>
 /// 用户类别
 /// </summary>
@@ -365,6 +366,7 @@ public class safeFileManager : fileManager
         StringBuilder path = new StringBuilder();
         path.Append(webRootFolder);
         path.Append(strRootFolder);
+        path.Append(npath);
         path.Append(fileName);
         if (isUserCanEditFile())
         {
@@ -377,6 +379,7 @@ public class safeFileManager : fileManager
         StringBuilder fd = new StringBuilder();
         fd.Append(webRootFolder);
         fd.Append(strRootFolder);
+        fd.Append(npath);
         fd.Append(folderName);
         if (isUserCanEditFolder(folderName))
         {
@@ -409,6 +412,7 @@ public class safeFileManager : fileManager
         StringBuilder path = new StringBuilder();
         path.Append(webRootFolder);
         path.Append(strRootFolder);
+        path.Append(npath);
         path.Append(fileName);
         if (isUserCanEditFile())
         {
@@ -427,6 +431,7 @@ public class safeFileManager : fileManager
         StringBuilder path = new StringBuilder();
         path.Append(webRootFolder);
         path.Append(strRootFolder);
+        path.Append(npath);
         path.Append(fileName);
         return base.readFile(path.ToString());
     }
@@ -444,5 +449,17 @@ public class safeFileManager : fileManager
         rroleId = rder[0].ToString();
         sqlhp.close();
         return rroleId;
+    }
+    public new System.IO.StreamWriter getAppendSteam(string path)
+    {
+        if(isUserCanEditFile())
+            return base.getAppendSteam(webRootFolder + strRootFolder + npath + path);
+        return null;
+    }
+    public new bool copyFile(string destin,string origin)
+    {
+        if (isUserCanEditFile())
+            return base.copyFile(webRootFolder + strRootFolder + npath + destin, webRootFolder + strRootFolder + npath + origin);
+        return false;
     }
 }

@@ -38,6 +38,16 @@ public partial class _Default : System.Web.UI.Page
         //string[] txt=sFM.readFile("a.txt");
         //for (int i = 0; i < txt.Length; i++)
         //    Response.Write(txt[i]);
-  //      Response.Write(sFM.DeleteFile("a"));
+  //      safeFileManager sFM = new safeFileManager();
+  //      sFM.setUser("00000", "11111");
+  //      sFM.SetRootPath("courses");
+  //      string[] txt=sFM.readFile("a.txt");
+  //      for (int i = 0; i < txt.Length; i++)
+  //          Response.Write(txt[i]);
+  ////      Response.Write(sFM.DeleteFile("a"));
+  //       * 
+  //      SQLHelper sqlHelper=new SQLHelper();
+  //      string sql = "select * from user";
+  //      sqlHelper.ExecuteSql(sql, null);
     }
 }
