@@ -114,7 +114,7 @@ public class fileManager
     {
         try
         {
-            FileStream fs = File.Create(path + "\\" + filename);
+            FileStream fs = File.Create(path + filename);
             fs.Close();
             return true;
         }
@@ -172,7 +172,7 @@ public class fileManager
             File.Delete(path);
             return true;
         }
-        catch
+        catch(Exception E)
         {
             return false;
         }
@@ -341,10 +341,14 @@ public class fileManager
         try
         {
             wter.Write(rder.ReadToEnd());
+            rder.Close();
+            wter.Close();
             return true;
         }
         catch (Exception e)
         {
+            rder.Close();
+            wter.Close();
             return false;
         }
     }

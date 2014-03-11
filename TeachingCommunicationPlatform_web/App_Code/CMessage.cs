@@ -30,48 +30,48 @@ public class CMessage
     /// <summary>
     /// 0:message,1:task
     /// </summary>
-    bool type;
+    public bool type;
     /// <summary>
     /// 标题
     /// </summary>
-    string topic;
+    public string topic;
     /// <summary>
     /// 时间
     /// </summary>
-    DateTime date;
+    public DateTime date;
     /// <summary>
     /// 截止日期(task only)
     /// </summary>
-    DateTime deadLine;
+    public DateTime deadLine;
     /// <summary>
     /// 文本
     /// </summary>
-    string text;
+    public string text;
     /// <summary>
     /// 文件列表
     /// </summary>
-    string[] fileList;
+    public string[] fileList;
     /// <summary>
     /// @人列表
     /// </summary>
-    string[] atList;
+    public string[] atList;
 
     public CMessage()
     {
         _hasMsg = false;
     }
 
-    public bool isMsgExist(string couId, int msgId)
+    public static bool isMsgExist(string couId, int msgId)
     {
+        safeFileManager sFM = new safeFileManager();
+        sFM.setUser("00000", "11111");
+        sFM.SetRootPath("courses\\" + couId);
+        FileStream rder = File.OpenRead(sFM.getNPath() + "message");
+        StreamReader srder = new StreamReader(rder);
         try
         {
-            safeFileManager sFM = new safeFileManager();
-            sFM.setUser("00000", "11111");
-            sFM.SetRootPath("courses\\" + couId);
-            FileStream rder = File.OpenRead(sFM.getNPath() + "message");
-            StreamReader srder = new StreamReader(rder);
             string id = srder.ReadLine();//跳过开头的记录值
-            while (true)
+            while (!srder.EndOfStream)
             {
                 while (true)
                 {
@@ -81,14 +81,20 @@ public class CMessage
                 }
                 if (Convert.ToInt32(id) == msgId)
                 {
+                    srder.Close();
                     return true;
                 }
                 else
                     skipMsg(srder);
             }
+            srder.Close();
+            return false;
         }
-        catch
-        { return false; }
+        catch (Exception e)
+        {
+            srder.Close();
+            return false;
+        }
     }
     /// <summary>
     /// 访问文件读取信息内容
@@ -98,14 +104,16 @@ public class CMessage
     /// <returns>成功返回true</returns>
     public bool getMsgInfo(string couId, int msgId)
     {
+
+        safeFileManager sFM = new safeFileManager();
+        sFM.setUser("00000", "11111");
+        sFM.SetRootPath("courses\\" + couId);
+        FileStream rder = File.OpenRead(sFM.getNPath() + "message");
+        StreamReader srder = new StreamReader(rder);
+        string id;
+        id = srder.ReadLine();
         try
         {
-            safeFileManager sFM = new safeFileManager();
-            sFM.setUser("00000", "11111");
-            sFM.SetRootPath("courses\\" + couId);
-            FileStream rder = File.OpenRead(sFM.getNPath() + "message");
-            StreamReader srder = new StreamReader(rder);
-            string id;
             while (!srder.EndOfStream)
             {
                 while (true)
@@ -122,10 +130,16 @@ public class CMessage
                 else
                     skipMsg(srder);
             }
+            rder.Close();
+            srder.Close();
             return true;
         }
         catch
-        { return false; }
+        {
+            rder.Close();
+            srder.Close();
+            return false;
+        }
     }
     /// <summary>
     /// 读取除id以外的全部信息存入类
@@ -157,7 +171,7 @@ public class CMessage
         { return false; }
     }
 
-    private bool skipMsg(StreamReader rder)
+    private static bool skipMsg(StreamReader rder)
     {
         try
         {
@@ -195,17 +209,24 @@ public class CMessage
     /// <returns>成功返回消息编号，否则返回-1</returns>
     public int createMsg(string couId, bool type, string topic, DateTime date, DateTime deadLine, string text, string[] fileList, string[] @userList)
     {
+        safeFileManager sFM = new safeFileManager();
+        sFM.setUser("00000", "11111");
+        sFM.SetRootPath("courses\\" + couId);
+
+        FileStream rder = File.OpenRead(sFM.getNPath() + "message");
+        StreamReader srder = new StreamReader(rder);
         try
         {
-            safeFileManager sFM = new safeFileManager();
-            sFM.setUser("00000", "11111");
-            sFM.SetRootPath("courses\\" + couId);
-            FileStream rder = File.OpenRead(sFM.getNPath() + "message");
-            StreamReader srder = new StreamReader(rder);
-            int num = Convert.ToInt32(srder.ReadLine());
+            int num;
+            string tmp = srder.ReadLine();
+            if (tmp == null)
+                num = 1;
+            else num = Convert.ToInt32(tmp);
             _msgId = num;
             _couId = couId;
             this.type = type;
+            if (topic == null) return -1;
+            this.topic = topic;
             if (date == null) return -1;
             this.date = date;
             if (type)
@@ -223,10 +244,14 @@ public class CMessage
             }
             else this.atList = @userList;
             _hasMsg = true;
+            rder.Close();
+            srder.Close();
             return num;
         }
         catch (Exception e)
         {
+            rder.Close();
+            srder.Close();
             return -1;
         }
     }
@@ -242,14 +267,21 @@ public class CMessage
             sFM.setUser("00000", "11111");
             sFM.SetRootPath("courses\\" + couId);
             string[] ttext = sFM.readFile("message");
-            ttext[0] = (_msgId + 1).ToString();
+            if(ttext.Length==0)
+            {
+                ttext = new string[1];
+                ttext[0] = (_msgId + 1).ToString();
+            }
+            else ttext[0] = (_msgId + 1).ToString();
             sFM.DeleteFile("message");
             sFM.CreateFile("message");
+            bool hr;
             for (int i = 0; i < ttext.Length; i++)
-                sFM.AppendLineToFile("message", ttext[i]);
+                hr = sFM.AppendLineToFile("message", ttext[i]);
 
             StreamWriter swter = sFM.getAppendSteam("message");
             writeThisMsg(swter);
+            swter.Close();
             return true;
         }
         catch (Exception e)
@@ -299,40 +331,49 @@ public class CMessage
     /// <param name="couId"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    public static bool deleteMsg(string couId, int id)
+    public static bool deleteMsg(string couId, int msgId)
     {
+        bool deled = false;
+        CMessage tmsg = new CMessage();
+        safeFileManager sFM = new safeFileManager();
+        sFM.setUser("00000", "11111");
+        sFM.SetRootPath("courses\\" + couId);
+        FileStream rder = File.OpenRead(sFM.getNPath() + "message");
+        StreamReader srder = new StreamReader(rder);
+        sFM.CreateFile("message_tmp");
+        StreamWriter wter = sFM.getAppendSteam("message_tmp");
         try
         {
-            bool deled = false;
-            CMessage tmsg = new CMessage();
-            safeFileManager sFM = new safeFileManager();
-            sFM.setUser("00000", "11111");
-            sFM.SetRootPath("courses\\" + couId);
-            FileStream rder = File.OpenRead(sFM.getNPath() + "message");
-            StreamReader srder = new StreamReader(rder);
             string buf = srder.ReadLine();
-            sFM.CreateFile("message_tmp");
-            sFM.AppendLineToFile("message_tmp", buf);
-            StreamWriter wter = sFM.getAppendSteam("message_tmp");
+            wter.WriteLine(buf);
             while (!srder.EndOfStream)
             {
-                string nid = srder.ReadLine();
-                if (Convert.ToInt32(nid) == id)
+                string id = srder.ReadLine();
+                while (id == "")
+                    id = srder.ReadLine();
+                if (Convert.ToInt32(id) == msgId)
                 {
                     deled = true;
-                    tmsg.skipMsg(srder);
+                    CMessage.skipMsg(srder);
                 }
                 else
                 {
                     tmsg.readMsg(srder);
-                    wter.WriteLine(nid);
+                    tmsg._msgId = Convert.ToInt32(id);
                     tmsg.writeThisMsg(wter);
                 }
             }
+            srder.Close();
+            wter.Close();
+            sFM.DeleteFile("message");
+            sFM.copyFile("message", "message_tmp");
+            sFM.DeleteFile("message_tmp");
             return deled;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
+            wter.Close();
+            srder.Close();
             return false;
         }
     }
@@ -341,7 +382,7 @@ public class CMessage
     /// </summary>
     /// <param name="couId"></param>
     /// <returns></returns>
-    public static List<CMessage> getMsgIds(string couId)
+    public static List<CMessage> getMsgs(string couId)
     {
         CMessage tmsg = new CMessage();
         List<CMessage> msglst = new List<CMessage>();
@@ -350,13 +391,25 @@ public class CMessage
         sFM.SetRootPath("courses\\" + couId);
         FileStream rder = File.OpenRead(sFM.getNPath() + "message");
         StreamReader srder = new StreamReader(rder);
-        string buf = srder.ReadLine();
-        while(!srder.EndOfStream)
+        try
         {
-            int id = Convert.ToInt32(srder.ReadLine());
-            tmsg._msgId = id;
-            tmsg.readMsg(srder);
-            msglst.Add(tmsg);
+            string buf = srder.ReadLine();
+            while (!srder.EndOfStream)
+            {
+                int id = Convert.ToInt32(srder.ReadLine());
+                tmsg._msgId = id;
+                tmsg.readMsg(srder);
+                tmsg._couId = couId;
+                msglst.Add(tmsg);
+            }
+            rder.Close();
+            srder.Close();
+        }
+        catch (Exception e)
+        {
+            rder.Close();
+            srder.Close();
+            return null;
         }
         return msglst;
     }
@@ -377,13 +430,14 @@ public class CMessage
     public static int addNewThing(string couId, bool type, string topic, DateTime date, DateTime deadLine, string text, string[] fileList, string[] @userList)
     {
         CMessage msg = new CMessage();
+        int id;
         lock (newThingLock)
         {
-            if (msg.createMsg(couId, type, topic, date, deadLine, text, fileList, userList) == -1)
+            if ((id = msg.createMsg(couId, type, topic, date, deadLine, text, fileList, userList)) == -1)
                 return -1;
             if (!msg.writeThisMsg())
                 return -1;
-            return -1;
+            return id;
         }
     }
     public static bool delNewThing(string couId, int id)
