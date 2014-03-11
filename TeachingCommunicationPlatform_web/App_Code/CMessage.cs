@@ -416,6 +416,13 @@ public class CMessage
                 tmsg._couId = couId;
                 msglst.Add(tmsg);
             }
+            //倒置
+            for (int i = 0; i < msglst.Count/2;i++)
+            {
+                tmsg = msglst[i];
+                msglst[i] = msglst[msglst.Count - i - 1];
+                msglst[msglst.Count - i - 1] = tmsg;
+            }
             rder.Close();
             srder.Close();
         }

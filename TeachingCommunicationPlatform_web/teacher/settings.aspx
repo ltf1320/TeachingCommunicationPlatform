@@ -8,7 +8,7 @@
             <asp:SessionParameter Name="ha_user" SessionField="ha_user" Type="String" />
         </SelectParameters>
     </asp:SqlDataSource>
-    <asp:Panel ID="defaultPannel" runat="server" Height="281px" style="margin-top: 0px">
+    <asp:Panel ID="defaultPannel" runat="server" Height="281px" Style="margin-top: 0px">
         <br />
         <asp:Label ID="Label10" Text="昵称：" Width="80px" runat="server"></asp:Label>
         <asp:TextBox ID="nametxt" Width="150" runat="server"></asp:TextBox>
@@ -26,20 +26,20 @@
         <br />
         <asp:Label ID="IdLbl" runat="server" Text="ID:"></asp:Label>
         <asp:Label ID="IdContentLbl" runat="server"></asp:Label>
-         <br />
-         <br />
+        <br />
+        <br />
         <asp:Label ID="roleLbl" runat="server" Text="账号类别"></asp:Label>
         <asp:Label ID="roleContentLbl" runat="server"></asp:Label>
-         <br />
-         <br />
+        <br />
+        <br />
         <asp:Label ID="crtTimeLbl" runat="server" Text="注册时间"></asp:Label>
         <asp:Label ID="crtTimeContentLbl" runat="server"></asp:Label>
-         <br />
-         <br />
+        <br />
+        <br />
         <asp:Label ID="acLbl" runat="server" Text="学院"></asp:Label>
         <asp:Label ID="acContentLbl" runat="server"></asp:Label>
-         <br />
-         <br />
+        <br />
+        <br />
         <asp:Button ID="Button1" runat="server" OnClick="updateData" Text="修改" />
         <asp:Button ID="Button4" runat="server" OnClick="onChangePwd" Text="更改密码" />
     </asp:Panel>
@@ -49,7 +49,7 @@
         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="pwd" runat="server"
             ControlToValidate="oripwdtxt" ErrorMessage="请输入原始密码"></asp:RequiredFieldValidator>
         <br />
-         <br />
+        <br />
         <asp:Label ID="Label2" runat="server" Text="新密码"></asp:Label>
         <asp:TextBox ID="newpwdtxt" TextMode="Password" runat="server"></asp:TextBox>
         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="pwd" runat="server"

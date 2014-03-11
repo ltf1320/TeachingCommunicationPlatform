@@ -37,7 +37,7 @@ public class Methods
                 res.Append("第一学期");
                 break;
         }
-        res.Append("\\");
+//        res.Append("\\");
         return res.ToString();
     }
     public static void showMessageBox(HttpResponse response,string message)

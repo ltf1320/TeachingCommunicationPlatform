@@ -509,4 +509,9 @@ public class safeFileManager : fileManager
             return false;
         }
     }
+    public static string getFileNameFromPath(string path)
+    {
+        int index = path.LastIndexOf('\\');
+        return path.Substring(index+1, path.Length - index-1);
+    }
 }
