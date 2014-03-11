@@ -54,7 +54,7 @@ public partial class admin_couseManage : System.Web.UI.Page
         { ccouId = "-1"; }
         ccouId = (Convert.ToInt32(ccouId) + 1).ToString();
         sqlhp.close();
-        if (Methods.mkCou(ccouId, cname, ctype, "0", cterm, cCreate, tid))
+        if (Methods.mkCou(ccouId, cname, ctype, "0", cterm, cCreate, tid,Session["ha_user"].ToString(),Session["ha_pwd"].ToString()))
         {
             Methods.showMessageBox(Response,"添加成功");
             Response.Redirect("\\admin/couseManage.aspx");
@@ -93,23 +93,12 @@ public partial class admin_couseManage : System.Web.UI.Page
         }
         if (sf.deleteFolder(id))
         {
+            GridView1.DataBind();
             Methods.showMessageBox(Response, "删除成功");
         }
         else
         {
             Methods.showMessageBox(Response, "删除失败");
         }
-        //string teaID = GridView1.DataKeys[e.RowIndex].Values[1].ToString();
-        //string deleStr1 = "DELETE FROM Course WHERE couId=@id";
-        //string deleStr2 = "DELETE FROM manageCou WHERE couId=@id";
-        //SqlParameter[] paras = new SqlParameter[2];
-        //paras[0] = new SqlParameter("@id", id);
-        //paras[1] = null;
-        //sqlhp.ExecuteSql(deleStr2, paras);
-        //paras[0] = new SqlParameter("@id", id);
-        //paras[1] = null;
-        //sqlhp.ExecuteSql(deleStr1, paras);
-        //sqlhp.close();
-        //GridView1.DataBind();
     }
 }

@@ -11,4 +11,8 @@ public partial class teacher_myControl : System.Web.UI.Page
     {
 
     }
+    protected void focusMoreBtn_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("\\publicFunction/allCourse.aspx");
+    }
 }
