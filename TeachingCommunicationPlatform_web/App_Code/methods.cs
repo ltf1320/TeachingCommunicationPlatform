@@ -1,4 +1,5 @@
-﻿using System;
+﻿//bug:删除行函数
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -99,7 +100,11 @@ public class Methods
         sf.createFolder("data");
         sf.CreateFile("message");
         sf.CreateFile("listeners");
-
+        sf.AppendLineToFile("listeners", tid);
+        sf.AppendLineToFile("message", "1");
+        sf.SetRootPath("users");
+        sf.cd(tid);
+        sf.AppendLineToFile("listens", cid);
         return true;
     }
 

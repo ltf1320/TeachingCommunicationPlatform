@@ -8,12 +8,12 @@
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
-
-
-
-
-
+    <table>
+    <asp:GridView ID="GridView1" runat="server">
+    </asp:GridView>
     <asp:Button ID="focusMoreBtn" runat="server" Height="21px" OnClick="focusMoreBtn_Click" Text="关注更多" Width="77px" />
+
+    </table>
 
 
 
