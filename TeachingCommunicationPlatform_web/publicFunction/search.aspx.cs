@@ -14,31 +14,37 @@ public partial class publicFunction_search : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         sqlHelper = new SQLHelper();
+        GridView_cou.Visible =false;
+        GridView_tea.Visible = false;
         if (Request.QueryString["searchCou"] != null)
         {
             string cou =Server.UrlDecode(Request.QueryString["searchCou"].ToString());
-            TextBox1.Text = cou;
             GridView_cou.Visible = true;
-            GridView_tea.Visible = false;
             GridView_cou.DataBind();
+        }
+        if (Request.QueryString["searchTea"] != null)
+        {
+            string tea = Server.UrlDecode(Request.QueryString["searchTea"].ToString());
+            GridView_tea.Visible = true;
+            GridView_tea.DataBind();
         }
 
     }
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        if(DropDownList1.SelectedValue=="teacher")
-        {
-            GridView_tea.Visible = true;
-            GridView_cou.Visible = false;
-            GridView_tea.DataBind();
-        }
-        if(DropDownList1.SelectedValue=="course")
-        {
-            GridView_cou.Visible = true;
-            GridView_tea.Visible = false;
-            GridView_cou.DataBind();
-        }
-    }
+    //protected void Button1_Click(object sender, EventArgs e)
+    //{
+    //    if(DropDownList1.SelectedValue=="teacher")
+    //    {
+    //        GridView_tea.Visible = true;
+    //        GridView_cou.Visible = false;
+    //        GridView_tea.DataBind();
+    //    }
+    //    if(DropDownList1.SelectedValue=="course")
+    //    {
+    //        GridView_cou.Visible = true;
+    //        GridView_tea.Visible = false;
+    //        GridView_cou.DataBind();
+    //    }
+    //}
     protected void couGridView_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName == "listen")
@@ -87,8 +93,6 @@ public partial class publicFunction_search : System.Web.UI.Page
     }
     protected void GridView_tea_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        if (TextBox1.Text == "")
-            return;
         string value = "teacher=" + Server.UrlEncode(e.CommandArgument.ToString());
         Response.Redirect("allCourse.aspx?" + value);
     }

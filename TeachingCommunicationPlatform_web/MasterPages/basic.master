@@ -7,10 +7,10 @@
     <title></title>
     <style id="Style1" runat="server" type="text/css">
         .body {
-            width:1000px;
-            text-align:center;
-            margin-left:auto;
-            margin-right:auto;
+            width: 1000px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
             margin-bottom: 15px;
             height: 120px;
         }
@@ -23,23 +23,25 @@
             width: 537px;
             font-size: xx-large;
         }
-        .login
-        {
-            text-align:right;
-            margin-left:auto;
-            margin-right:auto;
-            width:500px;
+
+        .login {
+            text-align: right;
+            margin-left: auto;
+            margin-right: auto;
+            width: 500px;
         }
-        .search
-        {
-            text-align:center;
-            margin-left:auto;
-            margin-right:auto;
-            width:400px;
+
+        .search {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 400px;
         }
+
         .auto-style2 {
             height: 27px;
         }
+
         .auto-style3 {
             text-align: center;
             margin-left: auto;
@@ -47,6 +49,7 @@
             width: 400px;
             height: 27px;
         }
+
         .auto-style4 {
             text-align: right;
             margin-left: auto;
@@ -70,18 +73,20 @@
         <div>
             <table>
                 <tr>
-                    <td width="300px" class="auto-style2">
-
-                    </td>
+                    <td width="100px" class="auto-style2"></td>
                     <td class="auto-style3">
                         <asp:Button ID="allCourseBnt" runat="server" Height="22px" Text="查看所有课件" Width="107px" OnClick="allCourseBnt_Click" />
-                        <asp:TextBox ID="inputSearchTbx" runat="server">输入查询的课程</asp:TextBox>
+                        <asp:DropDownList ID="DropDownList1" runat="server">
+                            <asp:ListItem Value="teacher">教师</asp:ListItem>
+                            <asp:ListItem Value="course">课程</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:TextBox ID="inputSearchTbx" runat="server">输入查询的关键字</asp:TextBox>
                         <asp:Button ID="searchBnt" runat="server" Text="查询" OnClick="searchBnt_Click" Width="51px" />
                     </td>
                     <td class="auto-style4">
-                        <asp:TextBox ID="userName" runat="server" Width="100px" Text="用户名" ></asp:TextBox>
+                        <asp:TextBox ID="userName" runat="server" Width="100px" Text="用户名"></asp:TextBox>
                         <asp:TextBox ID="pwdtxt" TextMode="Password" Width="100px" runat="server"></asp:TextBox>
-                        <asp:Label ID="userNameLabel" runat="server" Text="Label"></asp:Label>
+                        <asp:LinkButton ID="userNameBtn" runat="server" OnClick="userNameBtn_Click" Text="Label"></asp:LinkButton>
                         <asp:Button ID="loginBtn" runat="server" Text="登陆" OnClick="loginBtn_Click" />
                     </td>
                 </tr>

@@ -53,7 +53,7 @@ public partial class publicFunction_visitCourse : System.Web.UI.Page
                 path.Append(rder[0].ToString());
                 path.Append("(" + rder[2].ToString() + ")");
                 string term = rder[1].ToString();
-                path.Append("," + Methods.analyseTerm(term));
+                path.Append("," + Methods.analyseTerm(term)+'\\');
                 rootName = path.ToString();
                 lblCurrentPath.Text = rootName+sFileMana.npath;
                 if (sFileMana.npath != "")
