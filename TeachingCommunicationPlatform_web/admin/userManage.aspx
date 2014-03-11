@@ -9,15 +9,9 @@
 
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" DeleteCommand="delete from [manageCou] where [userId] = @original_userId 
 delete from [Course] where [createUser]=@original_userId 
-DELETE FROM [users] WHERE [userId] = @original_userId AND [roleId] = @original_roleId AND (([Name] = @original_Name) OR ([Name] IS NULL AND @original_Name IS NULL)) AND (([email] = @original_email) OR ([email] IS NULL AND @original_email IS NULL)) AND [pwd] = @original_pwd AND (([createDate] = @original_createDate) OR ([createDate] IS NULL AND @original_createDate IS NULL)) AND (([academy] = @original_academy) OR ([academy] IS NULL AND @original_academy IS NULL))" InsertCommand="INSERT INTO [users] ([userId], [roleId], [Name], [email], [pwd], [createDate], [academy]) VALUES (@userId, @roleId, @Name, @email, @pwd, @createDate, @academy)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [userId], [roleId], [Name], [email], [pwd], [createDate], [academy] FROM [users]" UpdateCommand="UPDATE [users] SET [roleId] = @roleId, [Name] = @Name, [email] = @email, [pwd] = @pwd, [createDate] = @createDate, [academy] = @academy WHERE [userId] = @original_userId ">
+DELETE FROM [users] WHERE [userId] = @original_userId " InsertCommand="INSERT INTO [users] ([userId], [roleId], [Name], [email], [pwd], [createDate], [academy]) VALUES (@userId, @roleId, @Name, @email, @pwd, @createDate, @academy)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [userId], [roleId], [Name], [email], [pwd], [createDate], [academy] FROM [users]" UpdateCommand="UPDATE [users] SET [roleId] = @roleId, [Name] = @Name, [email] = @email, [pwd] = @pwd, [createDate] = @createDate, [academy] = @academy WHERE [userId] = @original_userId ">
                     <DeleteParameters>
                         <asp:Parameter Name="original_userId" Type="String" />
-                        <asp:Parameter Name="original_roleId" Type="Int32" />
-                        <asp:Parameter Name="original_Name" Type="String" />
-                        <asp:Parameter Name="original_email" Type="String" />
-                        <asp:Parameter Name="original_pwd" Type="String" />
-                        <asp:Parameter Name="original_createDate" Type="DateTime" />
-                        <asp:Parameter Name="original_academy" Type="String" />
                     </DeleteParameters>
                     <InsertParameters>
                         <asp:Parameter Name="userId" Type="String" />
@@ -46,7 +40,7 @@ DELETE FROM [users] WHERE [userId] = @original_userId AND [roleId] = @original_r
             <td style="height: 243px; width: 870px;">
 
                 <asp:Panel ID="Panel1" runat="server">
-                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="userId" DataSourceID="SqlDataSource1" Width="840px">
+                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="userId" DataSourceID="SqlDataSource1" Width="840px" OnRowDeleting="GridView1_RowDeleting">
                         <Columns>
                             <asp:BoundField DataField="userId" HeaderText="userId" ReadOnly="True" SortExpression="userId" />
                             <asp:BoundField DataField="roleId" HeaderText="roleId" SortExpression="roleId" />

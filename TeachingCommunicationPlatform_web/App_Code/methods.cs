@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Data.SqlClient;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 /// <summary>
 /// methods 的摘要说明
 /// </summary>
@@ -62,7 +64,7 @@ public class Methods
         return false;
     }
 
-    public static bool mkCou(string cid,string cname,string ctype ,string cstuNum,string cterm , string cCreate , string tid)
+    public static bool mkCou(string cid,string cname,string ctype ,string cstuNum,string cterm , string cCreate , string tid,string userId,string userPwd)
     {
         safeFileManager sf = new safeFileManager();
         SQLHelper sqlhp = new SQLHelper();
@@ -89,6 +91,7 @@ public class Methods
             return false ;
         }
         sqlhp.close();
+        sf.setUser(userId,userPwd);
         sf.SetRootPath("courses");
         sf.createFolder(cid);
         sf.cd(cid);
@@ -96,10 +99,11 @@ public class Methods
         sf.createFolder("data");
         sf.CreateFile("message");
         sf.CreateFile("listeners");
+
         return true;
     }
 
-    public static bool mkUser(string uid, string urole,string uname,string upwd,string uemail,string uaca)
+    public static bool mkUser(string uid, string urole,string uname,string upwd,string uemail,string uaca,string userId,string userPwd)
     {
         safeFileManager sf = new safeFileManager();
         SQLHelper sqlhp = new SQLHelper();
@@ -120,6 +124,8 @@ public class Methods
             return false;
         }
         sqlhp.close();
+
+        sf.setUser(userId, userPwd);
         sf.SetRootPath("users");
         sf.createFolder(uid);
         sf.cd(uid);

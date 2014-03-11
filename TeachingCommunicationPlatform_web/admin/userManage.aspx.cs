@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Collections;
+
 public partial class admin_userManage : System.Web.UI.Page
 {
     safeFileManager sf = new safeFileManager();
@@ -39,7 +41,7 @@ public partial class admin_userManage : System.Web.UI.Page
         { uuserId = "-1"; }
         uuserId = (Convert.ToInt32(uuserId) + 1).ToString();
         sqlhp.close();
-        if (Methods.mkUser(uuserId, urole, uname, upwd, uemail, uaca))
+        if (Methods.mkUser(uuserId, urole, uname, upwd, uemail, uaca, Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
         {
             Methods.showMessageBox(Response, "添加成功");
             Response.Redirect("\\admin/userManage.aspx");
@@ -54,5 +56,32 @@ public partial class admin_userManage : System.Web.UI.Page
         Panel1.Visible = false;
         Panel2.Visible = true;
         //newOneBtn.Visible = false;
+    }
+    protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        string id = GridView1.DataKeys[e.RowIndex].Values[0].ToString(); //取出要删除记录的主键值
+        sf.SetRootPath("users");
+        if (!sf.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        {
+            Methods.showMessageBox(Response, "对不起您没有权限");
+            return;
+        }
+        if (sf.deleteFolder(id))
+        {
+            string constr = "select couid from Course where createUser=@id";
+            sf.SetRootPath("courses");
+            SqlParameter[] paras = new SqlParameter[1];
+            paras[0] = new SqlParameter("@id",id);
+            SqlDataReader rder = sqlhp.getReader(constr, paras);
+            while(rder.Read())
+                sf.deleteFolder(rder[0].ToString());
+            GridView1.DataBind();
+            Methods.showMessageBox(Response, "删除成功");
+            sqlhp.close();
+        }
+        else
+        {
+            Methods.showMessageBox(Response, "删除失败");
+        }
     }
 }

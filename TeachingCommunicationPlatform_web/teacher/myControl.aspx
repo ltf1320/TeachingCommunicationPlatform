@@ -4,8 +4,32 @@
 <%--关注课程:
 找到users下listens文件，添加课程(couId)
 找到courses下listeners文件，添加userId--
-数据库中课程人数+1  
-  %>
+数据库中课程人数+1    --%>
+
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+
+
+
+
+
+    <asp:Button ID="focusMoreBtn" runat="server" Height="21px" OnClick="focusMoreBtn_Click" Text="关注更多" Width="77px" />
+
+
+
+
+
+</asp:Content>
+
+
+
+
+
+
+
+
+
+
 
 <%--功能：课程管理者
 管理课程列表
