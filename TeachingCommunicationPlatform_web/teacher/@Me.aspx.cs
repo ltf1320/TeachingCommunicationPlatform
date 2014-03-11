@@ -74,7 +74,7 @@ public partial class teacher_Me : System.Web.UI.Page
             string term = rder[1].ToString();
             couName.Append("," + Methods.analyseTerm(term));
             Label_cou.Text = couName.ToString();
-
+            rder.Close();
             //时间
             Label Label_date = (Label)e.Item.FindControl("Label_date");
             Label_date.Text = msg.date.ToString();
@@ -142,7 +142,7 @@ public partial class teacher_Me : System.Web.UI.Page
             Label label = (Label)e.Item.FindControl("Label_atName");
             string userId = (string)e.Item.DataItem;
 
-            string sql = "select userName from users where userId=@userId";
+            string sql = "select Name from users where userId=@userId";
             SqlParameter[] para = new SqlParameter[1];
             para[0] = new SqlParameter("@userId", userId);
             label.Text = "@" + sqlHelper.getAValue(sql, para);
@@ -151,5 +151,6 @@ public partial class teacher_Me : System.Web.UI.Page
         {
             Methods.showMessageBox(Response, "数据库连接错误!");
         }
+        finally { sqlHelper.close(); }
     }
 }
