@@ -304,15 +304,18 @@ public class fileManager
     }
     protected bool AppendLineToFile(string path, string text)
     {
+        StreamWriter wter = null;
         try
         {
-            StreamWriter wter = File.AppendText(path);
+            wter = File.AppendText(path);
             wter.WriteLine(text);
             wter.Flush();
             wter.Close();
         }
         catch(Exception e)
         {
+            if(wter!=null)
+                wter.Close();
             return false;
         }
         return true;
