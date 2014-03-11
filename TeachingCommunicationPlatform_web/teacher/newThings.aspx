@@ -4,7 +4,7 @@
 <%--页面设计--%>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
-    <asp:DataList ID="DataList1" runat="server" Width="877px" OnDataBinding="DataList1_DataBinding">
+    <asp:DataList ID="DataList1" runat="server" Width="877px"  OnItemDataBound="DataList1_ItemDataBound">
         <ItemTemplate>
             <table>
                 <tr>

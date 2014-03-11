@@ -34,27 +34,39 @@ public class CMessage
     /// <summary>
     /// 标题
     /// </summary>
-    public string topic;
+    public string topic
+    { get; set; }
     /// <summary>
     /// 时间
     /// </summary>
-    public DateTime date;
+    public DateTime date
+    {
+        get;
+        set;
+    }
     /// <summary>
     /// 截止日期(task only)
     /// </summary>
-    public DateTime deadLine;
+    public DateTime deadLine
+    { get; set; }
     /// <summary>
     /// 文本
     /// </summary>
-    public string text;
+    public string text
+    { get; set; }
     /// <summary>
     /// 文件列表
     /// </summary>
-    public string[] fileList;
+    public string[] fileList
+    { get; set; }
     /// <summary>
     /// @人列表
     /// </summary>
-    public string[] atList;
+    public string[] atList
+    {
+        get;
+        set;
+    }
 
     public CMessage()
     {
@@ -124,6 +136,8 @@ public class CMessage
                 }
                 if (Convert.ToInt32(id) == msgId)
                 {
+                    _couId = couId;
+                    _msgId = msgId;
                     readMsg(srder);
                     break;
                 }
@@ -267,7 +281,7 @@ public class CMessage
             sFM.setUser("00000", "11111");
             sFM.SetRootPath("courses\\" + couId);
             string[] ttext = sFM.readFile("message");
-            if(ttext.Length==0)
+            if (ttext.Length == 0)
             {
                 ttext = new string[1];
                 ttext[0] = (_msgId + 1).ToString();
