@@ -291,6 +291,17 @@ public class fileManager
         }
         return false;
     }
+    protected StreamWriter getAppendSteam(string path)
+    {
+        try
+        {
+            return File.AppendText(path);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
     protected bool AppendLineToFile(string path, string text)
     {
         try
@@ -323,4 +334,16 @@ public class fileManager
     {
         return Directory.Exists(path);
     }
+    protected bool copyFile(string destin,string origin)
+    {
+        StreamReader rder =new StreamReader( File.OpenRead(origin));
+        StreamWriter wter =new StreamWriter( File.OpenWrite(destin));
+        try
+        {
+            wter.Write(rder.ReadToEnd());
+            return true;
+        }
+        catch (Exception e) {
+        return false;
+        }
 }
