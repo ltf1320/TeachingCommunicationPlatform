@@ -92,14 +92,24 @@ public partial class admin_couseManage : System.Web.UI.Page
             Methods.showMessageBox(Response, "对不起您没有权限");
             return;
         }
-        if (sf.deleteFolder(id))
+        //未dug
+        sf.cd(id);
+        string[] canFou = sf.readFile("listeners");
+        for (int i = 0; i < canFou.Length;i++ )
         {
-            GridView1.DataBind();
-            Methods.showMessageBox(Response, "删除成功");
+            sf.SetRootPath("users");
+            sf.cd(canFou[i]);
+            sf.deleteStrFromFile("listens", id);
+
         }
-        else
-        {
-            Methods.showMessageBox(Response, "删除失败");
-        }
+            if (sf.deleteFolder(id))
+            {
+                GridView1.DataBind();
+                Methods.showMessageBox(Response, "删除成功");
+            }
+            else
+            {
+                Methods.showMessageBox(Response, "删除失败");
+            }
     }
 }

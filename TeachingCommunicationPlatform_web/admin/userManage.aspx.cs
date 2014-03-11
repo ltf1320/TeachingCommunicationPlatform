@@ -66,15 +66,36 @@ public partial class admin_userManage : System.Web.UI.Page
             Methods.showMessageBox(Response, "对不起您没有权限");
             return;
         }
+
+
+        ////////////////////////未dug
+        sf.cd(id);
+        string[] canFou = sf.readFile("listens");
+        for (int i = 0; i < canFou.Length; i++)
+        {
+            sf.SetRootPath("courses");
+            sf.cd(canFou[i]);
+            sf.deleteStrFromFile("listeners", id);
+
+        }
+        string upstr = "upadte Course set stuNum =stuNum -@stu where couId = @id";
+        SqlParameter[] paras = new SqlParameter[2];
+        paras[0] = new SqlParameter("@stu", canFou.Length);
+        paras[1] = new SqlParameter("id", id);
+        sqlhp.ExecuteSql(upstr, paras);
+        sqlhp.close();
+        //////////////////////
+
         if (sf.deleteFolder(id))
         {
             string constr = "select couid from Course where createUser=@id";
             sf.SetRootPath("courses");
-            SqlParameter[] paras = new SqlParameter[1];
-            paras[0] = new SqlParameter("@id",id);
-            SqlDataReader rder = sqlhp.getReader(constr, paras);
+            SqlParameter[] paras2 = new SqlParameter[1];
+            paras2[0] = new SqlParameter("@id",id);
+            SqlDataReader rder = sqlhp.getReader(constr, paras2);
             while(rder.Read())
                 sf.deleteFolder(rder[0].ToString());
+            //删除人的时候
             GridView1.DataBind();
             Methods.showMessageBox(Response, "删除成功");
             sqlhp.close();
