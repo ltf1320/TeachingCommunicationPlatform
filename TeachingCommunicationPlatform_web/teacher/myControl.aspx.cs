@@ -40,6 +40,7 @@ public partial class teacher_myControl : System.Web.UI.Page
             sqlhp.close();
              da.Fill(ds);
              GridView1.DataSource = ds.Tables[0].DefaultView;
+              // GridView1.DataKeyNames = new string[] { "couId" }; 
              GridView1.DataBind();
 
      
@@ -99,18 +100,19 @@ public partial class teacher_myControl : System.Web.UI.Page
         string ctype = typeTB.Text.Trim();
         string cCreate = Session["ha_user"].ToString();
         string selstr = "select max(couId) from Course";
-        string tid = tidTB.Text.Trim();
+        string tid = Session["ha_user"].ToString();
         SqlParameter[] paras = new SqlParameter[1];
         string ccouId = sqlhp.getAValue(selstr, paras);
         if (ccouId == "")
         { ccouId = "-1"; }
         ccouId = (Convert.ToInt32(ccouId) + 1).ToString();
         sqlhp.close();
-        if (Methods.mkCou(ccouId, cname, ctype, "1", cterm, cCreate, tid, Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        //bug//////////////////////////////////
+        if (Methods.mkCou(ccouId, cname, ctype, "1", cterm, cCreate, tid, "00000","11111"))//Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
         {
 
             Methods.showMessageBox(Response, "添加成功");
-            Response.Redirect("\\admin/couseManage.aspx");
+            Response.Redirect("\\teacher/myControl.aspx");
         }
         else
         {
@@ -120,5 +122,34 @@ public partial class teacher_myControl : System.Web.UI.Page
     protected void backBtn_Click(object sender, EventArgs e)
     {
         Panel3.Visible = false;
+    }
+    protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        if (!sf.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        {
+            Methods.showMessageBox(Response, "对不起您没有权限");
+            return;
+        }
+        Label Label_cou=(Label) GridView1.Rows[e.RowIndex].FindControl("Label_cou");
+        string id = Label_cou.Text;
+        //string id = GridView1.DataKeys[e.RowIndex].Value.ToString(); //取出要删除记录的主键值
+        //删除coures下对我的记录
+        sf.SetRootPath("courses");
+        sf.cd(id);
+        sf.deleteStrFromFile("listeners", Session["ha_user"].ToString());
+        //删除user下我的focus记录
+        sf.SetRootPath("users");
+        sf.cd(Session["ha_user"].ToString());
+        sf.deleteStrFromFile("listens", id);
+        //更新数据库关注人数
+        string upstr = "upadte Course set stuNum =stuNum-1 where couId = @id";
+        SqlParameter[] paras = new SqlParameter[1];
+        paras[0] = new SqlParameter("id", id);
+        sqlhp.ExecuteSql(upstr, paras);
+        sqlhp.close();
+
+
+
+        GridViewBind();
     }
 }

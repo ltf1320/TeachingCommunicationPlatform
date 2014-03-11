@@ -29,7 +29,16 @@
                     找到users下listens文件，添加课程(couId)
                     找到courses下listeners文件，添加userId--
                     数据库中课程人数+1    --%>
-                    <asp:GridView ID="GridView1" runat="server" Height="116px" Width="291px">
+                    <asp:GridView ID="GridView1" runat="server" Height="116px" Width="291px" OnRowDeleting="GridView1_RowDeleting" >
+                        <Columns>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label_cou" runat="server" Text='<%#Bind("课程编号") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:CommandField DeleteText="取消关注" ShowDeleteButton="True" />
+                        </Columns>
+                  
                     </asp:GridView>
 
 
@@ -103,11 +112,6 @@
                     <asp:RequiredFieldValidator ID="termRFV" runat="server" ErrorMessage="必须填写" ControlToValidate="termTB" ValidationGroup="confirm"></asp:RequiredFieldValidator>
                     <br />
                     <br />
-                    <asp:Label ID="tidLB" runat="server" Text="教师ID:"></asp:Label>
-
-                    <asp:TextBox ID="tidTB" runat="server"></asp:TextBox>
-
-                    <asp:RequiredFieldValidator ID="tidRFV" runat="server" ErrorMessage="必须填写" ControlToValidate="tidTB" ValidationGroup="confirm"></asp:RequiredFieldValidator>
                     <br />
                     <br />
                     <asp:Button ID="subBtn" runat="server" Text="提交" OnClick="subBtn_Click" ValidationGroup="confirm" style="height: 21px" />
