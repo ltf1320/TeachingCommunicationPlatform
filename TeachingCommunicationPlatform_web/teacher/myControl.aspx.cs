@@ -191,7 +191,7 @@ public partial class teacher_myControl : System.Web.UI.Page
             string tem="";
             for(int i = 0 ; i < atMe.Length;i++)
             {
-                if (atMe[i].Equals(","))
+                if (!atMe[i].Equals(","))
                 {
                     tem += atMe[i];
                 }
@@ -201,9 +201,15 @@ public partial class teacher_myControl : System.Web.UI.Page
                     tem = "";
                 }
             }
+            if (tem != "")
+                at2.Add(tem);
             at=at2.ToArray();
         }
         CMessage cm = new CMessage();
+        if(filename=="")
+        {
+            filelist = null;
+        }
         string mid = CMessage.addNewThing(cid, type, topic, date, deadline, ttext, filelist, at).ToString();
         if (mid=="-1")
             Methods.showMessageBox(Response, "发送失败");
