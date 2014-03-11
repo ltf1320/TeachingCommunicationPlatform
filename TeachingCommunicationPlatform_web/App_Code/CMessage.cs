@@ -360,4 +360,37 @@ public class CMessage
         }
         return msglst;
     }
+
+    /// <summary>
+    /// 添加新消息
+    /// </summary>
+    /// <param name="couId">课程号</param>
+    /// <param name="type">0:message,1:task</param>
+    /// <param name="topic">标题</param>
+    /// <param name="date">时间</param>
+    /// <param name="deadLine">截止时间(task only)</param>
+    /// <param name="text">文本</param>
+    /// <param name="fileList">文件列表</param>
+    /// <param name="userList">@user列表（如果是task则自动@所有关注的人）</param>
+    /// <returns>成功返回消息编号，否则返回-1</returns>
+    private static object newThingLock = new object();
+    public static int addNewThing(string couId, bool type, string topic, DateTime date, DateTime deadLine, string text, string[] fileList, string[] @userList)
+    {
+        CMessage msg = new CMessage();
+        lock (newThingLock)
+        {
+            if (msg.createMsg(couId, type, topic, date, deadLine, text, fileList, userList) == -1)
+                return -1;
+            if (!msg.writeThisMsg())
+                return -1;
+            return -1;
+        }
+    }
+    public static bool delNewThing(string couId, int id)
+    {
+        lock (newThingLock)
+        {
+            return CMessage.deleteMsg(couId, id);
+        }
+    }
 }
