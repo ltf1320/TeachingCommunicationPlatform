@@ -24,17 +24,30 @@ public partial class teacher_Me : System.Web.UI.Page
         sFM.setUser(user, Session["ha_pwd"].ToString());
         sFM.SetRootPath("users\\" + user);
         StreamReader rder = sFM.getStreamReader("at");
-        msgList = new List<CMessage>();
-        CMessage msg;
-        string couId; int msgId;
-        while (!rder.EndOfStream)
+        if (rder == null)
+            Methods.showMessageBox(Response, "读取列表失败");
+        else
         {
-            couId = rder.ReadLine();
-            msgId = Convert.ToInt32(rder.ReadLine());
-            msg = new CMessage();
-            msg.getMsgInfo(couId, msgId);
-            if (msg.hasMsg)
-                msgList.Add(msg);
+            try
+            {
+                msgList = new List<CMessage>();
+                CMessage msg;
+                string couId; int msgId;
+                while (!rder.EndOfStream)
+                {
+                    couId = rder.ReadLine();
+                    msgId = Convert.ToInt32(rder.ReadLine());
+                    msg = new CMessage();
+                    msg.getMsgInfo(couId, msgId);
+                    if (msg.hasMsg)
+                        msgList.Add(msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                Methods.showMessageBox(Response, "读取列表失败");
+            }
+            rder.Close();
         }
         dataBind();
     }
