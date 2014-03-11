@@ -119,4 +119,34 @@ public class Methods
         return true;
     }
 
+    public static bool mkUser(string uid, string urole,string uname,string upwd,string uemail,string uaca)
+    {
+        safeFileManager sf = new safeFileManager();
+        SQLHelper sqlhp = new SQLHelper();
+        DateTime DT = System.DateTime.Now; 
+        string utime = System.DateTime.Now.ToString();
+        string insertstr1 = "insert into users (userId,roleId,Name,pwd,email,createDate,academy) values(@uid,@urole,@uname,@upwd,@uemail,@utime,@uaca )";
+        SqlParameter[] paras = new SqlParameter[7];
+        paras[0] = new SqlParameter("@uid",uid );
+        paras[1] = new SqlParameter("@urole", urole);
+        paras[2] = new SqlParameter("@uname", uname);
+        paras[3] = new SqlParameter("@upwd", upwd);
+        paras[4] = new SqlParameter("@uemail", uemail);
+        paras[5] = new SqlParameter("@utime", utime);
+        paras[6] = new SqlParameter("@uaca", uaca);
+        if (sqlhp.ExecuteSql(insertstr1, paras) == 0)
+        {
+            sqlhp.close();
+            return false;
+        }
+        sqlhp.close();
+        sf.SetRootPath("users");
+        sf.createFolder(uid);
+        sf.cd(uid);
+        sf.CreateFile("newThings");
+        sf.CreateFile("listens");
+        sf.CreateFile("propeties");
+        sf.CreateFile("at");
+        return true;
+    }
 }

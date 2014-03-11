@@ -9,6 +9,10 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        DateTime DT = System.DateTime.Now;
+        string utime = System.DateTime.Now.ToString();
+        Response.Write(utime);
  //       safeFileManager sFM = new safeFileManager();
         //if(sFM.SetRootPath("D:\\programdesign\\git\\TeachingCommunicationPlatform\\TeachingCommunicationPlatform_web\\severFiles\\users\\ltf\\aa"))
         //    Response.Write("OK");
@@ -28,12 +32,12 @@ public partial class _Default : System.Web.UI.Page
         Session["ha_path"] = safeFileManager.getPath(safeFileManager.folderType.course, "1");
         Response.Redirect("publicFunction\\visitPath.aspx");
          * */
-        safeFileManager sFM = new safeFileManager();
-        sFM.setUser("00000", "11111");
-        sFM.SetRootPath("courses");
-        string[] txt=sFM.readFile("a.txt");
-        for (int i = 0; i < txt.Length; i++)
-            Response.Write(txt[i]);
+        //safeFileManager sFM = new safeFileManager();
+        //sFM.setUser("00000", "11111");
+        //sFM.SetRootPath("courses");
+        //string[] txt=sFM.readFile("a.txt");
+        //for (int i = 0; i < txt.Length; i++)
+        //    Response.Write(txt[i]);
   //      Response.Write(sFM.DeleteFile("a"));
     }
 }

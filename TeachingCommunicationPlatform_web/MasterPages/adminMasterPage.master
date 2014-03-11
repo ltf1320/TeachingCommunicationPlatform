@@ -18,7 +18,7 @@
                     <DynamicSelectedStyle BackColor="#5D7B9D" />
                     <Items>
                         <asp:MenuItem Text="课程管理" Value="课程管理" Enabled="True" NavigateUrl="~/admin/couseManage.aspx"></asp:MenuItem>
-                        <asp:MenuItem Text="用户管理" Value="用户管理" NavigateUrl="~/Web.config"></asp:MenuItem>
+                        <asp:MenuItem Text="用户管理" Value="用户管理" NavigateUrl="~/admin/userManage.aspx"></asp:MenuItem>
                     </Items>
                     <StaticHoverStyle BackColor="#7C6F57" ForeColor="White" />
                     <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />

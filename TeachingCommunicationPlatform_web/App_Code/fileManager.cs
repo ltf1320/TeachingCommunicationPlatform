@@ -91,7 +91,7 @@ public class fileManager
             Directory.Delete(path,true);
             return true;
         }
-        catch(Exception ex)
+        catch(Exception exception)
         {
             return false;
         }

@@ -9,7 +9,6 @@ public partial class admin_couseManage : System.Web.UI.Page
 {
     safeFileManager sf = new safeFileManager();
     SQLHelper sqlhp = new SQLHelper();
-    Methods met;
     protected void Page_Load(object sender, EventArgs e)
     {
 
