@@ -492,6 +492,9 @@ public class safeFileManager : fileManager
             }
             rder.Close();
             wter.Close();
+            DeleteFile(fileName);
+            copyFile(fileName, tmpFileName);
+            DeleteFile(tmpFileName);
             return true;
         }
         catch(Exception e)

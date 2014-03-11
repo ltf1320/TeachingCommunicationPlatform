@@ -367,7 +367,7 @@ public class fileManager
     {
         try
         {
-            return new StreamReader(File.OpenWrite(path));
+            return new StreamWriter(File.OpenWrite(path));
         }
         catch (Exception e)
         {

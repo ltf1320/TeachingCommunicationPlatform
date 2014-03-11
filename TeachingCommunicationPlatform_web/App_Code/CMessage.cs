@@ -383,7 +383,7 @@ public class CMessage
     /// <returns></returns>
     public static List<CMessage> getMsgs(string couId)
     {
-        CMessage tmsg = new CMessage();
+        CMessage tmsg;
         List<CMessage> msglst = new List<CMessage>();
         safeFileManager sFM = new safeFileManager();
         sFM.setUser("00000", "11111");
@@ -396,6 +396,7 @@ public class CMessage
             while (!srder.EndOfStream)
             {
                 int id = Convert.ToInt32(srder.ReadLine());
+                tmsg = new CMessage();
                 tmsg._msgId = id;
                 tmsg.readMsg(srder);
                 tmsg._couId = couId;

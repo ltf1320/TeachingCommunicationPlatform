@@ -4,18 +4,48 @@
 <%--页面设计--%>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
-    <asp:GridView ID="GridView_nt" runat="server" AutoGenerateColumns="False" Width="100%" OnRowCommand="GridView1_RowCommand" Font-Names="Verdana" Font-Size="12px" OnRowDataBound="GridView1_RowDataBound" CellPadding="3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px">
-            <Columns>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Label ID="couName" runat="server" Text="课程:"></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle BackColor="White" ForeColor="#000066" />
-            <RowStyle ForeColor="#000066" />
-            <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
-            <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
-        </asp:GridView>
+    <asp:DataList ID="DataList1" runat="server" Width="877px" OnDataBinding="DataList1_DataBinding">
+        <ItemTemplate>
+            <table>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label_cou" runat="server" Text='<%#Bind("couId") %>'></asp:Label>
+                        <asp:Label ID="Label_topic" runat="server" Text='<%#Bind("topic") %>'></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label_txt" runat="server" Text='<%#Bind("text") %>'></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label1" runat="server" Text="文件列表："></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:DataList ID="DataList1" runat="server" Width="677px">
+                        </asp:DataList>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:ListView ID="ListView1" runat="server">
+                            <ItemTemplate>
+                                <asp:Label ID="Label_atName" runat="server" Text="@yiikou"></asp:Label>
+                            </ItemTemplate>
+                        </asp:ListView>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <asp:Label ID="Label_date" runat="server" Text="时间"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </ItemTemplate>
+        <ItemStyle />
+    </asp:DataList>
 </asp:Content>
