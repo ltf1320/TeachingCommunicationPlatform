@@ -275,6 +275,7 @@ public class CMessage
     /// <returns></returns>
     public bool writeThisMsg()
     {
+        StreamWriter swter=null;
         try
         {
             safeFileManager sFM = new safeFileManager();
@@ -293,13 +294,15 @@ public class CMessage
             for (int i = 0; i < ttext.Length; i++)
                 hr = sFM.AppendLineToFile("message", ttext[i]);
 
-            StreamWriter swter = sFM.getAppendSteam("message");
+            swter = sFM.getAppendSteam("message");
             writeThisMsg(swter);
             swter.Close();
             return true;
         }
         catch (Exception e)
         {
+            if(swter!=null)
+                swter.Close();
             return false;
         }
     }
