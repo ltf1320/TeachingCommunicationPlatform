@@ -21,7 +21,7 @@ public enum userType
 //具有用户权力检测功能的文件管理
 public class safeFileManager : fileManager
 {
-    string userName,pathName; //现在目录的名字
+    string userId,pathName; //现在目录的名字
     SQLHelper sqlHelper;   
     public string webRootFolder;  //web的根目录
     public userType nUserType;    //现在用户类别
@@ -266,6 +266,7 @@ public class safeFileManager : fileManager
                 break;
         }
         sqlHelper.close();
+        this.userId = userId;
         return true;
     }
     new public List<FileSystemItem> GetItems()
@@ -286,11 +287,15 @@ public class safeFileManager : fileManager
         switch (nFolderType)
         {
             case folderType.course:
-                if (isUserManageCourse(userName, pathName))
+                if (isUserManageCourse(userId, pathName))
                     return true;
                 break;
             case folderType.courses:
                 if (nUserType == userType.teacher)
+                    return true;
+                break;
+            case folderType.userConfig:
+                if (pathName == userId)
                     return true;
                 break;
             default: break;
@@ -334,7 +339,7 @@ public class safeFileManager : fileManager
             {
                 return true;
             }
-            if(nFolderType==folderType.courses&& isUserManageCourse(userName,folderName))
+            if(nFolderType==folderType.courses&& isUserManageCourse(userId,folderName))
             {
                 return true;
             }
@@ -344,7 +349,7 @@ public class safeFileManager : fileManager
         {
             if (nFolderType == folderType.course)
             {
-                if (isUserManageCourse(userName, pathName))
+                if (isUserManageCourse(userId, pathName))
                 {
                     return true;
                 }
