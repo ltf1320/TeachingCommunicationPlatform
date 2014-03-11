@@ -352,4 +352,26 @@ public class fileManager
             return false;
         }
     }
+    protected StreamReader getStreamReader(string path)
+    {
+        try
+        {
+            return new StreamReader(File.OpenRead(path));
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
+    }
+    protected StreamWriter getStreamWriter(string path)
+    {
+        try
+        {
+            return new StreamReader(File.OpenWrite(path));
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
 }

@@ -338,8 +338,7 @@ public class CMessage
         safeFileManager sFM = new safeFileManager();
         sFM.setUser("00000", "11111");
         sFM.SetRootPath("courses\\" + couId);
-        FileStream rder = File.OpenRead(sFM.getNPath() + "message");
-        StreamReader srder = new StreamReader(rder);
+        StreamReader srder = sFM.getStreamReader("message");
         sFM.CreateFile("message_tmp");
         StreamWriter wter = sFM.getAppendSteam("message_tmp");
         try

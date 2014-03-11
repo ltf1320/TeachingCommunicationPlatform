@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Data.SqlClient;
+using System.IO;
 
 
 /// <summary>
@@ -461,5 +462,43 @@ public class safeFileManager : fileManager
         if (isUserCanEditFile())
             return base.copyFile(webRootFolder + strRootFolder + npath + destin, webRootFolder + strRootFolder + npath + origin);
         return false;
+    }
+
+    public StreamReader getStreamReader(string fileName)
+    {
+        if (isUserCanEditFile())
+            return base.getStreamReader(webRootFolder + strRootFolder + npath + fileName);
+        else return null;
+    }
+    public StreamWriter getStreamWriter(string fileName)
+    {
+        if (isUserCanEditFile())
+            return base.getStreamWriter(webRootFolder + strRootFolder + npath + fileName);
+        else return null;
+    }
+    public bool deleteStrFromFile(string fileName,string str)
+    {
+        string tmpFileName = fileName + "_tmp";
+        StreamReader rder = getStreamReader(fileName);
+        StreamWriter wter = getStreamWriter(tmpFileName);
+        string tmpStr;
+        try
+        {
+            while (!rder.EndOfStream)
+            {
+                tmpStr = rder.ReadLine();
+                if (tmpStr != str)
+                    wter.WriteLine(tmpStr);
+            }
+            rder.Close();
+            wter.Close();
+            return true;
+        }
+        catch(Exception e)
+        {
+            rder.Close();
+            wter.Close();
+            return false;
+        }
     }
 }
