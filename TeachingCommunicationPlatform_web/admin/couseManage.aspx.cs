@@ -54,8 +54,9 @@ public partial class admin_couseManage : System.Web.UI.Page
         { ccouId = "-1"; }
         ccouId = (Convert.ToInt32(ccouId) + 1).ToString();
         sqlhp.close();
-        if (Methods.mkCou(ccouId, cname, ctype, "0", cterm, cCreate, tid,Session["ha_user"].ToString(),Session["ha_pwd"].ToString()))
+        if (Methods.mkCou(ccouId, cname, ctype, "1", cterm, cCreate, tid,Session["ha_user"].ToString(),Session["ha_pwd"].ToString()))
         {
+
             Methods.showMessageBox(Response,"添加成功");
             Response.Redirect("\\admin/couseManage.aspx");
         }

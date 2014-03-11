@@ -1,24 +1,34 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/MasterPages/basic.master" AutoEventWireup="true" CodeFile="userMasterPage.master.cs" Inherits="MasterPages_userMasterPage" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:Menu ID="Menu1" runat="server" BackColor="#F7F6F3" DynamicHorizontalOffset="2"  Font-Names="Verdana" Font-Size="1.2em" ForeColor="#7C6F57" StaticSubMenuIndent="10px" BorderStyle="None">
-        <DynamicHoverStyle BackColor="#7C6F57" ForeColor="White" />
-        <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-        <DynamicMenuStyle BackColor="#F7F6F3" />
-        <DynamicSelectedStyle BackColor="#5D7B9D" />
-        <Items>
-            <asp:MenuItem Text="新鲜事" Value="新鲜事" Enabled="True"></asp:MenuItem>
-            <asp:MenuItem Text="@我的" Value="@我的"></asp:MenuItem>
-            <asp:MenuItem Text="个人设置" Value="我的事项"></asp:MenuItem>
-            <asp:MenuItem Text="管理" Value="管理"></asp:MenuItem>
-        </Items>
-        <StaticHoverStyle BackColor="#7C6F57" ForeColor="White" />
-        <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-        <StaticSelectedStyle BackColor="#5D7B9D" />
-    </asp:Menu>
-    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
-            </asp:ContentPlaceHolder>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table>
+        <tr>
+            <td>
+                <asp:Menu ID="Menu1" runat="server" BackColor="#F7F6F3" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="1.2em" ForeColor="#7C6F57" StaticSubMenuIndent="10px" BorderStyle="None">
+                    <DynamicHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                    <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                    <DynamicMenuStyle BackColor="#F7F6F3" />
+                    <DynamicSelectedStyle BackColor="#5D7B9D" />
+                    <Items>
+                        <asp:MenuItem Text="新鲜事" Value="新鲜事" Enabled="True"></asp:MenuItem>
+                        <asp:MenuItem Text="@我的" Value="@我的"></asp:MenuItem>
+                        <asp:MenuItem Text="个人设置" Value="我的事项"></asp:MenuItem>
+                        <asp:MenuItem Text="管理" Value="管理"></asp:MenuItem>
+                    </Items>
+                    <StaticHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                    <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                    <StaticSelectedStyle BackColor="#5D7B9D" />
+                </asp:Menu>
+
+            </td>
+            <td>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+                </asp:ContentPlaceHolder>
+
+            </td>
+        </tr>
+    </table>
 </asp:Content>
 
