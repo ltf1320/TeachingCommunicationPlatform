@@ -45,11 +45,11 @@
             <asp:Parameter Name="original_createUser" Type="String" />
         </UpdateParameters>
     </asp:SqlDataSource>
-    <table style="height: 546px">
+    <table>
         <tr>
-            <td style="height: 243px; width: 476px;">
+            <td style=" width: 476px;">
                 <asp:Panel ID="Panel1" runat="server">
-                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource1" Width="777px" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing">
+                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource1" Width="777px" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
                         <Columns>
                             <asp:BoundField DataField="couId" HeaderText="课程编号" ReadOnly="True" SortExpression="couId" />
                             <asp:BoundField DataField="couName" HeaderText="课程名称" SortExpression="couName" ReadOnly="True" />
@@ -59,14 +59,25 @@
                             <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" ReadOnly="True" />
                             <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" HeaderText="操作" />
                         </Columns>
+                        <FooterStyle BackColor="White" ForeColor="#000066" />
+                        <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
+                        <RowStyle ForeColor="#000066" />
+                        <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
+                        <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                        <SortedAscendingHeaderStyle BackColor="#007DBB" />
+                        <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                        <SortedDescendingHeaderStyle BackColor="#00547E" />
                     </asp:GridView>
                     <asp:Button ID="newOneBtn" runat="server" Text="新建" OnClick="newOneBtn_Click" />
                 </asp:Panel>
                 <asp:Panel ID="Panel2" runat="server" Height="280px" Style="margin-top: 0px" Visible="False">
                     <table>
                         <tr>
-                            <td>
+                            <td style="width:100px">
                                 <asp:Label ID="couNameLb" runat="server" Text="课程名字:"></asp:Label>
+                                </td>
+                            <td>
                                 <asp:TextBox ID="couNameTB" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="couNameRFV" runat="server" ErrorMessage="必须填写" ControlToValidate="couNameTB" ValidationGroup="confirm"></asp:RequiredFieldValidator>
                             </td>
@@ -74,6 +85,8 @@
                         <tr>
                             <td>
                                 <asp:Label ID="typeLb" runat="server" Text="课程属性:"></asp:Label>
+                                </td>
+                            <td>
                                 <asp:TextBox ID="typeTB" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="typeRFV" runat="server" ErrorMessage="必须填写" ControlToValidate="typeTB" ValidationGroup="confirm"></asp:RequiredFieldValidator>
                             </td>
@@ -81,7 +94,8 @@
                         <tr>
                             <td>
                                 <asp:Label ID="termLb" runat="server" Text="学期:"></asp:Label>
-
+                                </td>
+                            <td>
                                 <asp:TextBox ID="termTB" runat="server"></asp:TextBox>
 
                                 <asp:RequiredFieldValidator ID="termRFV" runat="server" ErrorMessage="必须填写" ControlToValidate="termTB" ValidationGroup="confirm"></asp:RequiredFieldValidator>
@@ -90,13 +104,15 @@
                         <tr>
                             <td>
                                 <asp:Label ID="tidLB" runat="server" Text="教师ID:"></asp:Label>
-
+                                </td>
+                            <td>
                                 <asp:TextBox ID="tidTB" runat="server"></asp:TextBox>
 
                                 <asp:RequiredFieldValidator ID="tidRFV" runat="server" ErrorMessage="必须填写" ControlToValidate="tidTB" ValidationGroup="confirm"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td>
                                 <asp:Button ID="subBtn" runat="server" Text="提交" OnClick="subBtn_Click" ValidationGroup="confirm" Style="height: 21px" />
                                 <asp:Button ID="backBtn" runat="server" OnClick="backBtn_Click" Text="返回" />

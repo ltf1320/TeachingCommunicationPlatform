@@ -518,4 +518,14 @@ public class safeFileManager : fileManager
         int index = path.LastIndexOf('\\');
         return path.Substring(index+1, path.Length - index-1);
     }
+    public bool isFileHasStr(string fileName, string str)
+    {
+        string[] file = readFile(fileName);
+        if (file == null)
+            return false;
+        for (int i = 0; i < file.Length; i++)
+            if (file[i] == str)
+                return true;
+        return false;
+    }
 }

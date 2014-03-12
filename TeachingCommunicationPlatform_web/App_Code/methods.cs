@@ -172,4 +172,8 @@ public class Methods
         sf.CreateFile("at");
         return true;
     }
+    public static bool isUserListenCou(string userId,string couId)
+    {
+        return false;
+    }
 }
