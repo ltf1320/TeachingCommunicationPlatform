@@ -54,7 +54,7 @@
             text-align: right;
             margin-left: auto;
             margin-right: auto;
-            width: 500px;
+            width: 400px;
             height: 27px;
         }
     </style>
@@ -71,7 +71,7 @@
             <input id="Hidden1" type="hidden" />课后圈
         </div>
         <div>
-            <table style="background-color:#a8f8e7">
+            <table style="background-color:#a8f8e7; width:1000px">
                 <tr>
                     <td width="100px" class="auto-style2"></td>
                     <td class="auto-style3">

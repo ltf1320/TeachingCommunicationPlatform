@@ -20,7 +20,7 @@ public partial class admin_userManage : System.Web.UI.Page
     {
         Panel2.Visible = false;
         Panel1.Visible = true;
-        // newOneBtn.Visible = true ;
+         newOneBtn.Visible = true ;
     }
     protected void subBtn_Click(object sender, EventArgs e)
     {
@@ -55,7 +55,7 @@ public partial class admin_userManage : System.Web.UI.Page
     {
         Panel1.Visible = false;
         Panel2.Visible = true;
-        //newOneBtn.Visible = false;
+        newOneBtn.Visible = false;
     }
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
@@ -92,9 +92,9 @@ public partial class admin_userManage : System.Web.UI.Page
             string constr = "select couid from Course where createUser=@id";
             sf.SetRootPath("courses");
             SqlParameter[] paras2 = new SqlParameter[1];
-            paras2[0] = new SqlParameter("@id",id);
+            paras2[0] = new SqlParameter("@id", id);
             SqlDataReader rder = sqlhp.getReader(constr, paras2);
-            while(rder.Read())
+            while (rder.Read())
                 sf.deleteFolder(rder[0].ToString());
             //删除人的时候
             GridView1.DataBind();
@@ -104,6 +104,42 @@ public partial class admin_userManage : System.Web.UI.Page
         else
         {
             Methods.showMessageBox(Response, "删除失败");
+        }
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            try
+            {
+                Label Label_role = (Label)e.Row.FindControl("Label_role");
+                switch (Label_role.Text)
+                {
+                    case "1":
+                        Label_role.Text = "管理员";
+                        break;
+                    case "2":
+                        Label_role.Text = "教师";
+                        break;
+                    case "3":
+                        Label_role.Text = "教师";
+                        break;
+                }
+                Label Label_aca = (Label)e.Row.FindControl("Label_aca");
+                if (Label_aca.Text != "")
+                {
+                    string sql = "select acName from academy where acId=@acId";
+                    SqlParameter[] para = new SqlParameter[1];
+                    para[0] = new SqlParameter("@acId", Label_aca.Text);
+                    Label_aca.Text = sqlhp.getAValue(sql, para);
+                }
+            }
+            catch (Exception ex)
+            {
+                Methods.showMessageBox(Response, "数据库连接错误");
+            }
+            sqlhp.close();
         }
     }
 }

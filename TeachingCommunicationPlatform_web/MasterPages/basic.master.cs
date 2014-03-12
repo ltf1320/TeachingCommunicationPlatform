@@ -25,11 +25,11 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
             _userName = Session["ha_user"].ToString();
             userName.Visible = false;
             pwdtxt.Visible = false;
-            string sql = "select userName from users where userId=@userId";
+            string sql = "select Name from users where userId=@userId";
             SqlParameter[] para = new SqlParameter[1];
             para[0] = new SqlParameter("@userId", _userName);
-            sql = "select roleId from users where userId=@userId";
             userNameBtn.Text = sqlhp.getAValue(sql, para);
+            sql = "select roleId from users where userId=@userId";
             para[0] = new SqlParameter("@userId", _userName);
             string userTypeStr = sqlhp.getAValue(sql, para);
             if (userTypeStr == "1")
