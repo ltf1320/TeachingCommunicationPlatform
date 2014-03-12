@@ -53,12 +53,14 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
         if(e.CommandName=="listen")
         {
             Methods.listen(Session["ha_user"].ToString(), e.CommandArgument.ToString());
-            Methods.showMessageBox(Response, "关注成功！");
+           // Methods.showMessageBox(Response, "关注成功！");
+            Response.Redirect(Request.Url.ToString());
         }
         if (e.CommandName == "cancelListen")
         {
             Methods.cancelListen(Session["ha_user"].ToString(), e.CommandArgument.ToString());
-            Methods.showMessageBox(Response, "已取消关注！");
+            //Methods.showMessageBox(Response, "已取消关注！");
+            Response.Redirect(Request.Url.ToString());
         }
         if(e.CommandName=="view")
         {
