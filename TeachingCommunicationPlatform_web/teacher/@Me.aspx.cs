@@ -8,7 +8,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Text;
 
-public partial class teacher_Me : System.Web.UI.Page
+public partial class teacher_newThings : System.Web.UI.Page
 {
     safeFileManager sFM;
     string user;
@@ -24,31 +24,20 @@ public partial class teacher_Me : System.Web.UI.Page
         sFM.setUser(user, Session["ha_pwd"].ToString());
         sFM.SetRootPath("users\\" + user);
         StreamReader rder = sFM.getStreamReader("at");
-        if (rder == null)
-            Methods.showMessageBox(Response, "读取列表失败");
-        else
+        msgList = new List<CMessage>();
+        CMessage msg;
+        string couId; int msgId;
+        while (!rder.EndOfStream)
         {
-            try
-            {
-                msgList = new List<CMessage>();
-                CMessage msg;
-                string couId; int msgId;
-                while (!rder.EndOfStream)
-                {
-                    couId = rder.ReadLine();
-                    msgId = Convert.ToInt32(rder.ReadLine());
-                    msg = new CMessage();
-                    msg.getMsgInfo(couId, msgId);
-                    if (msg.hasMsg)
-                        msgList.Add(msg);
-                }
-            }
-            catch (Exception ex)
-            {
-                Methods.showMessageBox(Response, "读取列表失败");
-            }
-            rder.Close();
+            couId = rder.ReadLine();
+            msgId = Convert.ToInt32(rder.ReadLine());
+            msg = new CMessage();
+            msg.getMsgInfo(couId, msgId);
+            if (msg.hasMsg)
+                msgList.Add(msg);
         }
+        rder.Close();
+        sqlHelper.close();
         dataBind();
     }
     protected void dataBind()
@@ -58,6 +47,7 @@ public partial class teacher_Me : System.Web.UI.Page
     }
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
     {
+        SqlDataReader rder = null;
         try
         {
             CMessage msg = (CMessage)e.Item.DataItem;
@@ -66,7 +56,7 @@ public partial class teacher_Me : System.Web.UI.Page
             string sql = "select couName,term,createUser from Course where couId=@couId";
             SqlParameter[] para = new SqlParameter[1];
             para[0] = new SqlParameter("@couId", msg.couId);
-            SqlDataReader rder = sqlHelper.getReader(sql, para);
+            rder = sqlHelper.getReader(sql, para);
             rder.Read();
             StringBuilder couName = new StringBuilder();
             couName.Append(rder[0].ToString());
@@ -74,7 +64,7 @@ public partial class teacher_Me : System.Web.UI.Page
             string term = rder[1].ToString();
             couName.Append("," + Methods.analyseTerm(term));
             Label_cou.Text = couName.ToString();
-            rder.Close();
+
             //时间
             Label Label_date = (Label)e.Item.FindControl("Label_date");
             Label_date.Text = msg.date.ToString();
@@ -99,7 +89,7 @@ public partial class teacher_Me : System.Web.UI.Page
                 dataList.DataBind();
             }
 
-
+            rder.Close();
             //at
             DataList dataList_at = (DataList)e.Item.FindControl("DataList_at");
             if (msg.atList == null || msg.atList.Length == 0)
@@ -110,6 +100,7 @@ public partial class teacher_Me : System.Web.UI.Page
             {
                 dataList_at.DataSource = msg.atList;
                 dataList_at.DataBind();
+                dataList.Attributes.Add("couId", msg.couId);
             }
 
         }
@@ -117,7 +108,7 @@ public partial class teacher_Me : System.Web.UI.Page
         {
             Methods.showMessageBox(Response, "数据库连接错误");
         }
-        finally { sqlHelper.close(); }
+        finally { if (rder != null) rder.Close(); sqlHelper.close(); }
     }
     protected void DataList1_ItemDataBound1(object sender, DataListItemEventArgs e)
     {
@@ -126,6 +117,7 @@ public partial class teacher_Me : System.Web.UI.Page
             string filePath = (string)e.Item.DataItem;
 
             LinkButton fileLabel = (LinkButton)e.Item.FindControl("downBtn");
+            fileLabel.Text = safeFileManager.getFileNameFromPath(filePath);
             fileLabel.CommandArgument = filePath;
         }
         catch (Exception ex)
@@ -156,8 +148,10 @@ public partial class teacher_Me : System.Web.UI.Page
         {
             Response.ContentType = "application/octet-stream";
             safeFileManager sFileMana = new safeFileManager();
-            sFileMana.SetRootPath("");
+            DataList dtlist = (DataList)source;
+            sFileMana.SetRootPath(safeFileManager.getPath(safeFileManager.folderType.course, dtlist.Attributes["couId"]));
             string fileName = e.CommandArgument.ToString();
+            sFileMana.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString());
             FileStream fs = sFileMana.getFileStream(fileName);
             byte[] bytes = new byte[(int)fs.Length];
             fs.Read(bytes, 0, bytes.Length);
@@ -167,6 +161,14 @@ public partial class teacher_Me : System.Web.UI.Page
             Response.BinaryWrite(bytes);
             Response.Flush();
             Response.End();
+        }
+    }
+    protected void DataList1_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        if (e.CommandName == "view")
+        {
+            Session["ha_path"] = e.CommandArgument.ToString();
+            Response.Redirect("~\\publicFunction\\visitPath.aspx");
         }
     }
 }

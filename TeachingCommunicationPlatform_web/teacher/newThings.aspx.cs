@@ -100,6 +100,7 @@ public partial class teacher_newThings : System.Web.UI.Page
             {
                 dataList_at.DataSource = msg.atList;
                 dataList_at.DataBind();
+                dataList.Attributes.Add("couId", msg.couId);
             }
 
         }
@@ -116,6 +117,7 @@ public partial class teacher_newThings : System.Web.UI.Page
             string filePath = (string)e.Item.DataItem;
 
             LinkButton fileLabel =(LinkButton) e.Item.FindControl("downBtn");
+            fileLabel.Text = safeFileManager.getFileNameFromPath(filePath);
             fileLabel.CommandArgument = filePath;
         }
         catch(Exception ex)
@@ -146,8 +148,10 @@ public partial class teacher_newThings : System.Web.UI.Page
         {
             Response.ContentType = "application/octet-stream";
             safeFileManager sFileMana = new safeFileManager();
-            sFileMana.SetRootPath("");
+            DataList dtlist = (DataList)source;
+            sFileMana.SetRootPath(safeFileManager.getPath(safeFileManager.folderType.course, dtlist.Attributes["couId"]));
             string fileName = e.CommandArgument.ToString();
+            sFileMana.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString());
             FileStream fs = sFileMana.getFileStream(fileName);
             byte[] bytes = new byte[(int)fs.Length];
             fs.Read(bytes, 0, bytes.Length);
@@ -157,6 +161,14 @@ public partial class teacher_newThings : System.Web.UI.Page
             Response.BinaryWrite(bytes);
             Response.Flush();
             Response.End();
+        }
+    }
+    protected void DataList1_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        if (e.CommandName == "view")
+        {
+            Session["ha_path"] = e.CommandArgument.ToString();
+            Response.Redirect("~\\publicFunction\\visitPath.aspx");
         }
     }
 }

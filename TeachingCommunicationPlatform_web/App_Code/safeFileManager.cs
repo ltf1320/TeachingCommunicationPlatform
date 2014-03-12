@@ -21,8 +21,8 @@ public enum userType
 //具有用户权力检测功能的文件管理
 public class safeFileManager : fileManager
 {
-    string userId,pathName; //现在目录的名字
-    SQLHelper sqlHelper;   
+    string userId, pathName; //现在目录的名字
+    SQLHelper sqlHelper;
     public string webRootFolder;  //web的根目录
     public userType nUserType;    //现在用户类别
     public string npath;
@@ -38,7 +38,7 @@ public class safeFileManager : fileManager
         /// <summary>
         /// 用户配置文件夹
         /// </summary>
-        userConfig, 
+        userConfig,
         /// <summary>
         /// 课程资源文件夹
         /// </summary>
@@ -52,23 +52,30 @@ public class safeFileManager : fileManager
         /// </summary>
         courses,
         /// <summary>
+        /// 根目录
+        /// </summary>
+        root,
+        /// <summary>
         /// 非法访问
         /// </summary>
         invalid
+
     }
     public folderType nFolderType;/// 现在目录类别
 
     private folderType getPathInfo(string path, out string name)
     {
+        name = "";
         int index = path.IndexOf("severFiles\\");
         index += 11;
+        if (index == path.Length)
+            return folderType.root;
         string ffolder = path.Substring(index, 5);
         string substr = path.Substring(index);
-        name = "";
         int tt = substr.IndexOf('\\');
         if (tt == path.Length)
             return folderType.invalid;
-        name = substr.Substring(tt+1);
+        name = substr.Substring(tt + 1);
         tt = name.IndexOf('\\');
         if (tt != -1)
         {
@@ -77,19 +84,19 @@ public class safeFileManager : fileManager
         string root = path.Substring(0, index);
         if (root != webRootFolder)
             return folderType.invalid;
-        
+
         if (ffolder == "users")
         {
-            if(name.Length==0)
+            if (name.Length == 0)
                 return folderType.users;
-            else 
+            else
                 return safeFileManager.folderType.userConfig;
         }
         if (ffolder == "cours")
         {
-            if(name.Length==0)
+            if (name.Length == 0)
                 return folderType.courses;
-            else 
+            else
                 return safeFileManager.folderType.course;
         }
         return safeFileManager.folderType.invalid;
@@ -129,8 +136,9 @@ public class safeFileManager : fileManager
             return false;
         nFolderType = fdType;
         strRootFolder = path;
-        if (strRootFolder[strRootFolder.Length - 1] != '\\')
-            strRootFolder = strRootFolder + '\\';
+        if (strRootFolder.Length > 0)
+            if (strRootFolder[strRootFolder.Length - 1] != '\\')
+                strRootFolder = strRootFolder + '\\';
         pathName = name;
         npath = "";
         return true;
@@ -141,10 +149,10 @@ public class safeFileManager : fileManager
     /// <param name="type">目录类别</param>
     /// <param name="name">目录名</param>
     /// <returns>目录</returns>
-    public static string getPath(folderType type,string name)
+    public static string getPath(folderType type, string name)
     {
-        StringBuilder str=new StringBuilder();
-        switch(type)
+        StringBuilder str = new StringBuilder();
+        switch (type)
         {
             case folderType.course:
                 str.Append("courses\\");
@@ -193,7 +201,7 @@ public class safeFileManager : fileManager
     /// <returns></returns>
     public string getRootPath()
     {
-        return webRootFolder+strRootFolder;
+        return webRootFolder + strRootFolder;
     }
     /// <summary>
     /// 得到当前相对根目录
@@ -210,9 +218,9 @@ public class safeFileManager : fileManager
     public void returnBackSpaceFolderPath()
     {
         if (npath == "")
-            return ;
-        int index=npath.Substring( 0, npath.Length - 1).LastIndexOf('\\');
-        npath=npath.Substring(0, index+1);
+            return;
+        int index = npath.Substring(0, npath.Length - 1).LastIndexOf('\\');
+        npath = npath.Substring(0, index + 1);
         return;
     }
 
@@ -236,7 +244,7 @@ public class safeFileManager : fileManager
     /// <param name="userName">用户名</param>
     /// <param name="pwd">密码</param>
     /// <returns>成功返回true</returns>
-    public bool setUser(string userId,string pwd)
+    public bool setUser(string userId, string pwd)
     {
         string sql = "select count(*) from users where userId=@userId and pwd=@pwd";
         SqlParameter[] para = new SqlParameter[2];
@@ -249,17 +257,17 @@ public class safeFileManager : fileManager
         para[0] = new SqlParameter("@userId", userId);
         para[1] = null;
         res = sqlHelper.getAValue(sql, para);
-        int type=Convert.ToInt32(res);
-        switch(type)
+        int type = Convert.ToInt32(res);
+        switch (type)
         {
             case 1:
-            nUserType = userType.admin;
+                nUserType = userType.admin;
                 break;
             case 2:
-            nUserType = userType.teacher;
+                nUserType = userType.teacher;
                 break;
             case 3:
-            nUserType = userType.student;
+                nUserType = userType.student;
                 break;
             default:
                 nUserType = userType.visitor;
@@ -307,12 +315,12 @@ public class safeFileManager : fileManager
     {
         if (isUserCanEditFolder(name))
         {
-            base.CreateFolder(name, webRootFolder+strRootFolder+npath);
+            base.CreateFolder(name, webRootFolder + strRootFolder + npath);
             return true;
         }
         return false;
     }
-    private bool isUserManageCourse(string userName,string couId)
+    private bool isUserManageCourse(string userName, string couId)
     {
         string sql = "select count(*) from manageCou where userName=@userName and couId=@couId";
         SqlParameter[] para = new SqlParameter[2];
@@ -339,7 +347,7 @@ public class safeFileManager : fileManager
             {
                 return true;
             }
-            if(nFolderType==folderType.courses&& isUserManageCourse(userId,folderName))
+            if (nFolderType == folderType.courses && isUserManageCourse(userId, folderName))
             {
                 return true;
             }
@@ -360,7 +368,7 @@ public class safeFileManager : fileManager
     }
     public bool CreateFile(string filename)
     {
-        if(isUserCanEditFile())
+        if (isUserCanEditFile())
         {
             return base.CreateFile(filename, webRootFolder + strRootFolder + npath);
         }
@@ -425,7 +433,7 @@ public class safeFileManager : fileManager
             return base.AppendLineToFile(path.ToString(), text);
         }
         return false;
-        
+
     }
     /// <summary>
     /// 按行读文件
@@ -458,11 +466,11 @@ public class safeFileManager : fileManager
     }
     public new System.IO.StreamWriter getAppendSteam(string path)
     {
-        if(isUserCanEditFile())
+        if (isUserCanEditFile())
             return base.getAppendSteam(webRootFolder + strRootFolder + npath + path);
         return null;
     }
-    public new bool copyFile(string destin,string origin)
+    public new bool copyFile(string destin, string origin)
     {
         if (isUserCanEditFile())
             return base.copyFile(webRootFolder + strRootFolder + npath + destin, webRootFolder + strRootFolder + npath + origin);
@@ -485,7 +493,7 @@ public class safeFileManager : fileManager
     {
         return base.getFileStream(webRootFolder + strRootFolder + npath + fileName);
     }
-    public bool deleteStrFromFile(string fileName,string str)
+    public bool deleteStrFromFile(string fileName, string str)
     {
         string tmpFileName = fileName + "_tmp";
         StreamReader rder = getStreamReader(fileName);
@@ -506,7 +514,7 @@ public class safeFileManager : fileManager
             DeleteFile(tmpFileName);
             return true;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             rder.Close();
             wter.Close();
@@ -516,7 +524,7 @@ public class safeFileManager : fileManager
     public static string getFileNameFromPath(string path)
     {
         int index = path.LastIndexOf('\\');
-        return path.Substring(index+1, path.Length - index-1);
+        return path.Substring(index + 1, path.Length - index - 1);
     }
     public bool isFileHasStr(string fileName, string str)
     {
