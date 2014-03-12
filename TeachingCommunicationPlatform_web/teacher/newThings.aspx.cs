@@ -36,6 +36,8 @@ public partial class teacher_newThings : System.Web.UI.Page
             if (msg.hasMsg)
                 msgList.Add(msg);
         }
+        rder.Close();
+        sqlHelper.close();
         dataBind();
     }
     protected void dataBind()
@@ -45,6 +47,7 @@ public partial class teacher_newThings : System.Web.UI.Page
     }
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
     {
+        SqlDataReader rder=null;
         try
         {
             CMessage msg=(CMessage)e.Item.DataItem;
@@ -53,7 +56,7 @@ public partial class teacher_newThings : System.Web.UI.Page
             string sql = "select couName,term,createUser from Course where couId=@couId";
             SqlParameter[] para = new SqlParameter[1];
             para[0] = new SqlParameter("@couId", msg.couId);
-            SqlDataReader rder = sqlHelper.getReader(sql, para);
+            rder = sqlHelper.getReader(sql, para);
             rder.Read();
             StringBuilder couName = new StringBuilder();
             couName.Append(rder[0].ToString());
@@ -86,7 +89,7 @@ public partial class teacher_newThings : System.Web.UI.Page
                 dataList.DataBind();
             }
 
-
+            rder.Close();
             //at
             DataList dataList_at = (DataList)e.Item.FindControl("DataList_at");
             if(msg.atList==null || msg.atList.Length==0)
@@ -104,7 +107,7 @@ public partial class teacher_newThings : System.Web.UI.Page
         {
             Methods.showMessageBox(Response, "数据库连接错误");
         }
-        finally { sqlHelper.close(); }
+        finally { if(rder!=null) rder.Close(); sqlHelper.close(); }
     }
     protected void DataList1_ItemDataBound1(object sender, DataListItemEventArgs e)
     {
@@ -129,7 +132,7 @@ public partial class teacher_newThings : System.Web.UI.Page
             Label label = (Label)e.Item.FindControl("Label_atName");
             string userId = (string)e.Item.DataItem;
 
-            string sql = "select userName from users where userId=@userId";
+            string sql = "select Name from users where userId=@userId";
             SqlParameter[] para = new SqlParameter[1];
             para[0] = new SqlParameter("@userId", userId);
             label.Text = "@" + sqlHelper.getAValue(sql, para);

@@ -233,21 +233,66 @@ public partial class teacher_myControl : System.Web.UI.Page
             sf.SetRootPath("courses");
             sf.cd(cid);
             string[] tm = sf.readFile("listeners");
-            for (int i = 0; i < tm.Length; i++)
+            if(type)
             {
-                sf.SetRootPath("users");
-                sf.cd(tm[i].ToString());
-                sf.AppendLineToFile("newThings", mid);
-                sf.AppendLineToFile("newThings", cid);
-            }
-            if (at != null)
-                for (int i = 0; i < at.Length; i++)
+                if (tm != null)
+                    for (int i = 0; i < tm.Length; i++)
+                    {
+                        sf.SetRootPath("users");
+                        sf.cd(tm[i].ToString());
+                        sf.AppendLineToFile("newThings", cid);
+                        sf.AppendLineToFile("newThings", mid);
+                    }
+                string tem = "";
+                for (int i = 0; i < atMe.Length; i++)
                 {
-                    //sf.SetRootPath("users");
-                    // sf.cd(at[i].ToString());
-                    sf.AppendLineToFile("at", mid);
-                    sf.AppendLineToFile("at", cid);
+                    if (!atMe[i].Equals(','))
+                    {
+                        tem += atMe[i];
+                    }
+                    else
+                    {
+                        at2.Add(tem);
+                        tem = "";
+                    }
                 }
+                if (tem != "")
+                    at2.Add(tem);
+                at = at2.ToArray();
+                if (at != null)
+                    for (int i = 0; i < at.Length; i++)
+                    {
+                        sf.SetRootPath("users");
+                        sf.cd(at[i].ToString());
+                        sf.AppendLineToFile("at", cid);
+                        sf.AppendLineToFile("at", mid);
+                        //if (sf.AppendLineToFile("at", mid))
+                        //{
+                        //    Methods.showMessageBox(Response, "at OK");
+                        //}
+                        //else
+                        //    Methods.showMessageBox(Response, "at FAILS");
+
+                        //if (sf.AppendLineToFile("at", cid))
+                        //{
+                        //    Methods.showMessageBox(Response, "at OK");
+                        //}
+                        //else
+                        //    Methods.showMessageBox(Response, "at FAILS");
+                    }
+
+            }
+            else
+            {
+                if (at != null)
+                    for (int i = 0; i < at.Length; i++)
+                    {
+                        sf.SetRootPath("users");
+                        sf.cd(at[i].ToString());
+                        sf.AppendLineToFile("at", cid);
+                        sf.AppendLineToFile("at", mid);
+                    }
+            }
         }
         if (FileUpload1.HasFile)
             FileUpload1.SaveAs(Server.MapPath("~/") + "severFiles/" + "courses/" + cid + "/data/" + FileUpload1.FileName);
