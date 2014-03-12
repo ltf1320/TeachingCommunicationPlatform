@@ -9,11 +9,10 @@ using System.Data;
 using System.Text;
 using System.Collections;
 using System.Timers;
-public partial class student_myControl : System.Web.UI.Page
+public partial class teacher_myControl : System.Web.UI.Page
 {
     SQLHelper sqlhp = new SQLHelper();
     safeFileManager sf = new safeFileManager();
-    userType nUserType;
     protected void Page_Load(object sender, EventArgs e)
     {
         TextBox_deadline.Text = DateTime.Now.ToString();
@@ -37,27 +36,6 @@ public partial class student_myControl : System.Web.UI.Page
         Panel_couNew.Visible = false;
         Panel_listCou.Visible = true;
         Panel_postMsg.Visible = false;
-
-
-        string _userName;
-        _userName = Session["ha_user"].ToString();
-        string sql = "select COUNT(couId) from manageCou where userId=@userId";
-        SqlParameter[] para = new SqlParameter[1];
-        para[0] = new SqlParameter("@userId", _userName);
-        string userTypeStr = sqlhp.getAValue(sql, para);
-        if (userTypeStr == "0")
-        {
-            Panel2.Visible = true;
-            Panel1.Visible = false;
-        }
-        else
-        {
-            Panel1.Visible = true;
-            Panel2.Visible = false;
-
-        }
-
-        
     }
     private void GridViewBind()
     {

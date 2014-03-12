@@ -1,23 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/userMasterPage.master" AutoEventWireup="true" CodeFile="myControl.aspx.cs" Inherits="student_myControl" %>
-
-<%-- 列出已关注课程/关注课程（连接到publicFunction\allCourse.aspx)/取消关注--%>
-<%--关注课程:
-找到users下listens文件，添加课程(couId)
-找到courses下listeners文件，添加userId--%>
-
-<%--功能：课程管理者
-管理课程列表
-选中->发布（删除)消息/发布(删除)作业/查看上交作业--%>
-
-<%--发布消息：
-输入消息topic
-消息内容
-上传文件
-@user
-找到couse文件夹的message，添加信息
-生成新的消息id
-在course文件夹下找到listeners，找到所有listeners的user文件夹下的newthings文件，将couId,id添加进去
-格式见pd--%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/userMasterPage.master" AutoEventWireup="true" CodeFile="myControl.aspx.cs" Inherits="teacher_myControl" %>
 
 
 
@@ -40,36 +21,20 @@
             <asp:SessionParameter Name="userId" SessionField="ha_user" Type="String" />
         </SelectParameters>
     </asp:SqlDataSource>
-    <asp:Panel ID="Panel1" runat="server">
-        <asp:Menu ID="Menu1" runat="server" Orientation="Horizontal" BackColor="#E3EAEB" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="1.2em" ForeColor="#666666" StaticSubMenuIndent="10px" OnMenuItemClick="Menu1_MenuItemClick">
-            <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
-            <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-            <DynamicMenuStyle BackColor="#E3EAEB" />
-            <DynamicSelectedStyle BackColor="#1C5E55" />
-            <Items>
-                <asp:MenuItem Text="关注的课程" Value="couList"></asp:MenuItem>
-                <asp:MenuItem Text="发布消息" Value="postMsg"></asp:MenuItem>
-                <asp:MenuItem Text="管理我的课程" Value="couMana"></asp:MenuItem>
-            </Items>
-            <StaticHoverStyle BackColor="#666666" ForeColor="White" />
-            <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-            <StaticSelectedStyle BackColor="#1C5E55" />
-        </asp:Menu>
-    </asp:Panel>
-        <asp:Panel ID="Panel2" runat="server">
-        <asp:Menu ID="Menu2" runat="server" Orientation="Horizontal" BackColor="#E3EAEB" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="1.2em" ForeColor="#666666" StaticSubMenuIndent="10px" OnMenuItemClick="Menu1_MenuItemClick">
-            <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
-            <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-            <DynamicMenuStyle BackColor="#E3EAEB" />
-            <DynamicSelectedStyle BackColor="#1C5E55" />
-            <Items>
-                <asp:MenuItem Text="关注的课程" Value="couList"></asp:MenuItem>
-            </Items>
-            <StaticHoverStyle BackColor="#666666" ForeColor="White" />
-            <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-            <StaticSelectedStyle BackColor="#1C5E55" />
-        </asp:Menu>
-    </asp:Panel>
+    <asp:Menu ID="Menu1" runat="server" Orientation="Horizontal" BackColor="#E3EAEB" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="1.2em" ForeColor="#666666" StaticSubMenuIndent="10px" OnMenuItemClick="Menu1_MenuItemClick">
+        <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
+        <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+        <DynamicMenuStyle BackColor="#E3EAEB" />
+        <DynamicSelectedStyle BackColor="#1C5E55" />
+        <Items>
+            <asp:MenuItem Text="关注的课程" Value="couList"></asp:MenuItem>
+            <asp:MenuItem Text="发布消息" Value="postMsg"></asp:MenuItem>
+            <asp:MenuItem Text="管理我的课程" Value="couMana"></asp:MenuItem>
+        </Items>
+        <StaticHoverStyle BackColor="#666666" ForeColor="White" />
+        <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+        <StaticSelectedStyle BackColor="#1C5E55" />
+    </asp:Menu>
     <%--发布消息：
      输入消息topic
      消息内容
