@@ -35,10 +35,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="text-align:left">
                         <asp:DataList ID="DataList_at" runat="server" Width="677px" OnItemDataBound="DataList_at_ItemDataBound" >
                             <ItemTemplate>
-                                <asp:Label ID="Label_atName" runat="server" Text="@yiikou"></asp:Label>
+                                <table>
+                                    <tr>
+                                        <td style="text-align:left">
+                                            <asp:Label ID="Label_atName" runat="server" Text="@yiikou"></asp:Label>
+                                        </td>
+                                    </tr>
+                                </table>
                             </ItemTemplate>
                         </asp:DataList>
                     </td>

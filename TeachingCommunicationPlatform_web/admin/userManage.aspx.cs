@@ -78,14 +78,14 @@ public partial class admin_userManage : System.Web.UI.Page
             sf.deleteStrFromFile("listeners", id);
 
         }
-        string upstr = "upadte Course set stuNum =stuNum -@stu where couId = @id";
+        string upstr = "update Course set stuNum =stuNum -@stu where couId = @id";
         SqlParameter[] paras = new SqlParameter[2];
         paras[0] = new SqlParameter("@stu", canFou.Length);
-        paras[1] = new SqlParameter("id", id);
+        paras[1] = new SqlParameter("@id", id);
         sqlhp.ExecuteSql(upstr, paras);
         sqlhp.close();
         //////////////////////
-
+        sf.returnBackSpaceFolderPath();
         if (sf.deleteFolder(id))
         {
             string constr = "select couid from Course where createUser=@id";

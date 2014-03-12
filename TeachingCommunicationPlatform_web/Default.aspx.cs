@@ -10,14 +10,10 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-  ////      List<CMessage> msgList = CMessage.getMsgs("0");
-  //      safeFileManager sFM = new safeFileManager();
-  //      SQLHelper sqlHelper=new SQLHelper();
-  //      string sql = "insert into Course values(0,@couName,@couType,0,'20140','1')";
-  //      SqlParameter[] para = new SqlParameter[2];
-  //      para[0] = new SqlParameter("@couName", "操作系统");
-  //      para[1] = new SqlParameter("@couType", "必修");
-  //      Response.Write(sqlHelper.ExecuteSql(sql, para));
+        safeFileManager sFM = new safeFileManager();
+        sFM.SetRootPath("courses");
+        sFM.setUser("00000", "11111");
+        sFM.deleteFolder("10");
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
