@@ -53,8 +53,8 @@ public partial class teacher_Me : System.Web.UI.Page
     }
     protected void dataBind()
     {
-        DataList1.DataSource = msgList;
-        DataList1.DataBind();
+        //DataList1.DataSource = msgList;
+        //DataList1.DataBind();
     }
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
     {
