@@ -48,7 +48,7 @@ public partial class MasterPages_userMasterPage : System.Web.UI.MasterPage
                 }
                 if (rroleId == "3")
                 {
-                    Response.Write("2222");
+                    //Response.Write("2222");
                     Menu1.Items[0].NavigateUrl = "../student/newThings.aspx";
                     Menu1.Items[1].NavigateUrl = "../student/@Me.aspx";
                     Menu1.Items[2].NavigateUrl = "../student/settings.aspx";

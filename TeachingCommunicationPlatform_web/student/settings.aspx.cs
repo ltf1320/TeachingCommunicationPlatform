@@ -28,7 +28,8 @@ public partial class student_myThings : System.Web.UI.Page
                 rder.Read();
                 IdContentLbl.Text = rder[0].ToString();
                 nametxt.Text = rder[2].ToString();
-                if (rder[1].ToString()=="2")
+
+                if (rder[1].ToString() == "2")
                     roleContentLbl.Text = "教师";
                 else if (rder[1].ToString() == "3")
                     roleContentLbl.Text = "学生";
@@ -36,13 +37,17 @@ public partial class student_myThings : System.Web.UI.Page
                     roleContentLbl.Text = "管理员";
                 postAdd.Text = rder[4].ToString();
                 crtTimeContentLbl.Text = rder[5].ToString();
-                acContentLbl.Text = rder[6].ToString();
-                sqlhp.close();
+
+                string sql = "select acName from academy where acId=@acId";
+                paras[0] = new SqlParameter("@acId", rder[6].ToString());
+                rder.Close();
+                acContentLbl.Text = sqlhp.getAValue(sql, paras);
             }
             catch (SqlException exception)
             {
                 Response.Write("<Script>alert('数据库连接错误');</Script>");
             }
+            sqlhp.close();
         }
     }
     protected void onChangePwd(object sender, EventArgs e)
@@ -53,9 +58,10 @@ public partial class student_myThings : System.Web.UI.Page
     protected void updateData(object sender, EventArgs e)
     {
         string upstr = "update users set Name=@NName,email=@eemail where userId=@sid";
-        SqlParameter[] paras = new SqlParameter[2];
-        paras[0] = new SqlParameter("@NName", nametxt.Text.Trim());
-        paras[1] = new SqlParameter("@semail", postAdd.Text.Trim());
+        SqlParameter[] paras = new SqlParameter[3];
+        paras[0] = new SqlParameter("@sid", sid);
+        paras[1] = new SqlParameter("@NName", nametxt.Text.Trim());
+        paras[2] = new SqlParameter("@eemail", postAdd.Text.Trim());
         try
         {
             sqlhp.ExecuteSql(upstr, paras);
@@ -88,7 +94,8 @@ public partial class student_myThings : System.Web.UI.Page
             try
             {
                 sqlhp.ExecuteSql(upstr, paras);
-                Response.Write("<Script>alert('修改成功');window.location='stuManager.aspx';</Script>");
+                Response.Write("<Script>alert('修改成功');</Script>");
+                Response.Redirect(Request.Url.ToString());
             }
             catch (SqlException exception)
             {
