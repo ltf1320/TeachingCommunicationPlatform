@@ -126,9 +126,9 @@ DELETE FROM [users] WHERE [userId] = @original_userId "
                                 <asp:Label ID="acaLb" Text="学院" Width="80" runat="server"></asp:Label>
                             </td>
                             <td>
-                                <asp:TextBox ID="acaTb" Width="150" runat="server"></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="validator_aca" ValidationGroup="sub" runat="server"
-                                    ErrorMessage="此处不能为空" ControlToValidate="acaTb"></asp:RequiredFieldValidator>
+                                <asp:DropDownList ID="acDp" runat="server" DataSourceID="SqlDataSource2" DataTextField="acName" DataValueField="acId">
+                                </asp:DropDownList>
+                                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="SELECT [acId], [acName] FROM [academy]"></asp:SqlDataSource>
                             </td>
                         </tr>
                         <tr>

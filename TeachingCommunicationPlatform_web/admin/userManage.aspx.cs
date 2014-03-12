@@ -33,7 +33,7 @@ public partial class admin_userManage : System.Web.UI.Page
         string urole = roleTb.Text.Trim();
         string upwd = pwdTb.Text.Trim();
         string uemail = emailTb.Text.Trim();
-        string uaca = acaTb.Text.Trim();
+        string uaca = acDp.SelectedValue;
         string selstr = "select max(userId) from users";
         SqlParameter[] paras = new SqlParameter[1];
         string uuserId = sqlhp.getAValue(selstr, paras);
