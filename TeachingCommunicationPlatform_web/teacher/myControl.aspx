@@ -44,15 +44,14 @@
      生成新的消息id
      在course文件夹下找到listeners，找到所有listeners的user文件夹下的newthings文件，将couId,id添加进去
      格式见pd--%>
+
     <asp:Panel ID="Panel_postMsg" runat="server">
-        <table style="height: 222px; width: 348px; text-align: left">
+
+        <table style="height: 222px; width: 350px; text-align: left">
             <tr>
                 <td>
+                    <asp:Label ID="Label2" runat="server" Text="选择课程:"></asp:Label>
                     <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource2" DataTextField="couId" DataValueField="couId">
-                    </asp:DropDownList>
-                    <asp:DropDownList ID="DropDownList2" runat="server">
-                        <asp:ListItem Value="1">作业</asp:ListItem>
-                        <asp:ListItem Value="0">消息</asp:ListItem>
                     </asp:DropDownList>
                 </td>
             </tr>
@@ -64,6 +63,10 @@
             </tr>
             <tr>
                 <td>
+                    <asp:DropDownList ID="DropDownList2" AutoPostBack="true" runat="server" OnSelectedIndexChanged="DropDownList2_SelectedIndexChanged">
+                        <asp:ListItem Value="1">作业</asp:ListItem>
+                        <asp:ListItem Value="0">消息</asp:ListItem>
+                    </asp:DropDownList>
                     <asp:Label ID="Label_deadline" runat="server" Text="截止时间:"></asp:Label>
                     <asp:TextBox ID="TextBox_deadline" runat="server"></asp:TextBox>
                 </td>
@@ -80,6 +83,7 @@
             </tr>
             <tr>
                 <td>
+
                     <asp:Label ID="Label_deadline0" runat="server" Text="@:"></asp:Label>
                     <asp:TextBox ID="TextBox_at" runat="server"></asp:TextBox>
                     <asp:Label ID="Label_hint" runat="server" Text="用&quot;,&quot;间隔"></asp:Label>
@@ -89,7 +93,11 @@
                 <td>
                     <asp:Label ID="Label1" runat="server" Text="上传文件"></asp:Label>
                     <asp:FileUpload ID="FileUpload1" AllowMultiple="true" runat="server" />
-                    <asp:Button ID="Button_sub0" runat="server" OnClick="Button_sub_Click" Text="提交" />
+                </td>
+                </tr>
+            <tr>
+                <td style="text-align:center">
+                    <asp:Button ID="Button_sub0" Width="100px" runat="server" OnClick="Button_sub_Click" Text="提交" />
                 </td>
             </tr>
         </table>
@@ -130,7 +138,7 @@
                     <asp:Button ID="Button_add" runat="server" OnClick="Button_add_Click" Text="添加管理者" />
                     <asp:TextBox ID="TextBox_addperson" runat="server">管理者ID</asp:TextBox>
                     <asp:TextBox ID="TextBox_addcou" runat="server">管理的课程编号</asp:TextBox>
-                    <asp:Button runat="server" Text="新建" ID="newOneBtn" OnClick="newOneBtn_Click" />
+                    
 
                 </td>
             </tr>
@@ -145,17 +153,25 @@
                     输入课程名等
                     生成新couId(max+1)
                     在courses文件夹下创建相关文件（夹）--%>
-                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource1" OnRowDeleting="GridView2_RowDeleting">
+                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource1" OnRowDeleting="GridView2_RowDeleting" OnRowDataBound="GridView2_RowDataBound">
                         <Columns>
-                            <asp:BoundField DataField="couId" HeaderText="couId" ReadOnly="True" SortExpression="couId" />
-                            <asp:BoundField DataField="couName" HeaderText="couName" SortExpression="couName" />
-                            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-                            <asp:BoundField DataField="stuNum" HeaderText="stuNum" SortExpression="stuNum" />
-                            <asp:BoundField DataField="term" HeaderText="term" SortExpression="term" />
-                            <asp:BoundField DataField="createUser" HeaderText="createUser" SortExpression="createUser" />
+                            <%--<asp:BoundField DataField="couId" HeaderText="课程号" ReadOnly="True" SortExpression="couId" />--%>
+                            <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
+                            <asp:BoundField DataField="type" HeaderText="类型" SortExpression="type" />
+                            <asp:BoundField DataField="stuNum" HeaderText="学生数" SortExpression="stuNum" />
+                            <asp:TemplateField>
+                                <HeaderTemplate>DataControlRowType.DataRow
+                                    <asp:Label ID="Label_term" runat="server" Text="学期"></asp:Label>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label_term" runat="server" Text='<%#Bind("term") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:BoundField DataField="createUser" HeaderText="教师" SortExpression="createUser" />
                             <asp:CommandField ShowDeleteButton="True" />
                         </Columns>
                     </asp:GridView>
+                    <asp:Button runat="server" Text="新建" ID="newOneBtn" OnClick="newOneBtn_Click" />
                 </td>
             </tr>
             <tr>

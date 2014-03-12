@@ -15,15 +15,27 @@ public partial class teacher_myControl : System.Web.UI.Page
     safeFileManager sf = new safeFileManager();
     protected void Page_Load(object sender, EventArgs e)
     {
-        TextBox_deadline.Text = "格式:" + DateTime.Now.ToString();
-        GridViewBind();
-        Panel_couNew.Visible = false;
-        Panel_listCou.Visible = true;
-        Panel_postMsg.Visible = false;
+        TextBox_deadline.Text = DateTime.Now.ToString();
+        if (!IsPostBack)
+        {
+            GridViewBind();
+            Panel_couNew.Visible = false;
+            Panel_listCou.Visible = true;
+            Panel_postMsg.Visible = false;
+        }
+        switch (DropDownList2.SelectedItem.Value)
+        {
+            case "0":
+                TextBox_deadline.Enabled = false;
+                break;
+            case "1":
+                TextBox_deadline.Enabled = true;
+                break;
+        }
     }
     private void GridViewBind()
     {
-        sf.setUser("00000","11111");
+        sf.setUser("00000", "11111");
         sf.SetRootPath("users");
         sf.cd(Session["ha_user"].ToString());
         string[] lis = sf.readFile("listens");
@@ -31,23 +43,23 @@ public partial class teacher_myControl : System.Web.UI.Page
             return;
         string focus;
         SqlParameter[] paras = new SqlParameter[lis.Length];
-        StringBuilder stb =new StringBuilder();
+        StringBuilder stb = new StringBuilder();
         stb.Append("select couId as 课程编号,couName as 课程名称 , type as 属性 , stuNum as 关注人数 ,term as 学期 , createUser as 教师 from Course where couId = @f0 ");
-        paras[0]=new SqlParameter("@f0",lis[0]);
-        for(int i = 1 ; i < lis.Length;i++)
+        paras[0] = new SqlParameter("@f0", lis[0]);
+        for (int i = 1; i < lis.Length; i++)
         {
             paras[i] = new SqlParameter("@f" + i, lis[i]);
-            stb.Append(" union select * from Course where couId = @f"+i);
+            stb.Append(" union select * from Course where couId = @f" + i);
         }
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = sqlhp.getAdapter(stb.ToString(), paras);
-            sqlhp.close();
-             da.Fill(ds);
-             GridView1.DataSource = ds.Tables[0].DefaultView;
-              // GridView1.DataKeyNames = new string[] { "couId" }; 
-             GridView1.DataBind();
+        DataSet ds = new DataSet();
+        SqlDataAdapter da = sqlhp.getAdapter(stb.ToString(), paras);
+        sqlhp.close();
+        da.Fill(ds);
+        GridView1.DataSource = ds.Tables[0].DefaultView;
+        // GridView1.DataKeyNames = new string[] { "couId" }; 
+        GridView1.DataBind();
 
-     
+
     }
     protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
@@ -113,7 +125,7 @@ public partial class teacher_myControl : System.Web.UI.Page
         ccouId = (Convert.ToInt32(ccouId) + 1).ToString();
         sqlhp.close();
         //bug//////////////////////////////////
-        if (Methods.mkCou(ccouId, cname, ctype, "1", cterm, cCreate, tid, "00000","11111"))//Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        if (Methods.mkCou(ccouId, cname, ctype, "1", cterm, cCreate, tid, "00000", "11111"))//Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
         {
 
             Methods.showMessageBox(Response, "添加成功");
@@ -130,12 +142,12 @@ public partial class teacher_myControl : System.Web.UI.Page
     }
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        if (!sf.setUser("00000","11111"))//Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
+        if (!sf.setUser("00000", "11111"))//Session["ha_user"].ToString(), Session["ha_pwd"].ToString()))
         {
             Methods.showMessageBox(Response, "对不起您没有权限");
             return;
         }
-        Label Label_cou=(Label) GridView1.Rows[e.RowIndex].FindControl("Label_cou");
+        Label Label_cou = (Label)GridView1.Rows[e.RowIndex].FindControl("Label_cou");
         string id = Label_cou.Text;
         //string id = GridView1.DataKeys[e.RowIndex].Value.ToString(); //取出要删除记录的主键值
         //删除coures下对我的记录
@@ -163,7 +175,7 @@ public partial class teacher_myControl : System.Web.UI.Page
         bool type;
         if (ttype == "1")
             type = true;
-        else 
+        else
             type = false;
         DateTime ddate = new DateTime();
         DateTime date = ddate.Date;
@@ -172,12 +184,12 @@ public partial class teacher_myControl : System.Web.UI.Page
         string ttext = TextBox_content.Text.ToString();
         string atMe = TextBox_at.Text.ToString();
         string filename = FileUpload1.FileName.ToString();
-        string[] at  ;
-        List<string> at2=new List<string>();
-        List<string> flist=new List<string>();
+        string[] at;
+        List<string> at2 = new List<string>();
+        List<string> flist = new List<string>();
         flist.Add(filename);
-        string [] filelist=flist.ToArray();
-        if(type)
+        string[] filelist = flist.ToArray();
+        if (type)
         {
             sf.setUser("00000", "11111");
             sf.SetRootPath("course");
@@ -186,8 +198,8 @@ public partial class teacher_myControl : System.Web.UI.Page
         }
         else
         {
-            string tem="";
-            for(int i = 0 ; i < atMe.Length;i++)
+            string tem = "";
+            for (int i = 0; i < atMe.Length; i++)
             {
                 if (!atMe[i].Equals(","))
                 {
@@ -201,15 +213,15 @@ public partial class teacher_myControl : System.Web.UI.Page
             }
             if (tem != "")
                 at2.Add(tem);
-            at=at2.ToArray();
+            at = at2.ToArray();
         }
         CMessage cm = new CMessage();
-        if(filename=="")
+        if (filename == "")
         {
             filelist = null;
         }
         string mid = CMessage.addNewThing(cid, type, topic, date, deadline, ttext, filelist, at).ToString();
-        if (mid=="-1")
+        if (mid == "-1")
             Methods.showMessageBox(Response, "发送失败");
         else
         {
@@ -217,31 +229,31 @@ public partial class teacher_myControl : System.Web.UI.Page
             sf.SetRootPath("courses");
             sf.cd(cid);
             string[] tm = sf.readFile("listeners");
-            for(int i = 0 ; i < tm.Length;i++)
+            for (int i = 0; i < tm.Length; i++)
             {
                 sf.SetRootPath("users");
                 sf.cd(tm[i].ToString());
                 sf.AppendLineToFile("newThings", mid);
                 sf.AppendLineToFile("newThings", cid);
             }
-            if(at!=null)
-            for (int i = 0; i < at.Length; i++)
-            {
-                //sf.SetRootPath("users");
-               // sf.cd(at[i].ToString());
-                sf.AppendLineToFile("at", mid);
-                sf.AppendLineToFile("at", cid);
-            }
+            if (at != null)
+                for (int i = 0; i < at.Length; i++)
+                {
+                    //sf.SetRootPath("users");
+                    // sf.cd(at[i].ToString());
+                    sf.AppendLineToFile("at", mid);
+                    sf.AppendLineToFile("at", cid);
+                }
         }
-        if(FileUpload1.HasFile)
-            FileUpload1.SaveAs(Server.MapPath("~/")  +"severFiles/"+"courses/" + cid + "/data/" + FileUpload1.FileName);
+        if (FileUpload1.HasFile)
+            FileUpload1.SaveAs(Server.MapPath("~/") + "severFiles/" + "courses/" + cid + "/data/" + FileUpload1.FileName);
 
-                      // "客户端路径：" + FileUpload1.PostedFile.FileName
-                      //"文件名：" + System.IO.Path.GetFileName(FileUpload1.FileName) 
-                      //"文件扩展名：" + System.IO.Path.GetExtension(FileUpload1.FileName) 
-                      //"文件大小：" + FileUpload1.PostedFile.ContentLength + " KB〈br>" +
-                      //"文件MIME类型：" + FileUpload1.PostedFile.ContentType + "〈br>" +
-                      //"保存路径：" + Server.MapPath("upload") + "\\" + FileUpload1.FileName;
+        // "客户端路径：" + FileUpload1.PostedFile.FileName
+        //"文件名：" + System.IO.Path.GetFileName(FileUpload1.FileName) 
+        //"文件扩展名：" + System.IO.Path.GetExtension(FileUpload1.FileName) 
+        //"文件大小：" + FileUpload1.PostedFile.ContentLength + " KB〈br>" +
+        //"文件MIME类型：" + FileUpload1.PostedFile.ContentType + "〈br>" +
+        //"保存路径：" + Server.MapPath("upload") + "\\" + FileUpload1.FileName;
 
     }
     protected void Button_add_Click(object sender, EventArgs e)
@@ -256,7 +268,7 @@ public partial class teacher_myControl : System.Web.UI.Page
         string str2 = "insert into manageCou (userId,couId) values (@id,@addc)";
         paras[0] = new SqlParameter("@id", addp);
         paras[1] = new SqlParameter("@addc", addc);
-        sqlhp.ExecuteSql(str2,paras);
+        sqlhp.ExecuteSql(str2, paras);
         sqlhp.close();
 
     }
@@ -265,11 +277,31 @@ public partial class teacher_myControl : System.Web.UI.Page
         Panel_couNew.Visible = false;
         Panel_listCou.Visible = false;
         Panel_postMsg.Visible = false;
-        switch(e.Item.Value)
+        switch (e.Item.Value)
         {
             case "couList": Panel_listCou.Visible = true; break;
             case "postMsg": Panel_postMsg.Visible = true; break;
             case "couMana": Panel_couNew.Visible = true; break;
+        }
+    }
+    protected void DropDownList2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        switch (DropDownList2.SelectedItem.Value)
+        {
+            case "0":
+                TextBox_deadline.Enabled = false;
+                break;
+            case "1":
+                TextBox_deadline.Enabled = true;
+                break;
+        }
+    }
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            Label Label_term = (Label)e.Row.FindControl("Label_term");
+            Label_term.Text = Methods.analyseTerm(Label_term.Text);
         }
     }
 }
