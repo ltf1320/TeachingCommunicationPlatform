@@ -71,6 +71,7 @@ public partial class admin_userManage : System.Web.UI.Page
         ////////////////////////未dug
         sf.cd(id);
         string[] canFou = sf.readFile("listens");
+        //if(canFou.)
         for (int i = 0; i < canFou.Length; i++)
         {
             sf.SetRootPath("courses");
@@ -85,7 +86,7 @@ public partial class admin_userManage : System.Web.UI.Page
         sqlhp.ExecuteSql(upstr, paras);
         sqlhp.close();
         //////////////////////
-        sf.returnBackSpaceFolderPath();
+        sf.SetRootPath("users");
         if (sf.deleteFolder(id))
         {
             string constr = "select couid from Course where createUser=@id";

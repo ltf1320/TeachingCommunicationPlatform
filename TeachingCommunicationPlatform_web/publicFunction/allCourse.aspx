@@ -18,7 +18,7 @@
             <asp:ControlParameter ControlID="teaDrop" Name="createUser" PropertyName="SelectedValue" Type="String" />
         </SelectParameters>
     </asp:SqlDataSource>
-    <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="SELECT Course.couId, Course.couName, Course.type, Course.stuNum, Course.term, Course.createUser FROM Course INNER JOIN users ON Course.createUser = users.userId WHERE (users.academy = @academy)">
+    <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="SELECT couId, Course.couName, Course.type, Course.stuNum, Course.term, Course.createUser FROM Course INNER JOIN users ON Course.createUser = users.userId WHERE (users.academy = @academy)">
         <SelectParameters>
             <asp:ControlParameter ControlID="acaDrop" Name="academy" PropertyName="SelectedValue" />
         </SelectParameters>

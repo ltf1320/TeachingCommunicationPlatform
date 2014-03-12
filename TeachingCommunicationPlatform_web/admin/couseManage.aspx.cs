@@ -102,6 +102,7 @@ public partial class admin_couseManage : System.Web.UI.Page
             sf.deleteStrFromFile("listens", id);
 
         }
+        sf.SetRootPath("courses");
             if (sf.deleteFolder(id))
             {
                 GridView1.DataBind();

@@ -32,6 +32,10 @@ public partial class teacher_myControl : System.Web.UI.Page
                 TextBox_deadline.Enabled = true;
                 break;
         }
+        GridViewBind();
+        Panel_couNew.Visible = false;
+        Panel_listCou.Visible = true;
+        Panel_postMsg.Visible = false;
     }
     private void GridViewBind()
     {
@@ -201,7 +205,7 @@ public partial class teacher_myControl : System.Web.UI.Page
             string tem = "";
             for (int i = 0; i < atMe.Length; i++)
             {
-                if (!atMe[i].Equals(","))
+                if (!atMe[i].Equals(','))
                 {
                     tem += atMe[i];
                 }

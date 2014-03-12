@@ -51,13 +51,45 @@ public class Methods
         response.Write("<Script language='javascript'>if(confirm('" + message + "'))<%=" + valueName + "%>=true;else <%=" + valueName + "%>=false;</script>");
     }
      * */
-    public static void listen(string userId, string couId)
+    public static void listen(string uid, string cid)
     {
+
+        safeFileManager sf = new safeFileManager();
+        SQLHelper sqlhp = new SQLHelper();
+        string updatestr = "update Course set stuNum = stuNum+1 where couId = @cid";
+        SqlParameter[] paras = new SqlParameter[1];
+        paras[0] = new SqlParameter("@cid", cid);
+        sqlhp.ExecuteSql(updatestr, paras);
+        sqlhp.close();
+
+        sf.setUser("00000", "11111");
+        sf.SetRootPath("courses");
+        sf.createFolder(cid);
+        sf.cd(cid);
+        sf.AppendLineToFile("listeners", uid);
+        sf.SetRootPath("users");
+        sf.cd(uid);
+        sf.AppendLineToFile("listens", cid);
 
     }
-    public static void cancelListen(string userId, string couId)
+    public static void cancelListen(string uid, string cid)
     {
+        safeFileManager sf = new safeFileManager();
+        SQLHelper sqlhp = new SQLHelper();
+        string updatestr = "update Course set stuNum = stuNum-1 where couId = @cid";
+        SqlParameter[] paras = new SqlParameter[1];
+        paras[0] = new SqlParameter("@cid", cid);
+        sqlhp.ExecuteSql(updatestr, paras);
+        sqlhp.close();
 
+        sf.setUser("00000", "11111");
+        sf.SetRootPath("courses");
+        sf.createFolder(cid);
+        sf.cd(cid);
+        sf.deleteStrFromFile("listeners", uid);
+        sf.SetRootPath("users");
+        sf.cd(uid);
+        sf.deleteStrFromFile("listens", cid);
     }
     
     public static bool isListened(string userId, string couId)
