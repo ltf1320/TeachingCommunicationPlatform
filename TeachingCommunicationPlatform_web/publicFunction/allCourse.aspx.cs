@@ -82,11 +82,7 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
             string user = Session["ha_user"].ToString();
             DataRowView dataRow = (DataRowView)e.Row.DataItem;
             string couId = dataRow[0].ToString();
-            string sql = "select count(*) from manageCou where userId=@userId and couId=@couId";
-            SqlParameter[] para = new SqlParameter[2];
-            para[0] = new SqlParameter("@userId", user);
-            para[1] = new SqlParameter("@couId", couId);
-            if(Convert.ToInt32(sqlHelper.getAValue(sql, para))==1)
+            if(Methods.isUserListenCou(user,couId))
             {
                 listenBtn.Text = "取消关注";
                 listenBtn.CommandName = "cancelListen";

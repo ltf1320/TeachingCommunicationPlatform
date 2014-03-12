@@ -58,7 +58,7 @@ DELETE FROM [users] WHERE [userId] = @original_userId "
                                     <asp:Label ID="Label_aca" runat="server" Text='<%#Bind("academy") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
+                            <asp:CommandField HeaderText="操作" ShowDeleteButton="True" ShowEditButton="True" />
                         </Columns>
                         <FooterStyle BackColor="White" ForeColor="#000066" />
                         <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
