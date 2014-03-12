@@ -8,13 +8,13 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div style="padding: 5px; text-align: left">
-        <asp:Label ID="Label1" Font-Bold="true" runat="server" Font-Names="Verdana" Font-Size="12px" Text="路径："></asp:Label>
-        <asp:Label ID="lblCurrentPath" Font-Bold="true" runat="server" Font-Names="Verdana" Font-Size="12px"></asp:Label>
-        <asp:LinkButton ID="returnBtn" runat="server" OnClick="BackSpaceFolder" Text="返回上一级" Font-Size="10px"></asp:LinkButton>
+        <asp:Label ID="Label1" Font-Bold="true" runat="server" Font-Names="Verdana" Font-Size="14px" Text="路径："></asp:Label>
+        <asp:Label ID="lblCurrentPath" Font-Bold="true" runat="server" Font-Names="Verdana" Font-Size="14px"></asp:Label>
+        <asp:LinkButton ID="returnBtn" runat="server" OnClick="BackSpaceFolder" Text="返回上一级" Font-Size="12px"></asp:LinkButton>
     </div>
 
     <div>
-        <asp:GridView ID="GridView1" runat="server" EmptyDataText="暂无文件" AutoGenerateColumns="False" Width="100%" OnRowCommand="GridView1_RowCommand" Font-Names="Verdana" Font-Size="12px" OnRowDataBound="GridView1_RowDataBound" CellPadding="3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px">
+        <asp:GridView ID="GridView1" runat="server" EmptyDataText="暂无文件" AutoGenerateColumns="False" Width="100%" OnRowCommand="GridView1_RowCommand" Font-Names="Verdana" Font-Size="16px" OnRowDataBound="GridView1_RowDataBound" CellPadding="3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px">
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>

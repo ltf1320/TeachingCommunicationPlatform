@@ -47,15 +47,19 @@ public partial class publicFunction_search : System.Web.UI.Page
     //}
     protected void couGridView_RowCommand(object sender, GridViewCommandEventArgs e)
     {
+        safeFileManager sf = new safeFileManager();
+        sf.setUser("00000", "11111");
         if (e.CommandName == "listen")
         {
             Methods.listen(Session["ha_user"].ToString(), e.CommandArgument.ToString());
-            Methods.showMessageBox(Response, "关注成功！");
+            // Methods.showMessageBox(Response, "关注成功！");
+            Response.Redirect(Request.Url.ToString());
         }
         if (e.CommandName == "cancelListen")
         {
             Methods.cancelListen(Session["ha_user"].ToString(), e.CommandArgument.ToString());
-            Methods.showMessageBox(Response, "已取消关注！");
+            //Methods.showMessageBox(Response, "已取消关注！");
+            Response.Redirect(Request.Url.ToString());
         }
         if (e.CommandName == "view")
         {
@@ -69,6 +73,7 @@ public partial class publicFunction_search : System.Web.UI.Page
         {
             Label lb = (Label)e.Row.FindControl("termLabel");
             lb.Text = Methods.analyseTerm(lb.Text);
+
             LinkButton listenBtn = (LinkButton)e.Row.FindControl("listenBtn");
             if (Session["ha_user"] == null)
             {
@@ -78,15 +83,15 @@ public partial class publicFunction_search : System.Web.UI.Page
             string user = Session["ha_user"].ToString();
             DataRowView dataRow = (DataRowView)e.Row.DataItem;
             string couId = dataRow[0].ToString();
-            if (Methods.isListened(user,couId))
+            if (Methods.isUserListenCou(user, couId))
             {
                 listenBtn.Text = "取消关注";
-                listenBtn.CommandArgument = "cancelListen";
+                listenBtn.CommandName = "cancelListen";
             }
             else
             {
                 listenBtn.Text = "关注";
-                listenBtn.CommandArgument = "listen";
+                listenBtn.CommandName = "listen";
             }
             sqlHelper.close();
         }
