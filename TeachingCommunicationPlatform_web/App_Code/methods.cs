@@ -174,6 +174,12 @@ public class Methods
     }
     public static bool isUserListenCou(string userId,string couId)
     {
+        safeFileManager sf = new safeFileManager();
+        sf.setUser("00000", "11111");
+        sf.SetRootPath("courses");
+        sf.cd(couId);
+        if (sf.isFileHasStr("listeners", userId))
+            return true;
         return false;
     }
 }
