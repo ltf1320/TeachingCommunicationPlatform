@@ -293,7 +293,6 @@ public class CMessage
             bool hr;
             for (int i = 0; i < ttext.Length; i++)
                 hr = sFM.AppendLineToFile("message", ttext[i]);
-
             swter = sFM.getAppendSteam("message");
             writeThisMsg(swter);
             swter.Close();
@@ -451,7 +450,7 @@ public class CMessage
     /// <param name="userList">@user列表（如果是task则自动@所有关注的人）</param>
     /// <returns>成功返回消息编号，否则返回-1</returns>
     private static object newThingLock = new object();
-    public static int addNewThing(string couId, bool type, string topic, DateTime date, DateTime deadLine, string text, string[] fileList, string[] @userList)
+    public static int addNewThing(string couId, bool type, string topic, DateTime date, DateTime deadLine, string text, string[] fileList, string[] userList)
     {
         CMessage msg = new CMessage();
         int id;
@@ -461,7 +460,15 @@ public class CMessage
                 return -1;
             if (!msg.writeThisMsg())
                 return -1;
-            return id;
+            //safeFileManager sf = new safeFileManager();
+            //sf.setUser("00001","11111");
+            //for (int i = 0; i < userList.Length;i++ )
+            //{
+            //    sf.SetRootPath("users");
+            //    sf.cd(userList[i].ToString());
+            //    sf.AppendLineToFile("at", id);
+            //}
+                return id;
         }
     }
     public static bool delNewThing(string couId, int id)
