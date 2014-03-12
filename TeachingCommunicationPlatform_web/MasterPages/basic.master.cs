@@ -54,7 +54,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
         if (inputSearchTbx.Text != "输入查询的关键字")
         {
             if(DropDownList1.SelectedValue=="teacher")
-                Response.Redirect("\\publicFunction/search.aspx?teacher=" + Server.UrlEncode(inputSearchTbx.Text));
+                Response.Redirect("\\publicFunction/search.aspx?searchTea=" + Server.UrlEncode(inputSearchTbx.Text));
             else
                 Response.Redirect("\\publicFunction/search.aspx?searchCou="+Server.UrlEncode(inputSearchTbx.Text));
         }
