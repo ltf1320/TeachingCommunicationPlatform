@@ -41,7 +41,7 @@
                                 <table>
                                     <tr>
                                         <td style="text-align:left">
-                                            <asp:Label ID="Label_atName" runat="server" Text="@yiikou"></asp:Label>
+                                            <asp:Label ID="Label_atName" Font-Italic="true" ForeColor="Red" runat="server" Text="@yiikou"></asp:Label>
                                         </td>
                                     </tr>
                                 </table>

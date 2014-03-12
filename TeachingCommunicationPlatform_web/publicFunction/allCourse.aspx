@@ -18,6 +18,11 @@
             <asp:ControlParameter ControlID="teaDrop" Name="createUser" PropertyName="SelectedValue" Type="String" />
         </SelectParameters>
     </asp:SqlDataSource>
+    <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:TeachingCommunicationPlatform_DBConnectionString %>" SelectCommand="SELECT Course.couId, Course.couName, Course.type, Course.stuNum, Course.term, Course.createUser FROM Course INNER JOIN users ON Course.createUser = users.userId WHERE (users.academy = @academy)">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="acaDrop" Name="academy" PropertyName="SelectedValue" />
+        </SelectParameters>
+    </asp:SqlDataSource>
     <table id="table1" runat="server" style="width:1000px">
         <tr>
             <td>
@@ -26,12 +31,13 @@
 <%--            </td>
             <td>--%>
                 <asp:Label ID="label2" runat="server" Text="选择教师："></asp:Label>
-                <asp:DropDownList ID="teaDrop" AutoPostBack="true" OnSelectedIndexChanged="teaDrop_SelectedIndexChanged" runat="server" DataSourceID="SqlDataSource2" DataTextField="Name" DataValueField="userId"></asp:DropDownList>
+                <asp:DropDownList ID="teaDrop" AutoPostBack="True" OnSelectedIndexChanged="teaDrop_SelectedIndexChanged" runat="server">
+                </asp:DropDownList>
             </td>
         </tr>
         <tr>
             <td>
-                <asp:GridView ID="couGridView" runat="server" EmptyDataText="暂无数据" Width="1000px" OnRowCommand="couGridView_RowCommand" OnRowDataBound="couGridView_RowDataBound" AutoGenerateColumns="False" DataKeyNames="couId" DataSourceID="SqlDataSource3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
+                <asp:GridView ID="couGridView" runat="server" EmptyDataText="暂无数据" Width="1000px" OnRowCommand="couGridView_RowCommand" OnRowDataBound="couGridView_RowDataBound" AutoGenerateColumns="False" DataKeyNames="couId" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" AllowSorting="True">
                     <Columns>
                         <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />

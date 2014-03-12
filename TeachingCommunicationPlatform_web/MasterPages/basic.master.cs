@@ -75,8 +75,11 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
                     Session["ha_user"] = sid;
                     Session["ha_pwd"] = pwd;
                     Response.Write("<Script>alert('登陆成功');</Script>");
+                    Response.Redirect(Request.Url.ToString());
                     //Response.Redirect(Request.Url.ToString());
                     string rroleId = null;
+                    
+                    /*
                     safeFileManager sfRole = new safeFileManager();
                     rroleId = sfRole.getUserRole(sid);
                     if(rroleId=="1")
@@ -91,6 +94,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
                     {
                         Response.Redirect("\\student/newThings.aspx");
                     }
+                     * */
 
                 }
                 else

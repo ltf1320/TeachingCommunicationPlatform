@@ -9,11 +9,47 @@
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:Panel ID="defaultPannel" runat="server" Height="281px" Style="margin-top: 0px">
-        <table style="text-align:left">
+        <table style="text-align: left; border-collapse:separate; border-spacing:10px 10px">
+            <tr>
+                <td>
+                    <asp:Label ID="IdLbl" runat="server" Text="ID:"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="IdContentLbl" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:Label ID="roleLbl" runat="server" Text="账号类别"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="roleContentLbl" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:Label ID="acLbl" runat="server" Text="学院"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="acContentLbl" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:Label ID="crtTimeLbl" runat="server" Text="注册时间"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="crtTimeContentLbl" runat="server"></asp:Label>
+                </td>
+            </tr>
             <tr>
                 <td>
                     <asp:Label ID="Label10" Text="昵称：" Width="80px" runat="server"></asp:Label>
+                </td>
+                <td>
                     <asp:TextBox ID="nametxt" Width="150" runat="server"></asp:TextBox>
+                </td>
+                <td>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="sub" runat="server"
                         ErrorMessage="请输入昵称" ControlToValidate="nametxt"></asp:RequiredFieldValidator>
                 </td>
@@ -21,7 +57,11 @@
             <tr>
                 <td>
                     <asp:Label ID="Label5" Width="80" Text="邮箱:" runat="server"></asp:Label>
+                </td>
+                <td>
                     <asp:TextBox ID="postAdd" Width="150" runat="server"></asp:TextBox>
+                </td>
+                <td>
                     <asp:RequiredFieldValidator ID="Validator_haspostadd" runat="server" ValidationGroup="sub"
                         ErrorMessage="请输入邮箱" ControlToValidate="postAdd"></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="Validator_postadd" runat="server" ValidationGroup="sub"
@@ -29,30 +69,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <asp:Label ID="IdLbl" runat="server" Text="ID:"></asp:Label>
-                    <asp:Label ID="IdContentLbl" runat="server"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <asp:Label ID="roleLbl" runat="server" Text="账号类别"></asp:Label>
-                    <asp:Label ID="roleContentLbl" runat="server"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <asp:Label ID="crtTimeLbl" runat="server" Text="注册时间"></asp:Label>
-                    <asp:Label ID="crtTimeContentLbl" runat="server"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <asp:Label ID="acLbl" runat="server" Text="学院"></asp:Label>
-                    <asp:Label ID="acContentLbl" runat="server"></asp:Label>
-                </td>
-            </tr>
-            <tr>
+                <td></td>
                 <td>
                     <asp:Button ID="Button1" runat="server" OnClick="updateData" Text="修改" />
                     <asp:Button ID="Button4" runat="server" OnClick="onChangePwd" Text="更改密码" />

@@ -153,4 +153,8 @@ public partial class teacher_Me : System.Web.UI.Page
         }
         finally { sqlHelper.close(); }
     }
+    protected void DataList1_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        
+    }
 }

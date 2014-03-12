@@ -211,8 +211,8 @@ public class safeFileManager : fileManager
     {
         if (npath == "")
             return ;
-        int index=npath.LastIndexOf('\\', 0, npath.Length - 1);
-        npath=npath.Substring(0, index);
+        int index=npath.Substring( 0, npath.Length - 1).LastIndexOf('\\');
+        npath=npath.Substring(0, index+1);
         return;
     }
 
@@ -480,6 +480,10 @@ public class safeFileManager : fileManager
         if (isUserCanEditFile())
             return base.getStreamWriter(webRootFolder + strRootFolder + npath + fileName);
         else return null;
+    }
+    public System.IO.FileStream getFileStream(string fileName)
+    {
+        return base.getFileStream(webRootFolder + strRootFolder + npath + fileName);
     }
     public bool deleteStrFromFile(string fileName,string str)
     {

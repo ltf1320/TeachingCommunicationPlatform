@@ -6,36 +6,40 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Text;
-
+using System.IO;
 
 public partial class publicFunction_visitCourse : System.Web.UI.Page
 {
-    safeFileManager sFileMana;
+    static safeFileManager sFileMana=null;
     SQLHelper sqlHelper;
     string rootName;
     protected void Page_Load(object sender, EventArgs e)
     {
         sqlHelper = new SQLHelper();
-        if (Session["ha_path"] == null)
+        if(sFileMana==null)
+            sFileMana = new safeFileManager();
+        if (!IsPostBack)
         {
-            Response.Redirect("allCourse.aspx");
-            return;
-        }
-        sFileMana = new safeFileManager();
-        sFileMana.SetRootPath(Session["ha_path"].ToString());
-        try
-        {
-            if (Session["ha_user"] != null)
+            if (Session["ha_path"] == null)
             {
-                sFileMana.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString());
+                Response.Redirect("allCourse.aspx");
+                return;
             }
-            dataBind();
+            sFileMana.SetRootPath(Session["ha_path"].ToString());
+            try
+            {
+                if (Session["ha_user"] != null)
+                {
+                    sFileMana.setUser(Session["ha_user"].ToString(), Session["ha_pwd"].ToString());
+                }
+                dataBind();
+            }
+            catch (SqlException ex)
+            {
+                Methods.showMessageBox(Response, "数据库连接错误!" + ex.Message);
+            }
+            sqlHelper.close();
         }
-        catch (SqlException ex)
-        {
-            Methods.showMessageBox(Response, "数据库连接错误!"+ex.Message);
-        }
-        sqlHelper.close();
     }
     protected void dataBind()
     {
@@ -75,22 +79,28 @@ public partial class publicFunction_visitCourse : System.Web.UI.Page
         else
         {
             StringBuilder downPath = new StringBuilder();
-            //          downPath.Append(sFileMana.getNPath());
-            downPath.Append(e.CommandArgument.ToString());
+            string fileName = e.CommandArgument.ToString();
+            FileStream fs = sFileMana.getFileStream(fileName);
+            byte[] bytes = new byte[(int)fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+            fs.Close();
+            Response.ContentType = "application/octet-stream";
+            //通知浏览器下载文件而不是打开 
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
         }
     }
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            LinkButton lb = (LinkButton)e.Row.Cells[1].FindControl("LinkButton1");
-            Label nametxt = (Label)e.Row.Cells[4].FindControl("NameText");
-            if (sFileMana.isExistDirectory(nametxt.Text))
-                nametxt.Text = "";
-            else
+            FileSystemItem item=(FileSystemItem)e.Row.DataItem;
+            if (item.IsFolder)
             {
-                string dstr = "..\\" + "severFiles\\" + sFileMana.getRelativeNPath() + nametxt.Text;
-                nametxt.Text = string.Format("<a href=\"{0}\">下载</a>", dstr);
+                LinkButton lk = (LinkButton)e.Row.FindControl("LinkButton1");
+                lk.Text = "[" + lk.Text + "]";
             }
         }
     }

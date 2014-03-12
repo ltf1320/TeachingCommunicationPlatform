@@ -15,25 +15,33 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
         sqlHelper = new SQLHelper();
 //        Session["ha_user"] = "00000";
 //        Session["ha_pwd"] = "11111";
-        if(Request.QueryString["teacher"]!=null)
+        if (!IsPostBack)
         {
-            string teaId =Server.UrlDecode(Request.QueryString["teacher"].ToString());
-            string sql = "select academy from users where userId=@teaId";
-            SqlParameter[] para = new SqlParameter[1];
-            para[0] = new SqlParameter("@teaId", teaId);
-            try
+            if (Request.QueryString["teacher"] != null)
             {
-                string acId = sqlHelper.getAValue(sql, para);
-                acaDrop.DataBind();
-                acaDrop.SelectedValue = acId;
-                teaDrop.DataBind();
-                teaDrop.SelectedValue = teaId;
-                couGridView.DataBind();
-                couGridView.Visible = true;
+                string teaId = Server.UrlDecode(Request.QueryString["teacher"].ToString());
+                string sql = "select academy from users where userId=@teaId";
+                SqlParameter[] para = new SqlParameter[1];
+                para[0] = new SqlParameter("@teaId", teaId);
+                try
+                {
+                    string acId = sqlHelper.getAValue(sql, para);
+                    acaDrop.DataBind();
+                    acaDrop.SelectedValue = acId;
+                    acaDrop_SelectedIndexChanged(null, null);
+                    teaDrop.SelectedValue = teaId;
+                    teaDrop_SelectedIndexChanged(null, null);
+                    couGridView.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    Methods.showMessageBox(Response, "查询失败");
+                }
             }
-            catch(Exception ex)
+            else
             {
-                Methods.showMessageBox(Response, "查询失败");
+                acaDrop.DataBind();
+                acaDrop_SelectedIndexChanged(null, null);
             }
         }
     }
@@ -91,11 +99,34 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
     }
     protected void acaDrop_SelectedIndexChanged(object sender, EventArgs e)
     {
+        couGridView.DataSource = SqlDataSource4;
+        couGridView.DataBind();
+        ListItem item = new ListItem("未选择", "");
         teaDrop.Items.Clear();
-        teaDrop.DataBind();
+        teaDrop.Items.Add(item);
+        string sql = "select userId,Name from users where academy=@aca";
+        SqlParameter[] para = new SqlParameter[1];
+        para[0] = new SqlParameter("@aca", acaDrop.SelectedValue);
+        SqlDataReader rder = sqlHelper.getReader(sql, para);
+        try
+        {
+            while (rder.Read())
+            {
+                teaDrop.Items.Add(new ListItem(rder[1].ToString(), rder[0].ToString()));
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            Methods.showMessageBox(Response, "数据库连接错误");
+        }
+        rder.Close();
     }
     protected void teaDrop_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if (teaDrop.SelectedValue == "null")
+            return;
+        couGridView.DataSource = SqlDataSource3;
         couGridView.DataBind();
     }
 }

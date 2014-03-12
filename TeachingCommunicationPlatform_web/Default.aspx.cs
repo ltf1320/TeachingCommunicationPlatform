@@ -14,6 +14,8 @@ public partial class _Default : System.Web.UI.Page
         sFM.SetRootPath("courses");
         sFM.setUser("00000", "11111");
         sFM.deleteFolder("10");
+        sFM.cd("4");
+        sFM.returnBackSpaceFolderPath();
     }
     protected void Button1_Click(object sender, EventArgs e)
     {

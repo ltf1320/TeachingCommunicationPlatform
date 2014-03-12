@@ -15,13 +15,11 @@ public partial class teacher_myControl : System.Web.UI.Page
     safeFileManager sf = new safeFileManager();
     protected void Page_Load(object sender, EventArgs e)
     {
-        DateTime dt=new DateTime();
-        Label_sample.Text = "格式:" + dt.Date.ToString();
+        TextBox_deadline.Text = "格式:" + DateTime.Now.ToString();
         GridViewBind();
-    }
-    protected void focusMoreBtn_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("\\publicFunction/allCourse.aspx");
+        Panel_couNew.Visible = false;
+        Panel_listCou.Visible = true;
+        Panel_postMsg.Visible = false;
     }
     private void GridViewBind()
     {
@@ -93,7 +91,7 @@ public partial class teacher_myControl : System.Web.UI.Page
     }
     protected void newOneBtn_Click(object sender, EventArgs e)
     {
-        Panel3.Visible = true;
+        //Panel3.Visible = true;
     }
     protected void subBtn_Click(object sender, EventArgs e)
     {
@@ -128,7 +126,7 @@ public partial class teacher_myControl : System.Web.UI.Page
     }
     protected void backBtn_Click(object sender, EventArgs e)
     {
-        Panel3.Visible = false;
+        //Panel3.Visible = false;
     }
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
@@ -261,5 +259,17 @@ public partial class teacher_myControl : System.Web.UI.Page
         sqlhp.ExecuteSql(str2,paras);
         sqlhp.close();
 
+    }
+    protected void Menu1_MenuItemClick(object sender, MenuEventArgs e)
+    {
+        Panel_couNew.Visible = false;
+        Panel_listCou.Visible = false;
+        Panel_postMsg.Visible = false;
+        switch(e.Item.Value)
+        {
+            case "couList": Panel_listCou.Visible = true; break;
+            case "postMsg": Panel_postMsg.Visible = true; break;
+            case "couMana": Panel_couNew.Visible = true; break;
+        }
     }
 }

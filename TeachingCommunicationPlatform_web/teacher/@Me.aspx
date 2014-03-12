@@ -4,7 +4,8 @@
 <%--功能:所有@,所有作业--%>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
-    <asp:DataList ID="DataList1" runat="server" Width="900px"  OnItemDataBound="DataList1_ItemDataBound">
+    <asp:DataList ID="DataList1" runat="server" Width="900px"  OnItemDataBound="DataList1_ItemDataBound" OnItemCommand="DataList1_ItemCommand"
+        >
         <ItemStyle BorderColor="Blue" BorderWidth="1" />
         <ItemTemplate>
             <table style="width:900px">
@@ -13,6 +14,9 @@
                         <asp:Label ID="Label_cou" runat="server" Text='<%#Bind("couId") %>'></asp:Label>
                         <asp:Label ID="Label_topic" runat="server" Text='<%#Bind("topic") %>'></asp:Label>
                         <asp:Label ID="Label_task" runat="server"></asp:Label>
+                    </td>
+                    <td style="text-align:right">
+                        <asp:LinkButton ID="linkBtn" runat="server" CommandName="view" CommandArgument='<%# Bind("couId") %>' Text="查看课程文件"></asp:LinkButton>
                     </td>
                 </tr>
                 <tr>

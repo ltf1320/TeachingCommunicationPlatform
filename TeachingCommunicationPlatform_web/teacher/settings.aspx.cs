@@ -37,13 +37,17 @@ public partial class teacher_myThings : System.Web.UI.Page
                     roleContentLbl.Text = "管理员";
                 postAdd.Text = rder[4].ToString();
                 crtTimeContentLbl.Text = rder[5].ToString();
-                acContentLbl.Text = rder[6].ToString();
-                sqlhp.close();
+
+                string sql = "select acName from academy where acId=@acId";
+                paras[0] = new SqlParameter("@acId", rder[6].ToString());
+                rder.Close();
+                acContentLbl.Text = sqlhp.getAValue(sql,paras);
             }
             catch (SqlException exception)
             {
                 Response.Write("<Script>alert('数据库连接错误');</Script>");
             }
+            sqlhp.close();
         }
     }
     protected void onChangePwd(object sender, EventArgs e)

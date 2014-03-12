@@ -44,7 +44,7 @@ public class fileManager
             item.Name = di.Name;
             item.FullName = di.FullName;
             item.CreationDate = di.CreationTime;
-            item.IsFolder = false;
+            item.IsFolder = true;
             list.Add(item);
         }
         foreach (string s in files)
@@ -54,7 +54,7 @@ public class fileManager
             item.Name = fi.Name;
             item.FullName = fi.FullName;
             item.CreationDate = fi.CreationTime;
-            item.IsFolder = true;
+            item.IsFolder = false;
             item.Size = fi.Length;
             list.Add(item);
         }
@@ -373,6 +373,17 @@ public class fileManager
             return new StreamWriter(File.OpenWrite(path));
         }
         catch (Exception e)
+        {
+            return null;
+        }
+    }
+    public FileStream getFileStream(string fileName)
+    {
+        try
+        {
+            return new FileStream(fileName, FileMode.Open);
+        }
+        catch(Exception e)
         {
             return null;
         }
