@@ -15,7 +15,7 @@ public partial class teacher_myControl : System.Web.UI.Page
     safeFileManager sf = new safeFileManager();
     protected void Page_Load(object sender, EventArgs e)
     {
-        TextBox_deadline.Text = "格式:" + DateTime.Now.ToString();
+        TextBox_deadline.Text = DateTime.Now.ToString();
         GridViewBind();
         Panel_couNew.Visible = false;
         Panel_listCou.Visible = true;
@@ -189,7 +189,7 @@ public partial class teacher_myControl : System.Web.UI.Page
             string tem="";
             for(int i = 0 ; i < atMe.Length;i++)
             {
-                if (!atMe[i].Equals(","))
+                if (!atMe[i].Equals(','))
                 {
                     tem += atMe[i];
                 }

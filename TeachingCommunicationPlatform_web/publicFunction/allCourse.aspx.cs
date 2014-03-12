@@ -48,6 +48,8 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
 
     protected void couGridView_RowCommand(object sender, GridViewCommandEventArgs e)
     {
+        safeFileManager sf = new safeFileManager();
+        sf.setUser("00000","11111");
         if(e.CommandName=="listen")
         {
             Methods.listen(Session["ha_user"].ToString(), e.CommandArgument.ToString());
@@ -87,12 +89,12 @@ public partial class publicFunction_allCourse : System.Web.UI.Page
             if(Convert.ToInt32(sqlHelper.getAValue(sql, para))==1)
             {
                 listenBtn.Text = "取消关注";
-                listenBtn.CommandArgument = "cancelListen";
+                listenBtn.CommandName = "cancelListen";
             }
             else
             {
                 listenBtn.Text = "关注";
-                listenBtn.CommandArgument = "listen";
+                listenBtn.CommandName = "listen";
             }
             sqlHelper.close();
         }
