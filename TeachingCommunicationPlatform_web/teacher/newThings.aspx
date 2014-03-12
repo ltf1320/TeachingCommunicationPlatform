@@ -27,9 +27,9 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:DataList ID="DataList_file" runat="server" Width="677px" OnItemDataBound="DataList1_ItemDataBound1">
+                        <asp:DataList ID="DataList_file" runat="server" Width="677px" OnItemDataBound="DataList1_ItemDataBound1" OnItemCommand="DataList_file_ItemCommand">
                             <ItemTemplate>
-                                <asp:Label ID="fileLabel" runat="server"></asp:Label>
+                                <asp:LinkButton id="downBtn" CommandName="downLoad" runat="server"></asp:LinkButton>
                             </ItemTemplate>
                         </asp:DataList>
                     </td>

@@ -115,10 +115,8 @@ public partial class teacher_newThings : System.Web.UI.Page
         {
             string filePath = (string)e.Item.DataItem;
 
-            Label fileLabel =(Label) e.Item.FindControl("fileLabel");
-            safeFileManager sFM=new safeFileManager();
-            
-            fileLabel.Text=string.Format("<a href=\"{0}\">{1}</a>", filePath,safeFileManager.getFileNameFromPath(filePath));
+            LinkButton fileLabel =(LinkButton) e.Item.FindControl("downBtn");
+            fileLabel.CommandArgument = filePath;
         }
         catch(Exception ex)
         {
@@ -140,6 +138,25 @@ public partial class teacher_newThings : System.Web.UI.Page
         catch(Exception ex)
         {
             Methods.showMessageBox(Response, "数据库连接错误!");
+        }
+    }
+    protected void DataList_file_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        if(e.CommandName=="downLoad")
+        {
+            Response.ContentType = "application/octet-stream";
+            safeFileManager sFileMana = new safeFileManager();
+            sFileMana.SetRootPath("");
+            string fileName = e.CommandArgument.ToString();
+            FileStream fs = sFileMana.getFileStream(fileName);
+            byte[] bytes = new byte[(int)fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+            fs.Close();
+            //通知浏览器下载文件而不是打开 
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
         }
     }
 }
