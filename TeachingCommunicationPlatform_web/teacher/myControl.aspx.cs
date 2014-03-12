@@ -266,19 +266,6 @@ public partial class teacher_myControl : System.Web.UI.Page
                         sf.cd(at[i].ToString());
                         sf.AppendLineToFile("at", cid);
                         sf.AppendLineToFile("at", mid);
-                        //if (sf.AppendLineToFile("at", mid))
-                        //{
-                        //    Methods.showMessageBox(Response, "at OK");
-                        //}
-                        //else
-                        //    Methods.showMessageBox(Response, "at FAILS");
-
-                        //if (sf.AppendLineToFile("at", cid))
-                        //{
-                        //    Methods.showMessageBox(Response, "at OK");
-                        //}
-                        //else
-                        //    Methods.showMessageBox(Response, "at FAILS");
                     }
 
             }
