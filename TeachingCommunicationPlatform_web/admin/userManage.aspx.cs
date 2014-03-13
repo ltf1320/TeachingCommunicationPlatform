@@ -123,7 +123,7 @@ public partial class admin_userManage : System.Web.UI.Page
                         Label_role.Text = "教师";
                         break;
                     case "3":
-                        Label_role.Text = "教师";
+                        Label_role.Text = "学生";
                         break;
                 }
                 Label Label_aca = (Label)e.Row.FindControl("Label_aca");
