@@ -21,20 +21,36 @@
             <asp:SessionParameter Name="userId" SessionField="ha_user" Type="String" />
         </SelectParameters>
     </asp:SqlDataSource>
-    <asp:Menu ID="Menu1" runat="server" Orientation="Horizontal" BackColor="#E3EAEB" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="1.2em" ForeColor="#666666" StaticSubMenuIndent="10px" OnMenuItemClick="Menu1_MenuItemClick">
-        <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
-        <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-        <DynamicMenuStyle BackColor="#E3EAEB" />
-        <DynamicSelectedStyle BackColor="#1C5E55" />
-        <Items>
-            <asp:MenuItem Text="关注的课程" Value="couList"></asp:MenuItem>
-            <asp:MenuItem Text="发布消息" Value="postMsg"></asp:MenuItem>
-            <asp:MenuItem Text="管理我的课程" Value="couMana"></asp:MenuItem>
-        </Items>
-        <StaticHoverStyle BackColor="#666666" ForeColor="White" />
-        <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-        <StaticSelectedStyle BackColor="#1C5E55" />
-    </asp:Menu>
+    <asp:Panel ID="Panel1" runat="server">
+        <asp:Menu ID="Menu1" runat="server" Orientation="Horizontal" BackColor="#E3EAEB" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="1.2em" ForeColor="#666666" StaticSubMenuIndent="10px" OnMenuItemClick="Menu1_MenuItemClick">
+            <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
+            <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+            <DynamicMenuStyle BackColor="#E3EAEB" />
+            <DynamicSelectedStyle BackColor="#1C5E55" />
+            <Items>
+                <asp:MenuItem Text="关注的课程" Value="couList"></asp:MenuItem>
+                <asp:MenuItem Text="发布消息" Value="postMsg"></asp:MenuItem>
+                <asp:MenuItem Text="管理我的课程" Value="couMana"></asp:MenuItem>
+            </Items>
+            <StaticHoverStyle BackColor="#666666" ForeColor="White" />
+            <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+            <StaticSelectedStyle BackColor="#1C5E55" />
+        </asp:Menu>
+    </asp:Panel>
+        <asp:Panel ID="Panel2" runat="server">
+        <asp:Menu ID="Menu2" runat="server" Orientation="Horizontal" BackColor="#E3EAEB" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="1.2em" ForeColor="#666666" StaticSubMenuIndent="10px" OnMenuItemClick="Menu1_MenuItemClick">
+            <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
+            <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+            <DynamicMenuStyle BackColor="#E3EAEB" />
+            <DynamicSelectedStyle BackColor="#1C5E55" />
+            <Items>
+                <asp:MenuItem Text="关注的课程" Value="couList"></asp:MenuItem>
+            </Items>
+            <StaticHoverStyle BackColor="#666666" ForeColor="White" />
+            <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+            <StaticSelectedStyle BackColor="#1C5E55" />
+        </asp:Menu>
+    </asp:Panel>
     <%--发布消息：
      输入消息topic
      消息内容
@@ -94,9 +110,9 @@
                     <asp:Label ID="Label1" runat="server" Text="上传文件"></asp:Label>
                     <asp:FileUpload ID="FileUpload1" AllowMultiple="true" runat="server" />
                 </td>
-                </tr>
+            </tr>
             <tr>
-                <td style="text-align:center">
+                <td style="text-align: center">
                     <asp:Button ID="Button_sub0" Width="100px" runat="server" OnClick="Button_sub_Click" Text="提交" />
                 </td>
             </tr>
@@ -138,7 +154,7 @@
                     <asp:Button ID="Button_add" runat="server" OnClick="Button_add_Click" Text="添加管理者" />
                     <asp:TextBox ID="TextBox_addperson" runat="server">管理者ID</asp:TextBox>
                     <asp:TextBox ID="TextBox_addcou" runat="server">管理的课程编号</asp:TextBox>
-                    
+
 
                 </td>
             </tr>
@@ -160,7 +176,8 @@
                             <asp:BoundField DataField="type" HeaderText="类型" SortExpression="type" />
                             <asp:BoundField DataField="stuNum" HeaderText="学生数" SortExpression="stuNum" />
                             <asp:TemplateField>
-                                <HeaderTemplate>DataControlRowType.DataRow
+                                <HeaderTemplate>
+                                    DataControlRowType.DataRow
                                     <asp:Label ID="Label_term" runat="server" Text="学期"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>

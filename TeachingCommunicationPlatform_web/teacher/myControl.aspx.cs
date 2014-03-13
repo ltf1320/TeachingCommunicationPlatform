@@ -271,6 +271,30 @@ public partial class teacher_myControl : System.Web.UI.Page
             }
             else
             {
+                //if (at != null)
+                //    for (int i = 0; i < at.Length; i++)
+                //    {
+                //        sf.SetRootPath("users");
+                //        sf.cd(at[i].ToString());
+                //        sf.AppendLineToFile("at", cid);
+                //        sf.AppendLineToFile("at", mid);
+                //    }
+                string tem = "";
+                for (int i = 0; i < atMe.Length; i++)
+                {
+                    if (!atMe[i].Equals(','))
+                    {
+                        tem += atMe[i];
+                    }
+                    else
+                    {
+                        at2.Add(tem);
+                        tem = "";
+                    }
+                }
+                if (tem != "")
+                    at2.Add(tem);
+                at = at2.ToArray();
                 if (at != null)
                     for (int i = 0; i < at.Length; i++)
                     {
