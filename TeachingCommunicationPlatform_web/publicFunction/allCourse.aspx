@@ -41,7 +41,7 @@
                     <Columns>
                         <asp:BoundField DataField="couName" HeaderText="课程名" SortExpression="couName" />
                         <asp:BoundField DataField="type" HeaderText="类别" SortExpression="type" />
-                        <asp:BoundField DataField="stuNum" HeaderText="学生数" SortExpression="stuNum" />
+                        <asp:BoundField DataField="stuNum" HeaderText="关注人数" SortExpression="stuNum" />
                         <asp:TemplateField>
                             <HeaderTemplate>
                                 <asp:Label ID="Label2" runat="server" Text="学期"></asp:Label>
