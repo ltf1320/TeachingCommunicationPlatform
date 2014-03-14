@@ -128,22 +128,7 @@
 
     </asp:Panel>
 
-    <asp:Panel ID="Panel_couMana" Visible="false" runat="server">
-        <table>
-            <tr>
-                <td>
-                    <%--功能：课程管理者
-                    管理课程列表
-                    选中->发布（删除)消息/发布(删除)作业/查看上交作业/添加管理者（!!teacher only)--%>
-                    <asp:Button ID="Button_add" runat="server" OnClick="Button_add_Click" Text="添加管理者" />
-                    <asp:TextBox ID="TextBox_addperson" runat="server">管理者ID</asp:TextBox>
-                    <asp:TextBox ID="TextBox_addcou" runat="server">管理的课程编号</asp:TextBox>
-                    
 
-                </td>
-            </tr>
-        </table>
-    </asp:Panel>
     <asp:Panel ID="Panel_couNew" runat="server">
         <table>
             <tr>
@@ -172,7 +157,23 @@
                         </Columns>
                     </asp:GridView>
                     <asp:Button runat="server" Text="新建" ID="newOneBtn" OnClick="newOneBtn_Click" />
+                </td>   
+                 <asp:Panel ID="Panel_couMana" Visible="true" runat="server">
+        <table>
+            <tr>
+                <td>
+                    <%--功能：课程管理者
+                    管理课程列表
+                    选中->发布（删除)消息/发布(删除)作业/查看上交作业/添加管理者（!!teacher only)--%>
+                    <asp:Button ID="Button_add" runat="server" OnClick="Button_add_Click" Text="添加管理者" />
+                    <asp:TextBox ID="TextBox_addperson" runat="server">管理者ID</asp:TextBox>
+                    <asp:TextBox ID="TextBox_addcou" runat="server">管理的课程编号</asp:TextBox>
+                    
+
                 </td>
+            </tr>
+        </table>
+    </asp:Panel>
             </tr>
             <tr>
                 <td>
