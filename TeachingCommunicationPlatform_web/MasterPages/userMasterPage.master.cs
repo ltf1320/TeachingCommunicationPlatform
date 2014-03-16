@@ -41,18 +41,18 @@ public partial class MasterPages_userMasterPage : System.Web.UI.MasterPage
                 if(rroleId=="2")
                 {
                     //Response.Write("2222");
-                    Menu1.Items[0].NavigateUrl = "../teacher/newThings.aspx";
-                    Menu1.Items[1].NavigateUrl = "../teacher/@Me.aspx";
-                    Menu1.Items[2].NavigateUrl = "../teacher/settings.aspx";
-                    Menu1.Items[3].NavigateUrl = "../teacher/myControl.aspx";
+                    Menu1.Items[0].NavigateUrl = "\\teacher/newThings.aspx";
+                    Menu1.Items[1].NavigateUrl = "\\teacher/@Me.aspx";
+                    Menu1.Items[2].NavigateUrl = "\\teacher/settings.aspx";
+                    Menu1.Items[3].NavigateUrl = "\\teacher/myControl.aspx";
                 }
                 if (rroleId == "3")
                 {
                     //Response.Write("2222");
-                    Menu1.Items[0].NavigateUrl = "../student/newThings.aspx";
-                    Menu1.Items[1].NavigateUrl = "../student/@Me.aspx";
-                    Menu1.Items[2].NavigateUrl = "../student/settings.aspx";
-                    Menu1.Items[3].NavigateUrl = "../student/myControl.aspx";
+                    Menu1.Items[0].NavigateUrl = "\\student/newThings.aspx";
+                    Menu1.Items[1].NavigateUrl = "\\student/@Me.aspx";
+                    Menu1.Items[2].NavigateUrl = "\\student/settings.aspx";
+                    Menu1.Items[3].NavigateUrl = "\\student/myControl.aspx";
                 }
             }
             catch (SqlException exception)

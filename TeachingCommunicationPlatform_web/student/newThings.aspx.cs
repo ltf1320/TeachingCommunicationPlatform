@@ -8,7 +8,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Text;
 
-public partial class teacher_newThings : System.Web.UI.Page
+public partial class student_newThings : System.Web.UI.Page
 {
     safeFileManager sFM;
     string user;
@@ -22,6 +22,7 @@ public partial class teacher_newThings : System.Web.UI.Page
             Response.Redirect("publicFunction\allCourse.aspx");
         user = Session["ha_user"].ToString();
         sFM.setUser(user, Session["ha_pwd"].ToString());
+        //sFM.setUser("00000","11111");
         sFM.SetRootPath("users\\" + user);
         StreamReader rder = sFM.getStreamReader("newThings");
         msgList = new List<CMessage>();

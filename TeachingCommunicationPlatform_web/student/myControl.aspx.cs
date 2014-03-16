@@ -13,6 +13,7 @@ public partial class teacher_myControl : System.Web.UI.Page
 {
     SQLHelper sqlhp = new SQLHelper();
     safeFileManager sf = new safeFileManager();
+    bool menuok = true;
     protected void Page_Load(object sender, EventArgs e)
     {
         TextBox_deadline.Text = DateTime.Now.ToString();
@@ -33,9 +34,25 @@ public partial class teacher_myControl : System.Web.UI.Page
                 break;
         }
         GridViewBind();
-        Panel_couNew.Visible = false;
-        Panel_listCou.Visible = true;
-        Panel_postMsg.Visible = false;
+        if (DropDownList1.Items.Count == 0)
+            menuok = false;
+        if (menuok)
+        {
+            Panel1.Visible = true;
+            Panel2.Visible = false;
+            Panel_couNew.Visible = false;
+            Panel_listCou.Visible = true;
+            Panel_postMsg.Visible = false;
+        }
+        else
+        {
+            Panel2.Visible = true;
+            Panel1.Visible = false;
+            Panel_couNew.Visible = false;
+            Panel_listCou.Visible = true;
+            Panel_postMsg.Visible = false;
+        }
+
     }
     private void GridViewBind()
     {

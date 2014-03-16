@@ -121,6 +121,7 @@ public partial class MasterPages_basic : System.Web.UI.MasterPage
                 break;
             case userType.teacher:
                 Response.Redirect("\\teacher/newThings.aspx");
+                //Response.Redirect("\\teacher/@Me.aspx");
                 break;
             case userType.student:
                 Response.Redirect("\\student/newThings.aspx");

@@ -8,7 +8,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Text;
 
-public partial class teacher_newThings : System.Web.UI.Page
+public partial class teacher_Me : System.Web.UI.Page
 {
     safeFileManager sFM;
     string user;
@@ -23,6 +23,7 @@ public partial class teacher_newThings : System.Web.UI.Page
         user = Session["ha_user"].ToString();
         sFM.setUser(user, Session["ha_pwd"].ToString());
         sFM.SetRootPath("users\\" + user);
+        //StreamReader rder = sFM.getStreamReader("at");
         StreamReader rder = sFM.getStreamReader("at");
         msgList = new List<CMessage>();
         CMessage msg;

@@ -8,7 +8,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Text;
 
-public partial class teacher_newThings : System.Web.UI.Page
+public partial class student_newThings : System.Web.UI.Page
 {
     safeFileManager sFM;
     string user;

@@ -20,11 +20,11 @@ public partial class teacher_newThings : System.Web.UI.Page
         sFM = new safeFileManager();
         if (Session["ha_user"] == null || Session["ha_pwd"] == null)
             Response.Redirect("publicFunction\allCourse.aspx");
-        user=Session["ha_user"].ToString();
+        user = Session["ha_user"].ToString();
         sFM.setUser(user, Session["ha_pwd"].ToString());
         sFM.SetRootPath("users\\" + user);
-        StreamReader rder= sFM.getStreamReader("newThings");
-        msgList=new List<CMessage>();
+        StreamReader rder = sFM.getStreamReader("newThings");
+        msgList = new List<CMessage>();
         CMessage msg;
         string couId; int msgId;
         while(!rder.EndOfStream)
